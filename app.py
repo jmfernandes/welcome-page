@@ -1,17 +1,13 @@
 import os
-from flask import Flask, url_for
-
-app = Flask(__name__)
+import json
+from flask import Flask
 from flask import render_template
 
+app = Flask(__name__)
+
 @app.route('/')
-@app.route('/<name>')
-def hello(name=None):
-    return render_template('hello.html', name=name)
-
-with app.test_request_context():
- print url_for('static', filename='mystyle.css')
-
+def index():
+    return  render_template('index.html')
 
 
 if __name__ == '__main__':
