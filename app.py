@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, url_for
 
 app = Flask(__name__)
 from flask import render_template
@@ -8,6 +8,9 @@ from flask import render_template
 @app.route('/hello/<name>')
 def hello(name=None):
     return render_template('hello.html', name=name)
+
+with app.test_request_context():
+    print url_for('/hello')
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
