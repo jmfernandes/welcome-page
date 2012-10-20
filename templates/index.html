@@ -2,11 +2,40 @@
 <html>
     <head>
         <h1>Main Page</h1>
-        <link rel="stylesheet" href="mystyle.css" TYPE="text/css">
+        <link rel="stylesheet" type="text/css" href="file:///Users/josh/ruby-sample/helloflask/static/test.css" />
+        <title>Main Page</title>
+        <style>
+            H1 {border-width: 1; border: solid; text-align: center}
+            body{ background-color: white;}
+            p { color: blue; }
+            h3{ color: white; }
+            footer {
+                position:absolute;
+                bottom:0;
+                width:100%;
+                height:20px;   /* Height of the footer */
+                background:#6cf;
+            }
+            </style>
     </head>
     <body>
-        <p>
-        <a href="http://constants.herokuapp.com/">Constants</a><br>
-        </p>
+        <div style="text-align:center">
+            
+            <div style="float: left">
+                <h2>Navigation</h2>
+                <a href="http://constants.herokuapp.com/">Constants PAge</a><br>
+            </div>
+            <div style="float: left">
+                examples go here
+            </div>
+            
+            <div style="float: right"><p></p></div>
+            
+        </div>
+        <footer> <!-- site wide footer -->
+            <nav>
+                Copyright &#169; 2012 Josh Fernandes
+            </nav>
+        </footer>
     </body>
 </html>
