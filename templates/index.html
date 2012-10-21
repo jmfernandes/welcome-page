@@ -5,10 +5,11 @@
         <link rel="stylesheet" type="text/css" href="file:///Users/josh/ruby-sample/helloflask/static/test.css" />
         <title>Main Page</title>
         <style>
-            H1 {border-width: 1; border: solid; text-align: center}
+            H1 {border-width: 1;
+                border-bottom:solid black; text-align: center}
             body{ background-color: white;}
             p { color: black; }
-            h3{ color: white; }
+            h3{ color: black;padding:0px 3px;}
             footer {
                 position:absolute;
                 bottom:0;
@@ -17,15 +18,21 @@
                 background:#6cf;
             }
             div.main1{background:purple}
-            div.section1{background:red;width:10%;}
+            div.section1{background:red;width:15%;height: 100%}
             div.section2{background:green;width:2%;}
-            div.section3{background:#6cf; width:76%;}
+            div.section3{background:lightblue; width:60%;padding:0px 10px;}
+            div.section3-1{padding:2px 2px;display: inline-block;border-style:double;
+                border-width:5px;height: 17px;margin-top: 10px;}
+            div.section3-2{margin-bottom: 50px; }
+            div.section3-3{padding:2px 2px;display: inline-block;border-style:double;
+                border-width:5px;height: 17px}
+            div.section3-4{padding:8px 0px;}
             div.section4{background:yellow;width:2%;}
-            div.section5{background:orange;width:10%;}
+            div.section5{background:orange;width:15%;}
             </style>
     </head>
     <body>
-        <div class="main1" style="text-align:center"><p>&nbsp;</p>
+        <div class="main1" style="text-align:center"><p></p>
             
             <div class="section1" style="float: left">
                 <h2>Navigation</h2>
@@ -36,8 +43,19 @@
             <div class="section2"style="float: left" align="left">
             <p>&nbsp;</p>
             </div>
-            <div class="section3" style="float: left" align="left">
-                <p>Welcome to the site! This website is intended as a programming tool for developers that use Python, Java, C++ or any other modern programming language. This site holds variables in a JSON format that is easily accesible to programmers.</p>
+            <div class="section3" style="float: left" align="left" overflow: hidden;>
+                <div class="section3-1" style="float: top" align="left">
+                    Welcome!
+                </div>
+                <div class="section3-2" style="float: top" align="left">
+                    <p>Welcome to the site! This website is intended as a programming tool for developers that use Python, Java, C++ or any other modern programming language. This site holds variables in a JSON format that is easily accesible to programmers.</p>
+                </div>
+                <div class="section3-3" style="float: top" align="left">
+                   Newest Entries
+                </div>
+                <div class="section3-4" style="float: top" align="left">
+                    Planck Constant
+                </div>
             </div>
             
             <div class="section4" style="float: left"><p>&nbsp;</p>
