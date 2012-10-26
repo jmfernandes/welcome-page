@@ -1,85 +1,112 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <h1>Main Page</h1>
-        <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css" />
-        <title>Main Page</title>
-        <style>
-            .secondarylinks a:hover {color:#0000FF;}
-            H1 {border-width: 1;
-                border-bottom:solid black; text-align: center}
-            body{ background-color: white;}
-            p { color: black; }
-            h3{ color: black;padding:0px 3px;}
-            footer {
-                position:absolute;
-                bottom:0;
-                width:100%;
-                height:20px;   /* Height of the footer */
-                background:#6cf;
-            }
-            div.main1{background:white}
-            div.section1{border-bottom:solid black;border-top:solid black;background:white;width:15%;height: 100%}
-            div.section2{background:white;width:2%;}
-            div.section3{background:#F0F0FF ; width:60%;padding:0px 10px;}
-            div.section3-1{background:#D8D8FF; padding:2px 2px;display: inline-block; border-style:solid; border-width:1px;height: 17px;margin-top: 10px;}
-            div.section3-2{margin-bottom: 50px; margin-top: 8px; }
-            div.section3-3{background:#D8D8FF; padding:2px 2px;display: inline-block; border-style:solid; border-width:1px;height: 17px}
-            div.section3-4{padding:8px 0px;}
-            div.section4{background:white;width:2%;}
-            div.section5{background:white;width:15%;}
-            </style>
-        <script>
-            (function() {
-             var cx = '014168168051079088444:opsmgbdi8u0';
-             var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
-             gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-             '//www.google.com/cse/cse.js?cx=' + cx;
-             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
-             })();
-            </script>
-    </head>
-    <body>
-        <div class="main1" style="text-align:center"><p></p>
-            
-            <div class="section1" style="float: left">
-                <h2>Navigation</h2>
-                <a href="http://murmuring-crag-5557.herokuapp.com">Main Page</a><br>
-                <a href="http://constants.herokuapp.com">Constants Page</a><br>
-                <a href="http://prices.herokuapp.com">Prices Page</a><br>
-            </div>
-            <div class="section2"style="float: left" align="left">
-            <p>&nbsp;</p>
-            </div>
-            <div class="section3" style="float: left" align="left" overflow: hidden;>
-                <div class="section3-1" style="float: top" align="left">
-                    Welcome!
-                </div>
-                <div class="section3-2" style="float: top" align="left">
-                    <p>Welcome to the site! This website is intended as a programming tool for developers that use Python, Java, C++ or any other modern programming language. This site holds variables in a JSON format that is easily accesible to programmers.</p>
-                </div>
-                <div class="section3-3" style="float: top" align="left">
-                   Newest Entries
-                </div>
-                <div class="secondarylinks" style="float: top; padding:8px 0px;" align="left">
-                    <a href="http://constants.herokuapp.com/physics/planck_constant">Planck Constant</a>
-                </div>
-            </div>
-            
-            <div class="section4" style="float: left"><p>&nbsp;</p>
-            </div>
-            <div class="section5" style="float: left"><p>&nbsp;</p>
-                <gcse:search></gcse:search>
-                <form class="navbar-search pull-left">
-                    <input type="text" class="search-query" placeholder="Search">
-                        </form>
-            </div>
-            
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="../static/bootstrap.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Project name</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#"><i class="icon-home icon-white"></i>Home</a></li>
+              <li><a href="#about"></i>About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+              <form class="navbar-search pull-right">
+                  <input type="text" class="input-medium search-query">
+                      <button type="submit" class="btn">Search</button>
+                      </form>
+          </div><!--/.nav-collapse -->
         </div>
-        <footer> <!-- site wide footer -->
-            <nav>
-                Copyright &#169; 2012 Josh Fernandes
-            </nav>
-        </footer>
-    </body>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Pages</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+          <div class="hero-unit">
+            <h1>Hello, world!</h1>
+            <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+            <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+          </div>
+          <div class="row-fluid">
+            <div class="span6">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            </div><!--/span-->
+            <div class="span6">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            </div><!--/span-->
+          </div><!--/row-->
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2012</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+
+  </body>
 </html>
