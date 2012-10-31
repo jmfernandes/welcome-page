@@ -2,9 +2,18 @@ import os
 import json
 from flask import Flask
 from flask import render_template
-from werkzeug.routing import Map, Rule, NotFound, RequestRedirect
+from werkzeug.routing import Map, Rule, NotFound, RequestRedirect, BaseConverter
+
+class ListConverter(BaseConverter):
+    def to_python(self, value):
+        return value.split(',')
+    def to_url(self, values):
+        return ','.join(BaseConverter.to_url(value)
+                        for value in values)
 
 app = Flask(__name__)
+app.url_map.converters['list'] = ListConverter
+
 
 @app.route('/')
 def index():
