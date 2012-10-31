@@ -29,11 +29,6 @@ def index():
 
 @app.route('/all-links')
 def all_links():
-    links = []
-    for rule in app.url_map.iter_rules():
-        url = url_for(rule.endpoint)
-        links.append((url, rule.endpoint))
-    render_template('all_links.html', links=links)
     return 'hello'
 
 
