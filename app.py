@@ -34,7 +34,7 @@ def all_links():
         url = url_for(rule.endpoint)
         links.append((url, rule.endpoint))
     render_template('all_links.html', links=links)
-    return links
+    return 'hello'
 
 
 if __name__ == '__main__':
