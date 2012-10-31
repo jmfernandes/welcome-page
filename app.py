@@ -13,6 +13,10 @@ def index():
 def index():
     return  render_template('about.html')
 
+@app.route('/contact', endpoint='contact')
+def index():
+    return  render_template('contact.html')
+
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
