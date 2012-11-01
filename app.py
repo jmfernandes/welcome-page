@@ -19,13 +19,13 @@ def index():
 def index():
     return  render_template('contact.html')
 
-@app.route('/all-links', endpoint='all-links')
+@app.route("/all-links")
 def all_links():
     links = []
     for rule in app.url_map.iter_rules():
         url = url_for(rule.endpoint)
         links.append((url, rule.endpoint))
-    return render_template('all_links.html', links=links)
+    return render_template("all_links.html", links=links)
 
 
 
