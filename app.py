@@ -4,15 +4,7 @@ from flask import Flask
 from flask import render_template
 from werkzeug.routing import Map, Rule, NotFound, RequestRedirect, BaseConverter
 
-class ListConverter(BaseConverter):
-    def to_python(self, value):
-        return value.split(',')
-    def to_url(self, values):
-        return ','.join(BaseConverter.to_url(value)
-                        for value in values)
-
 app = Flask(__name__)
-app.url_map.converters['list'] = ListConverter
 
 
 @app.route('/')
@@ -29,7 +21,11 @@ def index():
 
 @app.route('/all-links')
 def all_links():
-    return 'hello'
+    links = []
+    for rule in app.url_map.iter_rules():
+        url = url_for(rule.endpoint)
+        links.append((url, rule.endpoint))
+    render_template('all_links.html', links=links)
 
 
 if __name__ == '__main__':
