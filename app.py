@@ -27,12 +27,6 @@ def all_links():
         links.append((url, rule.endpoint))
     render_template('all_links.html', links=links)
 
-{# all_links.html #}
-<ul>
-{% for url, endpoint in links %}
-<li><a href="{{ url }}">{{ endpoint }}</a></li>
-{% endfor %}
-</ul>
 
 
 if __name__ == '__main__':
