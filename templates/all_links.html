@@ -4,12 +4,10 @@
         <title>links</title>
     </head>
     <body>
-        {# all_links.html #}
         <ul>
             {% for url, endpoint in links %}
             <li><a href="{{ url }}">{{ endpoint }}</a></li>
             {% endfor %}
-        </ul>
-        
+        </ul>        
     </body>
 </html>

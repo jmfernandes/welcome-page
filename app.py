@@ -28,7 +28,6 @@ def all_links():
     return render_template("all_links.html", links=links)
 
 
-
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
     port = int(os.environ.get('PORT', 5000))
