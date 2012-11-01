@@ -1,0 +1,14 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <title>links</title>
+    </head>
+    <body>
+        <ul>
+            {% for url, endpoint in links %}
+            <li><a href="{{ url }}">{{ endpoint }}</a></li>
+            {% endfor %}
+        </ul>
+        
+    </body>
+</html>
