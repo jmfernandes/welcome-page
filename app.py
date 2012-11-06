@@ -18,7 +18,7 @@ def index():
 def index():
     return  render_template('contact.html')
 
-@app.route('/example', endpoint='example')
+@app.route('/examples', endpoint='examples')
 def index():
     return  render_template('example.html')
 
