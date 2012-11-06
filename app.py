@@ -18,6 +18,10 @@ def index():
 def index():
     return  render_template('contact.html')
 
+@app.route('/example', endpoint='example')
+def index():
+    return  render_template('example.html')
+
 @app.route("/all-links")
 def all_links():
     links = []
