@@ -20,7 +20,7 @@ def store_visted_urls():
     session['urls'].append(request.url)
     if(len[session['urls']) > 5:
            session['urls'].pop(0)
-           session.modified = True
+    session.modified = True
 
 @app.route('/')
 def index():
