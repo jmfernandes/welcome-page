@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 app.secret_key = 'cheese'
 
+@app.route('/login')
 def login():
     session['username'] = "someuser"
     session['urls'] = []
@@ -28,7 +29,8 @@ def index():
 
 @app.route('/about', endpoint='about')
 def index():
-    return  render_template('about.html')
+    data = session['urls']
+    return  render_template('about.html',data=data)
 
 @app.route('/contact', endpoint='contact')
 def index():
