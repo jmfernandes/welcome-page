@@ -11,10 +11,10 @@ def page_not_found(error):
 
 @app.after_request
 def store_visted_urls():
-     session['urls'].append(request.url)
-     if(len[session['urls']) > 5:
-         session['urls'].pop(0)
-     session.modified = True
+*    session['urls'].append(request.url)
+*    if(len[session['urls']) > 5:
+*        session['urls'].pop(0)
+*    session.modified = True
 
 @app.route('/')
 def index():
