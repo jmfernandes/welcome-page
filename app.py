@@ -9,13 +9,21 @@ app = Flask(__name__)
 def page_not_found(error):
     return render_template('page_not_found.html'), 404
 
+@app.after_request
+def store_visted_urls():
+*    session['urls'].append(request.url)
+*    if(len[session['urls']) > 5:
+*        session['urls'].pop(0)
+*    session.modified = True
+
 @app.route('/')
 def index():
     return  render_template('welcome.html')
 
 @app.route('/about', endpoint='about')
 def index():
-    return  render_template('about.html')
+    data = session['urls']
+    return  render_template('about.html',data=data)
 
 @app.route('/contact', endpoint='contact')
 def index():
