@@ -11,10 +11,10 @@ def page_not_found(error):
 
 @app.after_request
 def store_visted_urls():
-     session['urls'].append(request.url)
-     if(len[session['urls']) > 5:
-         session['urls'].pop(0)
-     session.modified = True
+*    session['urls'].append(request.url)
+*    if(len[session['urls']) > 5:
+*        session['urls'].pop(0)
+*    session.modified = True
 
 @app.route('/')
 def index():
@@ -22,8 +22,7 @@ def index():
 
 @app.route('/about', endpoint='about')
 def index():
-    data = session['urls']
-    return  render_template('about.html',data=data)
+    return  render_template('about.html')
 
 @app.route('/contact', endpoint='contact')
 def index():
