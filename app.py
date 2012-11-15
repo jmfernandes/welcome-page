@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, after_request
 from werkzeug.routing import Map, Rule, NotFound, RequestRedirect, BaseConverter
 
 app = Flask(__name__)
