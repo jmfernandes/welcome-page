@@ -1,9 +1,15 @@
 import os
 import json
-from flask import Flask, render_template, url_for, after_request
+from flask import Flask, render_template, url_for
 from werkzeug.routing import Map, Rule, NotFound, RequestRedirect, BaseConverter
 
 app = Flask(__name__)
+
+app.secret_key = 'cheese'
+
+def login():
+    session['username'] = "someuser"
+    session['urls'] = []
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -11,10 +17,10 @@ def page_not_found(error):
 
 @app.after_request
 def store_visted_urls():
-*    session['urls'].append(request.url)
-*    if(len[session['urls']) > 5:
-            *        session['urls'].pop(0)
-            *    session.modified = True
+    session['urls'].append(request.url)
+    if(len[session['urls']) > 5:
+           session['urls'].pop(0)
+    session.modified = True
 
 @app.route('/')
 def index():
