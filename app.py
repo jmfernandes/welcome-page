@@ -48,8 +48,8 @@ def index():
 @app.route('/about', endpoint='about')
 def index():
     data = []
-    #if 'urls' in session:
-    #    data = session['urls']
+    if 'urls' in session:
+        data = session['urls']
     return  render_template('about.html',data=data)
 
 @app.route('/contact', endpoint='contact')
