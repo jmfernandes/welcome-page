@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+      <?php
+          session_start(); // start up your PHP session!
+          ?>
     <meta charset="utf-8">
-    <title>Main Page</title>
+    <title>Datanab The Programmer's Best Friend</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -84,13 +87,8 @@
         <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              <li class="nav-header">Pages</li>
-              <li><a href="http://www.constants.datanab.net">Constants</a></li>
-              <li><a href="http://www.conversions.datanab.net/">Conversion Coefficients</a></li>
-              <li><a href="http://www.prices.datanab.net/">Prices</a></li>
-              <li><a href="http://www.efficiency.datanab.net/">Efficiencies</a></li>
-              <li class="divider"></li>
-              <li><a tabindex="-1" href="http://www.datanab.net/examples">Examples</a></li>
+              <li class="nav-header">Recent Pages</li>
+              
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -104,6 +102,11 @@
             <div class="span6">
               <h2>Latest pages</h2>
               <p></p>
+                <?php
+                    session_start();
+                    $_SESSION['views'] = 1; // store session data
+                    echo "Pageviews = ". $_SESSION['views']; //retrieve data
+                    ?>
             </div><!--/span-->
             <div class="span6">
               <h2>latest updates</h2>
@@ -132,7 +135,32 @@
           $(document).ready(function () {
                             $('.dropdown-toggle').dropdown();
                             });
+      </script>
+      <script>
+          function setCookie(name,value,days) {
+              if (days) {
+                  var date = new Date();
+                  date.setTime(date.getTime()+(days*24*60*60*1000));
+                  var expires = "; expires="+date.toGMTString();
+              }
+              else var expires = "";
+              document.cookie = name+"="+value+expires+"; path=/";
+          }
+          
+          function getCookie(name) {
+              var nameEQ = name + "=";
+              var ca = document.cookie.split(';');
+              for(var i=0;i < ca.length;i++) {
+                  var c = ca[i];
+                  while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                  if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+              }
+              return null;
+          }
+          
+          function deleteCookie(name) {
+              setCookie(name,"",-1);
+          }
           </script>
-
   </body>
 </html>
