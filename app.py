@@ -49,9 +49,9 @@ def all_links():
         links.append((url, rule.endpoint))
     return render_template("all_links.html", links=links)
 
-app.debug = True
-app.run()
-exit()
+#app.debug = True
+#app.run()
+#exit()
            
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
