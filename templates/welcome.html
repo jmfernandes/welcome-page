@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+      <?php
+          session_start(); // start up your PHP session!
+          ?>
     <meta charset="utf-8">
     <title>Datanab The Programmer's Best Friend</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,6 +45,11 @@
     <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
   </head>
   <body>
+      <?php
+          session_start();
+          $_SESSION['views'] = 1; // store session data
+          echo "Pageviews = ". $_SESSION['views']; //retrieve data
+          ?>
       <div class="navbar navbar-inverse navbar-fixed-top">
           <div class="navbar-inner">
               <div class="container-fluid">
