@@ -10,22 +10,6 @@ app.secret_key = 'cheese'
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #def login():
 #    session['username'] = "someuser"
 #    session['urls'] = []
@@ -60,12 +44,21 @@ def index():
 def index():
     return  render_template('example.html')
 
+#@app.route("/all-links")
+#def all_links():
+#    links = []
+#    for rule in app.url_map.iter_rules():
+#        url = url_for(rule.endpoint)
+#        links.append((url, rule.endpoint))
+#    return render_template("all_links.html", links=links)
+
 @app.route("/all-links")
 def all_links():
     links = []
     for rule in app.url_map.iter_rules():
-        url = url_for(rule.endpoint)
-        links.append((url, rule.endpoint))
+        if len(rule.defaults) >= len(rule.arguments):
+            url = url_for(rule.endpoint, **(rule.defaults or {}))
+            links.append((url, rule.endpoint))
     return render_template("all_links.html", links=links)
 
 #app.debug = True
