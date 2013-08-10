@@ -121,6 +121,18 @@
                                 &nbsp; &nbsp; &nbsp; &nbsp;}<br>
                                 }
                             </div>
+                            <h3>Perl</h3>
+                            <div class="well well-small">
+                            use LWP::Simple;<br>
+                            <br>
+                            my $url = 'url for JSON data';<br>
+                            <br>
+                            my $content = get $url;<br>
+                            die "Couldn't get $url" unless defined $content;<br>
+                            <br>
+                            use JSON::Parse 'json_to_perl';<br>
+                            my $data = json_to_perl ($content);<br>
+                            </div>
                         </div><!--/span-->
                     </div><!--/row-->
                 </div><!--/span-->
