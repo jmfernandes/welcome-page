@@ -94,7 +94,14 @@
                     </div>
                     <div class="row-fluid">
                         <div class="span6 offset1">
-                            <p>This site provides data in easy to acces JSON format. </p>
+                            <h3>Python</h3>
+                            <div class="well well-small">
+                                import json<br>
+                                import urllib<br>
+                                aquire = urllib.urlopen("url for JSON data")<br>
+                                unpacked = aquire.read()<br>
+                                data = json.loads(unpacked)
+                            </div>
                         </div><!--/span-->
                     </div><!--/row-->
                 </div><!--/span-->
