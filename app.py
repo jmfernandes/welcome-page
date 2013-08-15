@@ -1,11 +1,9 @@
 import os
 import json
 from flask import Flask, render_template, url_for
-from werkzeug.routing import Map, Rule, NotFound, RequestRedirect, BaseConverter
+#from werkzeug.routing import Map, Rule, NotFound, RequestRedirect, BaseConverter
 
 app = Flask(__name__)
-
-app.secret_key = 'cheese'
 
 
 
@@ -31,10 +29,10 @@ def index():
 
 @app.route('/about', endpoint='about')
 def index():
-    data = []
+    #data = []
     #if 'urls' in session:
     #    data = session['urls']
-    return  render_template('about.html',data=data)
+    return  render_template('about.html')
 
 @app.route('/contact', endpoint='contact')
 def index():
@@ -52,14 +50,14 @@ def index():
 #        links.append((url, rule.endpoint))
 #    return render_template("all_links.html", links=links)
 
-@app.route("/all-links")
-def all_links():
-    links = []
-    for rule in app.url_map.iter_rules():
-        if len(rule.defaults) >= len(rule.arguments):
-            url = url_for(rule.endpoint, **(rule.defaults or {}))
-            links.append((url, rule.endpoint))
-    return render_template("all_links.html", links=links)
+#@app.route("/all-links")
+#def all_links():
+#    links = []
+#    for rule in app.url_map.iter_rules():
+#        if len(rule.defaults) >= len(rule.arguments):
+#            url = url_for(rule.endpoint, **(rule.defaults or {}))
+#            links.append((url, rule.endpoint))
+#    return render_template("all_links.html", links=links)
 
 #app.debug = True
 #app.run()
