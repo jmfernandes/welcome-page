@@ -27,19 +27,26 @@ def page_not_found(error):
 def index():
     return  render_template('welcome.html')
 
+@app.route('/search', methods = ['POST'])
+@login_required
+def search():
+    if not g.search_form.validate_on_submit():
+        return redirect(url_for('index'))
+    return redirect(url_for('search_results', query = g.search_form.search.data))
+
 @app.route('/about', endpoint='about')
-def index():
+def about_index():
     #data = []
     #if 'urls' in session:
     #    data = session['urls']
     return  render_template('about.html')
 
 @app.route('/contact', endpoint='contact')
-def index():
+def contact_index():
     return  render_template('contact.html')
 
 @app.route('/examples', endpoint='examples')
-def index():
+def example_index():
     return  render_template('example.html')
 
 #@app.route("/all-links")
