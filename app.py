@@ -28,10 +28,9 @@ def index():
     return  render_template('welcome.html')
 
 @app.route('/search', methods = ['POST'])
-@login_required
 def search():
-    if not g.search_form.validate_on_submit():
-        return redirect(url_for('index'))
+    #if not g.search_form.validate_on_submit():
+    #    return redirect(url_for('index'))
     return redirect(url_for('search_results', query = g.search_form.search.data))
 
 @app.route('/about', endpoint='about')
