@@ -34,6 +34,10 @@ def search():
     #    return redirect(url_for('index'))
     return redirect(url_for('search_results', query = request.form.get('query',None)))
 
+@app.route('/search_results/<query>')
+def search_results(query):
+    return render_template('search_results.html', query = query)
+
 @app.route('/about', endpoint='about')
 def about_index():
     #data = []
