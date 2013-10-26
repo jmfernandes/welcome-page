@@ -53,6 +53,10 @@ def contact_index():
 def example_index():
     return  render_template('example.html')
 
+@app.route('/test', endpoint='test')
+def example_index():
+    return  render_template('test.html')
+
 #@app.route("/all-links")
 #def all_links():
 #    links = []
