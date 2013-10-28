@@ -145,7 +145,7 @@
     var index = innerHTML.indexOf(text);
     var color = "#ff0000";
     var selected = getSelectionHtml();
-    alert(selected)
+    //alert(selected)
     if(selected_text.length == 0){
       return;
     }
@@ -193,7 +193,7 @@
     innerHTML = innerHTML.replace(' <span style="background-color:#ff0000;">',' ');
     i++
     }
-    alert(innerHTML)
+    //alert(innerHTML)
     if ( index >= 0 )
     { 
         innerHTML = innerHTML.substring(0,index) + "<span style='background-color:" + "white" + ";'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
