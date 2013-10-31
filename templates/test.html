@@ -102,8 +102,7 @@
                 <h3 class="offset1">About</h3>
             </div>
           <div class="row-fluid">
-            <div id="inputText" class="span6 offset1">
-              <p>Highlight the code here. Any text on this line can be highlighted. Other text on the screen can not be highlighted.</p>
+            <div id="inputText" class="span6 offset1">Highlight the code here. Any text on this line can be highlighted. Other text on the screen can not be highlighted.
             </div><!--/span-->
           </div><!--/row-->
         </div><!--/span-->
@@ -171,7 +170,7 @@
     //alert(innerHTML)
     //alert(innerHTML)
 }
-      function unhighlight(text)
+      function unhighlightall(text)
 {
     inputText = document.getElementById("inputText")
     var innerHTML = inputText.innerHTML
@@ -273,9 +272,10 @@ function getSelectionHtml() {
     //html = html.replace('<span style="background-color:white;">','');
     return html;
 }
+          
 function whoo()
 {
-alert("1")
+alert(foo())
 //alert(html);  
 //alert(getSelectionHtml());
 //alert(ham) // What is called
@@ -302,10 +302,216 @@ function imtrying(container,what,spanClass) {
         highlighted = content.replace(pattern,replaceWith);
     return (container.innerHTML = highlighted) !== content;
 }
-</script>
+          
+          
+          function foo() {
+              
+              var selObj = window.getSelection();
+              
+              var startRange = selObj.getRangeAt(0).startOffset;
+              var endRange = selObj.getRangeAt(0).endOffset;
+              // do stuff with the range
+              return [startRange, endRange];
+          }
+          
+          
+////////////////////////////////////////////////////
+    //method 1 for getting range of text
+    
+          function getTextSelection(el) {
+              var start = 0, end = 0, normalizedValue, range,
+              textInputRange, len, endRange;
+              
+              if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+                  start = el.selectionStart;
+                  end = el.selectionEnd;
+              } else {
+                  range = document.selection.createRange();
+                  
+                  if (range && range.parentElement() == el) {
+                      len = el.value.length;
+                      normalizedValue = el.value.replace(/\r\n/g, "\n");
+                      
+                      // Create a working TextRange that lives only in the input
+                      textInputRange = el.createTextRange();
+                      textInputRange.moveToBookmark(range.getBookmark());
+                      
+                      // Check if the start and end of the selection are at the very end
+                      // of the input, since moveStart/moveEnd doesn't return what we want
+                      // in those cases
+                      endRange = el.createTextRange();
+                      endRange.collapse(false);
+                      
+                      if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+                          start = end = len;
+                      } else {
+                          start = -textInputRange.moveStart("character", -len);
+                          start += normalizedValue.slice(0, start).split("\n").length - 1;
+                          
+                          if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+                              end = len;
+                          } else {
+                              end = -textInputRange.moveEnd("character", -len);
+                              end += normalizedValue.slice(0, end).split("\n").length - 1;
+                          }
+                      }
+                  }
+              }
+              alert("start :" + start + " End :" + end);
+          }
+          
+/////////////////////////////////////////////////////////////////////////
+          //method 2 for getting range of text
+          
+          function getInputSelection(el) {
+              var start = 0, end = 0, normalizedValue, range,
+              textInputRange, len, endRange;
+              
+              if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+                  start = el.selectionStart;
+                  end = el.selectionEnd;
+              } else {
+                  range = document.selection.createRange();
+                  
+                  if (range && range.parentElement() == el) {
+                      len = el.value.length;
+                      normalizedValue = el.value.replace(/\r\n/g, "\n");
+                      
+                      // Create a working TextRange that lives only in the input
+                      textInputRange = el.createTextRange();
+                      textInputRange.moveToBookmark(range.getBookmark());
+                      
+                      // Check if the start and end of the selection are at the very end
+                      // of the input, since moveStart/moveEnd doesn't return what we want
+                      // in those cases
+                      endRange = el.createTextRange();
+                      endRange.collapse(false);
+                      
+                      if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+                          start = end = len;
+                      } else {
+                          start = -textInputRange.moveStart("character", -len);
+                          start += normalizedValue.slice(0, start).split("\n").length - 1;
+                          
+                          if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+                              end = len;
+                          } else {
+                              end = -textInputRange.moveEnd("character", -len);
+                              end += normalizedValue.slice(0, end).split("\n").length - 1;
+                          }
+                      }
+                  }
+              }
+              
+              return {
+                  start: start,
+                  end: end
+              };
+          }
+          
+////////////////////////////////////////////////////////////////////
+          
+          function getTextNodesIn(node) {
+              var textNodes = [];
+              if (node.nodeType == 3) {
+                  textNodes.push(node);
+              } else {
+                  var children = node.childNodes;
+                  for (var i = 0, len = children.length; i < len; ++i) {
+                      textNodes.push.apply(textNodes, getTextNodesIn(children[i]));
+                  }
+              }
+              return textNodes;
+          }
+          
+          function setSelectionRange(el, start, end) {
+              if (document.createRange && window.getSelection) {
+                  var range = document.createRange();
+                  range.selectNodeContents(el);
+                  var textNodes = getTextNodesIn(el);
+                  var foundStart = false;
+                  var charCount = 0, endCharCount;
+                  
+                  for (var i = 0, textNode; textNode = textNodes[i++]; ) {
+                      endCharCount = charCount + textNode.length;
+                      if (!foundStart && start >= charCount && (start < endCharCount || (start == endCharCount && i < textNodes.length))) {
+                          range.setStart(textNode, start - charCount);
+                          foundStart = true;
+                      }
+                      if (foundStart && end <= endCharCount) {
+                          range.setEnd(textNode, end - charCount);
+                          break;
+                      }
+                      charCount = endCharCount;
+                  }
+                  
+                  var sel = window.getSelection();
+                  sel.removeAllRanges();
+                  sel.addRange(range);
+              } else if (document.selection && document.body.createTextRange) {
+                  var textRange = document.body.createTextRange();
+                  textRange.moveToElementText(el);
+                  textRange.collapse(true);
+                  textRange.moveEnd("character", end);
+                  textRange.moveStart("character", start);
+                  textRange.select();
+              }
+          }
+          
+          function makeEditableAndHighlight(colour) {
+              sel = window.getSelection();
+              if (sel.rangeCount && sel.getRangeAt) {
+                  range = sel.getRangeAt(0);
+              }
+              document.designMode = "on";
+              if (range) {
+                  sel.removeAllRanges();
+                  sel.addRange(range);
+              }
+              // Use HiliteColor since some browsers apply BackColor to the whole block
+              if (!document.execCommand("HiliteColor", false, colour)) {
+                  document.execCommand("BackColor", false, colour);
+              }
+              document.designMode = "off";
+          }
+          
+          function highlight(colour) {
+              var range, sel;
+              if (window.getSelection) {
+                  // IE9 and non-IE
+                  try {
+                      if (!document.execCommand("BackColor", false, colour)) {
+                          makeEditableAndHighlight(colour);
+                      }
+                  } catch (ex) {
+                      makeEditableAndHighlight(colour)
+                  }
+              } else if (document.selection && document.selection.createRange) {
+                  // IE <= 8 case
+                  range = document.selection.createRange();
+                  range.execCommand("BackColor", false, colour);
+              }
+          }
+          
+          function selectAndHighlightRange(id, start, end) {
+              setSelectionRange(document.getElementById("inputText"), start, end);
+              highlight("yellow");
+          }
 
+          function selectAndUnhighlightRange(id, start, end) {
+              setSelectionRange(document.getElementById("inputText"), start, end);
+              highlight("white");
+          }
+          
+          
+          
+          
+</script>
+<button onclick="selectAndHighlightRange('inputText', foo()[0], foo()[1])">Highlight New</button>
+<button onclick="selectAndUnhighlightRange('inputText', foo()[0], foo()[1])">Unhighlight New</button>
 <button onclick="highlight(getSelectionHtml())">Highlight</button>
-<button onclick="unhighlight(getSelectionHtml())">Unhighlight All</button>
+<button onclick="unhighlightall(getSelectionHtml())">Unhighlight All</button>
+<button onclick="whoo()">get range</button>
 <!-- <button onclick="imtrying(document.getElementById('inputText'),getSelectionHtml(),'highlight');">another</button>
 <a href="javascript:void(0);" onclick="highlightSelection();">Highlight</a> 
     &nbsp;&nbsp;|&nbsp;&nbsp;
