@@ -273,27 +273,6 @@ function getSelectionHtml() {
     return html;
 }
           
-function whoo()
-{
-alert(foo())
-//alert(html);  
-//alert(getSelectionHtml());
-//alert(ham) // What is called
-//alert(cheese)
-//alert(selRange)
-//alert(window.getSelection().toString())  // What is actually being effectively called.
-var goose = getSelectionHtml();
-if (goose.length == 0) {
-  //nothing
-}
-else {
-  //alert("hey cheese")
-}
-}
-
-if (!veri.goose) {
-    alert("Customer Name can not be empty!!!");
-}
 
 function imtrying(container,what,spanClass) {
     var content = container.innerHTML,
@@ -304,15 +283,7 @@ function imtrying(container,what,spanClass) {
 }
           
           
-          function foo() {
-              
-              var selObj = window.getSelection();
-              
-              var startRange = selObj.getRangeAt(0).startOffset;
-              var endRange = selObj.getRangeAt(0).endOffset;
-              // do stuff with the range
-              return [startRange, endRange];
-          }
+          
           
           
 ////////////////////////////////////////////////////
@@ -410,6 +381,33 @@ function imtrying(container,what,spanClass) {
           }
           
 ////////////////////////////////////////////////////////////////////
+
+          function fooyou() {
+          var sel;
+            if (window.getSelection) {
+              sel = window.getSelection();
+                if (sel.rangeCount) {
+                  return [sel.getRangeAt(0).startOffset, sel.getRangeAt(0).endOffset];
+                }
+              } else if (document.selection) {
+                  return document.selection.createRange();
+              }
+                  return null;
+          }
+
+          function foo() {
+              var selObj = window.getSelection();
+              var startRange = selObj.getRangeAt(0).startOffset;
+              var endRange = selObj.getRangeAt(0).endOffset;
+
+              // do stuff with the range
+              return [startRange, endRange];
+          }
+
+          function whoo()
+          {
+          alert(fooyou())
+          }
           
           function getTextNodesIn(node) {
               var textNodes = [];
@@ -445,9 +443,9 @@ function imtrying(container,what,spanClass) {
                       charCount = endCharCount;
                   }
                   
-                  var sel = window.getSelection();
-                  sel.removeAllRanges();
-                  sel.addRange(range);
+                  //var sel = window.getSelection();
+                  //sel.removeAllRanges();
+                  //sel.addRange(range);
               } else if (document.selection && document.body.createTextRange) {
                   var textRange = document.body.createTextRange();
                   textRange.moveToElementText(el);
@@ -507,7 +505,7 @@ function imtrying(container,what,spanClass) {
           
           
 </script>
-<button onclick="selectAndHighlightRange('inputText', foo()[0], foo()[1])">Highlight New</button>
+<button onclick="selectAndHighlightRange('inputText', fooyou()[0], fooyou()[1])">Highlight New</button>
 <button onclick="selectAndUnhighlightRange('inputText', foo()[0], foo()[1])">Unhighlight New</button>
 <button onclick="highlight(getSelectionHtml())">Highlight</button>
 <button onclick="unhighlightall(getSelectionHtml())">Unhighlight All</button>
