@@ -494,11 +494,13 @@ function imtrying(container,what,spanClass) {
           function selectAndHighlightRange(id, start, end) {
               setSelectionRange(document.getElementById("inputText"), start, end);
               highlight("yellow");
+              window.getSelection().removeAllRanges();
           }
 
           function selectAndUnhighlightRange(id, start, end) {
               setSelectionRange(document.getElementById("inputText"), start, end);
               highlight("white");
+              window.getSelection().removeAllRanges();
           }
           
           
