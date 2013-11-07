@@ -136,253 +136,253 @@
                             $('.dropdown-toggle').dropdown();
                             });
       var check = ''
-      function highlight(text)
-{
-    var selected_text = getSelectionHtml()
-    inputText = document.getElementById("inputText")
-    var innerHTML = inputText.innerHTML
-    var index = innerHTML.indexOf(text);
-    var color = "#ff0000";
-    var selected = getSelectionHtml();
-    //alert(selected)
-    if(selected_text.length == 0){
-      return;
-    }
-    else if (check.length > 0){
-    alert("not empty")
-    innerHTML = innerHTML.replace("<span style='background-color:#ff0000;'>",'');
-    innerHTML = innerHTML.replace('<span style="background-color:#ff0000;">','');
-    innerHTML = innerHTML.replace('</span>','');
-    innerHTML = innerHTML.replace('</span> ',' ');
-    innerHTML = innerHTML.replace("<span style='background-color:white;'>",'');
-    innerHTML = innerHTML.replace('<span style="background-color:white;">','');
-    }
-    //im close
-    //innerHTML = innerHTML.replace('<span style="background-color:#ff0000;">','');
-    //innerHTML = innerHTML.replace('</span>','');
-    //innerHTML = innerHTML.replace('</span> ',' ');
-    //innerHTML = innerHTML.replace('<span style="background-color:white;">','');
-    if ( index >= 0 )
-    { 
-        innerHTML = innerHTML.substring(0,index) + "<span style='background-color:" + color + ";'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-        inputText.innerHTML = innerHTML 
-    }
-    //alert(innerHTML)
-    //alert(innerHTML)
-}
-      function unhighlightall(text)
-{
-    inputText = document.getElementById("inputText")
-    var innerHTML = inputText.innerHTML
-    var index = innerHTML.indexOf(text);
-    var color = "#ff0000";
-    var black = "#000000";
-    var revert = "white";
-    var i = 0;
-    while (i<10)
-    {
-    innerHTML = innerHTML.replace("<span style='background-color:#ff0000;'>",'');
-    innerHTML = innerHTML.replace('<span style="background-color:#ff0000;">','');
-    innerHTML = innerHTML.replace(' <span style="background-color:#ff0000;">',' ');
-    innerHTML = innerHTML.replace('</span>','');
-    innerHTML = innerHTML.replace('</span> ',' ');
-    innerHTML = innerHTML.replace(' </span>',' ');
-    innerHTML = innerHTML.replace("<span style='background-color:white;'>",'');
-    innerHTML = innerHTML.replace('<span style="background-color:white;">','');
-    innerHTML = innerHTML.replace(' <span style="background-color:#ff0000;">',' ');
-    i++
-    }
-    //alert(innerHTML)
-    if ( index >= 0 )
-    { 
-        innerHTML = innerHTML.substring(0,index) + "<span style='background-color:" + "white" + ";'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-        inputText.innerHTML = innerHTML 
-    }
+//       function highlight(text)
+// {
+//     var selected_text = getSelectionHtml()
+//     inputText = document.getElementById("inputText")
+//     var innerHTML = inputText.innerHTML
+//     var index = innerHTML.indexOf(text);
+//     var color = "#ff0000";
+//     var selected = getSelectionHtml();
+//     //alert(selected)
+//     if(selected_text.length == 0){
+//       return;
+//     }
+//     else if (check.length > 0){
+//     alert("not empty")
+//     innerHTML = innerHTML.replace("<span style='background-color:#ff0000;'>",'');
+//     innerHTML = innerHTML.replace('<span style="background-color:#ff0000;">','');
+//     innerHTML = innerHTML.replace('</span>','');
+//     innerHTML = innerHTML.replace('</span> ',' ');
+//     innerHTML = innerHTML.replace("<span style='background-color:white;'>",'');
+//     innerHTML = innerHTML.replace('<span style="background-color:white;">','');
+//     }
+//     //im close
+//     //innerHTML = innerHTML.replace('<span style="background-color:#ff0000;">','');
+//     //innerHTML = innerHTML.replace('</span>','');
+//     //innerHTML = innerHTML.replace('</span> ',' ');
+//     //innerHTML = innerHTML.replace('<span style="background-color:white;">','');
+//     if ( index >= 0 )
+//     { 
+//         innerHTML = innerHTML.substring(0,index) + "<span style='background-color:" + color + ";'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+//         inputText.innerHTML = innerHTML 
+//     }
+//     //alert(innerHTML)
+//     //alert(innerHTML)
+// }
+//       function unhighlightall(text)
+// {
+//     inputText = document.getElementById("inputText")
+//     var innerHTML = inputText.innerHTML
+//     var index = innerHTML.indexOf(text);
+//     var color = "#ff0000";
+//     var black = "#000000";
+//     var revert = "white";
+//     var i = 0;
+//     while (i<10)
+//     {
+//     innerHTML = innerHTML.replace("<span style='background-color:#ff0000;'>",'');
+//     innerHTML = innerHTML.replace('<span style="background-color:#ff0000;">','');
+//     innerHTML = innerHTML.replace(' <span style="background-color:#ff0000;">',' ');
+//     innerHTML = innerHTML.replace('</span>','');
+//     innerHTML = innerHTML.replace('</span> ',' ');
+//     innerHTML = innerHTML.replace(' </span>',' ');
+//     innerHTML = innerHTML.replace("<span style='background-color:white;'>",'');
+//     innerHTML = innerHTML.replace('<span style="background-color:white;">','');
+//     innerHTML = innerHTML.replace(' <span style="background-color:#ff0000;">',' ');
+//     i++
+//     }
+//     //alert(innerHTML)
+//     if ( index >= 0 )
+//     { 
+//         innerHTML = innerHTML.substring(0,index) + "<span style='background-color:" + "white" + ";'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+//         inputText.innerHTML = innerHTML 
+//     }
 
-}
-function highlightSelection() {
+// }
+// function highlightSelection() {
       
-            var selection;
+//             var selection;
 
-            //Get the selected stuff
-            if (window.getSelection)
-                selection = window.getSelection();
-            else if (typeof document.selection != "undefined")
-                selection = document.selection;
+//             //Get the selected stuff
+//             if (window.getSelection)
+//                 selection = window.getSelection();
+//             else if (typeof document.selection != "undefined")
+//                 selection = document.selection;
 
-            //Get a the selected content, in a range object
-            var range = selection.getRangeAt(0);
+//             //Get a the selected content, in a range object
+//             var range = selection.getRangeAt(0);
 
-            //If the range spans some text, and inside a tag, set its css class.
-            if (range && !selection.isCollapsed) {
-                if (selection.anchorNode.parentNode == selection.focusNode.parentNode) {
-                    var span = document.createElement('span');
-                    span.className = 'highlight';
-                    range.surroundContents(span);
-                }
-            }
-        }
-function RemovehighlightSelection() {
-            var selection;
+//             //If the range spans some text, and inside a tag, set its css class.
+//             if (range && !selection.isCollapsed) {
+//                 if (selection.anchorNode.parentNode == selection.focusNode.parentNode) {
+//                     var span = document.createElement('span');
+//                     span.className = 'highlight';
+//                     range.surroundContents(span);
+//                 }
+//             }
+//         }
+// function RemovehighlightSelection() {
+//             var selection;
 
-            //Get the selected stuff
-            if (window.getSelection)
-                selection = window.getSelection();
-            else if (typeof document.selection != "undefined")
-                selection = document.selection;
+//             //Get the selected stuff
+//             if (window.getSelection)
+//                 selection = window.getSelection();
+//             else if (typeof document.selection != "undefined")
+//                 selection = document.selection;
 
-            //Get a the selected content, in a range object
-            var range = selection.getRangeAt(0);
+//             //Get a the selected content, in a range object
+//             var range = selection.getRangeAt(0);
 
-            //If the range spans some text, and inside a tag, set its css class.
-            if (range && !selection.isCollapsed) {
-                if (selection.anchorNode.parentNode == selection.focusNode.parentNode) {
-                    var span = document.createElement('span');
-                    span.className = 'un-highlight';
-                    range.surroundContents(span);
-                }
-            }
-        }
-//var ham = window.getSelection();
-//var cheese = ham.toString()
-//var milk = typeof ham
-//var soda = typeof cheese
-//var eggs = 'fox'
-//var selRange = ham.getRangeAt(0);
-function getSelectionHtml() {
-    var html = "";
-    if (typeof window.getSelection != "undefined") {
-        var sel = window.getSelection();
-        if (sel.rangeCount) {
-            var container = document.createElement("div");
-            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                container.appendChild(sel.getRangeAt(i).cloneContents());
-            }
-            html = container.innerHTML;
-        }
-    } else if (typeof document.selection != "undefined") {
-        if (document.selection.type == "Text") {
-            html = document.selection.createRange().htmlText;
-        }
-    }
-    //might need the below code
-    //html = html.replace('<span style="background-color:#ff0000;">','');
-    //html = html.replace('</span>','');
-    //html = html.replace('</span> ',' ');
-    //html = html.replace('<span style="background-color:white;">','');
-    return html;
-}
+//             //If the range spans some text, and inside a tag, set its css class.
+//             if (range && !selection.isCollapsed) {
+//                 if (selection.anchorNode.parentNode == selection.focusNode.parentNode) {
+//                     var span = document.createElement('span');
+//                     span.className = 'un-highlight';
+//                     range.surroundContents(span);
+//                 }
+//             }
+//         }
+// //var ham = window.getSelection();
+// //var cheese = ham.toString()
+// //var milk = typeof ham
+// //var soda = typeof cheese
+// //var eggs = 'fox'
+// //var selRange = ham.getRangeAt(0);
+// function getSelectionHtml() {
+//     var html = "";
+//     if (typeof window.getSelection != "undefined") {
+//         var sel = window.getSelection();
+//         if (sel.rangeCount) {
+//             var container = document.createElement("div");
+//             for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+//                 container.appendChild(sel.getRangeAt(i).cloneContents());
+//             }
+//             html = container.innerHTML;
+//         }
+//     } else if (typeof document.selection != "undefined") {
+//         if (document.selection.type == "Text") {
+//             html = document.selection.createRange().htmlText;
+//         }
+//     }
+//     //might need the below code
+//     //html = html.replace('<span style="background-color:#ff0000;">','');
+//     //html = html.replace('</span>','');
+//     //html = html.replace('</span> ',' ');
+//     //html = html.replace('<span style="background-color:white;">','');
+//     return html;
+// }
           
 
-function imtrying(container,what,spanClass) {
-    var content = container.innerHTML,
-        pattern = new RegExp('(>[^<.]*)(' + what + ')([^<.]*)','g'),
-        replaceWith = '$1<span ' + ( spanClass ? 'class="' + spanClass + '"' : '' ) + '">$2</span>$3',
-        highlighted = content.replace(pattern,replaceWith);
-    return (container.innerHTML = highlighted) !== content;
-}
-          
-          
+// function imtrying(container,what,spanClass) {
+//     var content = container.innerHTML,
+//         pattern = new RegExp('(>[^<.]*)(' + what + ')([^<.]*)','g'),
+//         replaceWith = '$1<span ' + ( spanClass ? 'class="' + spanClass + '"' : '' ) + '">$2</span>$3',
+//         highlighted = content.replace(pattern,replaceWith);
+//     return (container.innerHTML = highlighted) !== content;
+// }
           
           
           
-////////////////////////////////////////////////////
-    //method 1 for getting range of text
+          
+          
+// ////////////////////////////////////////////////////
+//     //method 1 for getting range of text
     
-          function getTextSelection(el) {
-              var start = 0, end = 0, normalizedValue, range,
-              textInputRange, len, endRange;
+//           function getTextSelection(el) {
+//               var start = 0, end = 0, normalizedValue, range,
+//               textInputRange, len, endRange;
               
-              if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
-                  start = el.selectionStart;
-                  end = el.selectionEnd;
-              } else {
-                  range = document.selection.createRange();
+//               if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+//                   start = el.selectionStart;
+//                   end = el.selectionEnd;
+//               } else {
+//                   range = document.selection.createRange();
                   
-                  if (range && range.parentElement() == el) {
-                      len = el.value.length;
-                      normalizedValue = el.value.replace(/\r\n/g, "\n");
+//                   if (range && range.parentElement() == el) {
+//                       len = el.value.length;
+//                       normalizedValue = el.value.replace(/\r\n/g, "\n");
                       
-                      // Create a working TextRange that lives only in the input
-                      textInputRange = el.createTextRange();
-                      textInputRange.moveToBookmark(range.getBookmark());
+//                       // Create a working TextRange that lives only in the input
+//                       textInputRange = el.createTextRange();
+//                       textInputRange.moveToBookmark(range.getBookmark());
                       
-                      // Check if the start and end of the selection are at the very end
-                      // of the input, since moveStart/moveEnd doesn't return what we want
-                      // in those cases
-                      endRange = el.createTextRange();
-                      endRange.collapse(false);
+//                       // Check if the start and end of the selection are at the very end
+//                       // of the input, since moveStart/moveEnd doesn't return what we want
+//                       // in those cases
+//                       endRange = el.createTextRange();
+//                       endRange.collapse(false);
                       
-                      if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
-                          start = end = len;
-                      } else {
-                          start = -textInputRange.moveStart("character", -len);
-                          start += normalizedValue.slice(0, start).split("\n").length - 1;
+//                       if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+//                           start = end = len;
+//                       } else {
+//                           start = -textInputRange.moveStart("character", -len);
+//                           start += normalizedValue.slice(0, start).split("\n").length - 1;
                           
-                          if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
-                              end = len;
-                          } else {
-                              end = -textInputRange.moveEnd("character", -len);
-                              end += normalizedValue.slice(0, end).split("\n").length - 1;
-                          }
-                      }
-                  }
-              }
-              alert("start :" + start + " End :" + end);
-          }
+//                           if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+//                               end = len;
+//                           } else {
+//                               end = -textInputRange.moveEnd("character", -len);
+//                               end += normalizedValue.slice(0, end).split("\n").length - 1;
+//                           }
+//                       }
+//                   }
+//               }
+//               alert("start :" + start + " End :" + end);
+//           }
           
-/////////////////////////////////////////////////////////////////////////
-          //method 2 for getting range of text
+// /////////////////////////////////////////////////////////////////////////
+//           //method 2 for getting range of text
           
-          function getInputSelection(el) {
-              var start = 0, end = 0, normalizedValue, range,
-              textInputRange, len, endRange;
+//           function getInputSelection(el) {
+//               var start = 0, end = 0, normalizedValue, range,
+//               textInputRange, len, endRange;
               
-              if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
-                  start = el.selectionStart;
-                  end = el.selectionEnd;
-              } else {
-                  range = document.selection.createRange();
+//               if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+//                   start = el.selectionStart;
+//                   end = el.selectionEnd;
+//               } else {
+//                   range = document.selection.createRange();
                   
-                  if (range && range.parentElement() == el) {
-                      len = el.value.length;
-                      normalizedValue = el.value.replace(/\r\n/g, "\n");
+//                   if (range && range.parentElement() == el) {
+//                       len = el.value.length;
+//                       normalizedValue = el.value.replace(/\r\n/g, "\n");
                       
-                      // Create a working TextRange that lives only in the input
-                      textInputRange = el.createTextRange();
-                      textInputRange.moveToBookmark(range.getBookmark());
+//                       // Create a working TextRange that lives only in the input
+//                       textInputRange = el.createTextRange();
+//                       textInputRange.moveToBookmark(range.getBookmark());
                       
-                      // Check if the start and end of the selection are at the very end
-                      // of the input, since moveStart/moveEnd doesn't return what we want
-                      // in those cases
-                      endRange = el.createTextRange();
-                      endRange.collapse(false);
+//                       // Check if the start and end of the selection are at the very end
+//                       // of the input, since moveStart/moveEnd doesn't return what we want
+//                       // in those cases
+//                       endRange = el.createTextRange();
+//                       endRange.collapse(false);
                       
-                      if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
-                          start = end = len;
-                      } else {
-                          start = -textInputRange.moveStart("character", -len);
-                          start += normalizedValue.slice(0, start).split("\n").length - 1;
+//                       if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+//                           start = end = len;
+//                       } else {
+//                           start = -textInputRange.moveStart("character", -len);
+//                           start += normalizedValue.slice(0, start).split("\n").length - 1;
                           
-                          if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
-                              end = len;
-                          } else {
-                              end = -textInputRange.moveEnd("character", -len);
-                              end += normalizedValue.slice(0, end).split("\n").length - 1;
-                          }
-                      }
-                  }
-              }
+//                           if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+//                               end = len;
+//                           } else {
+//                               end = -textInputRange.moveEnd("character", -len);
+//                               end += normalizedValue.slice(0, end).split("\n").length - 1;
+//                           }
+//                       }
+//                   }
+//               }
               
-              return {
-                  start: start,
-                  end: end
-              };
-          }
+//               return {
+//                   start: start,
+//                   end: end
+//               };
+//           }
           
 ////////////////////////////////////////////////////////////////////
 
-          function fooyou() {
+          function GetUserSelection() {
           var sel;
             if (window.getSelection) {
               sel = window.getSelection();
@@ -395,19 +395,18 @@ function imtrying(container,what,spanClass) {
                   return null;
           }
 
-          function foo() {
-              var selObj = window.getSelection();
-              var startRange = selObj.getRangeAt(0).startOffset;
-              var endRange = selObj.getRangeAt(0).endOffset;
-
+          //function foo() {
+          //    var selObj = window.getSelection();
+          //    var startRange = selObj.getRangeAt(0).startOffset;
+          //    var endRange = selObj.getRangeAt(0).endOffset;
               // do stuff with the range
-              return [startRange, endRange];
-          }
+          //    return [startRange, endRange];
+          //}
 
-          function whoo()
-          {
-          alert(fooyou())
-          }
+          //function PrintRange()
+          //{
+          //alert(foo())
+          //}
           
           function getTextNodesIn(node) {
               var textNodes = [];
@@ -507,11 +506,9 @@ function imtrying(container,what,spanClass) {
           
           
 </script>
-<button onclick="selectAndHighlightRange('inputText', fooyou()[0], fooyou()[1])">Highlight New</button>
-<button onclick="selectAndUnhighlightRange('inputText', foo()[0], foo()[1])">Unhighlight New</button>
-<button onclick="highlight(getSelectionHtml())">Highlight</button>
-<button onclick="unhighlightall(getSelectionHtml())">Unhighlight All</button>
-<button onclick="whoo()">get range</button>
+<button onclick="selectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Highlight</button>
+<button onclick="selectAndUnhighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Unhighlight</button>
+<!-- <button onclick="whoo()">get range</button> -->
 <!-- <button onclick="imtrying(document.getElementById('inputText'),getSelectionHtml(),'highlight');">another</button>
 <a href="javascript:void(0);" onclick="highlightSelection();">Highlight</a> 
     &nbsp;&nbsp;|&nbsp;&nbsp;
