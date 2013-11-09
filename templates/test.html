@@ -491,6 +491,7 @@
           }
           
           function selectAndHighlightRange(id, start, end) {
+              ChangeStoreData();
               setSelectionRange(document.getElementById("inputText"), start, end);
               highlight("yellow");
               window.getSelection().removeAllRanges();
@@ -503,17 +504,18 @@
           }
 
           /////////////// initialize only on first session
-          var RangeSet = new Array(3,6)  //this line not needed later
-          var Stuff = new Array (12,15)  //this line not needed later
-          var HighlightSet = new Array(RangeSet,Stuff)  //this line should be changed to var HighlightSet = new Array()
+          //var RangeSet = new Array(3,6)  //this line not needed later
+          //var Stuff = new Array (12,15)  //this line not needed later
+          //var HighlightSet = new Array(RangeSet,Stuff)  //this line should be changed to var HighlightSet = new Array()
           var CheckEndList = []  //this is needed
           var CheckStartList = []  //this is needed
-          var HighlightSetAdjusted = [] //this is needed
+          //var HighlightSetAdjusted = [] //not used anymore
+          var HighlightSet = new Array()
 
-          /////////////////
+          ///////////////// THIS IS THE CODE FOR MAKING THE LIST OF HIGHLIGHTS
 
           function ChangeStoreData() {
-          var CompareRange = new Array(6,12) //this line will be the range from selection later
+          var CompareRange = new Array(GetUserSelection()[0],GetUserSelection()[1]) //this line will be the range from selection later
           var unique = 1
           HighlightSet.push(CompareRange)
           if (HighlightSet.length == 1){
@@ -566,7 +568,7 @@
               }
               else if (i != j && CheckEndList[i][1] > CheckStartList[j][1] && CheckStartList[i][1] < CheckStartList[j][1] ){
                 //HighlightSet[i][0] = CheckStartList[i][1]
-                alert(CheckEndList[i][1] + ' ' + CheckEndList[j][1])
+                //alert(CheckEndList[i][1] + ' ' + CheckEndList[j][1])
                 if (CheckEndList[i][1] < CheckEndList[j][1]){
                   HighlightSet[i][1] = CheckEndList[j][1]
                 }
@@ -578,13 +580,28 @@
                 //alert(HighlightSet[j])
                 //alert(CheckEndList[i][1] + '>' + CheckStartList[j][1] + ' ' + CheckStartList[i][1] + '<' + CheckStartList[j][1])
               }
-              else if (i != j && CheckStartList[i][1] > CheckStartList[j][1] && CheckEndList[i][1] < CheckEndList[j][1]){
+              else if (i < j && CheckEndList[i][1] > CheckStartList[j][1] && CheckStartList[i][1] == CheckStartList[j][1] ){
                 //HighlightSet[i][0] = CheckStartList[i][1]
-                //HighlightSet[i][1] = CheckEndList[j][1]
-                //HighlightSet.splice(j,1)
+                //alert(CheckEndList[i][1] + ' ' + CheckEndList[j][1])
+                if (CheckEndList[i][1] < CheckEndList[j][1]){
+                  HighlightSet[i][1] = CheckEndList[j][1]
+                  //alert('small')
+                }
+                if (CheckEndList[i][1] > CheckEndList[j][1]){
+                  HighlightSet[i][1] = CheckEndList[i][1]
+                }
+                //alert(HighlightSet[j] + 'this is the end')
+                HighlightSet.splice(j,1)
                 //alert(HighlightSet[j])
-                alert("WHATWHAT")
+                //alert(CheckEndList[i][1] + '>' + CheckStartList[j][1] + ' ' + CheckStartList[i][1] + '<' + CheckStartList[j][1])
               }
+              // else if (i != j && CheckStartList[i][1] > CheckStartList[j][1] && CheckEndList[i][1] < CheckEndList[j][1]){
+              //   //HighlightSet[i][0] = CheckStartList[i][1]
+              //   //HighlightSet[i][1] = CheckEndList[j][1]
+              //   //HighlightSet.splice(j,1)
+              //   //alert(HighlightSet[j])
+              //   alert("WHATWHAT")
+              // }
             }
           }
 
@@ -604,7 +621,7 @@
 </script>
 <button onclick="selectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Highlight</button>
 <button onclick="selectAndUnhighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Unhighlight</button>
-<button onclick="PrintStoreData()">Range Data</button>
+<!-- <button onclick="PrintStoreData()">Range Data</button> -->
 <button onclick="ChangeStoreData()">Change Data</button>
 <!-- <button onclick="whoo()">get range</button> -->
 <!-- <button onclick="imtrying(document.getElementById('inputText'),getSelectionHtml(),'highlight');">another</button>
