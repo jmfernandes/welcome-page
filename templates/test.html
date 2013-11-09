@@ -381,13 +381,13 @@
 //           }
           
 ////////////////////////////////////////////////////////////////////
+          var selit;
 
           function GetUserSelection() {
-          var sel;
             if (window.getSelection) {
-              sel = window.getSelection();
-                if (sel.rangeCount) {
-                  return [sel.getRangeAt(0).startOffset, sel.getRangeAt(0).endOffset];
+              selit = window.getSelection();
+                if (selit.rangeCount) {
+                  return [selit.getRangeAt(0).startOffset, selit.getRangeAt(0).endOffset];
                 }
               } else if (document.selection) {
                   return document.selection.createRange();
@@ -455,51 +455,55 @@
               }
           }
           
-          function makeEditableAndHighlight(colour) {
-              sel = window.getSelection();
+          function makeEditableAndHighlight(color) {
+              sel = selit;
               if (sel.rangeCount && sel.getRangeAt) {
                   range = sel.getRangeAt(0);
+                  //alert(sel.rangeCount + '   range')
               }
-              document.designMode = "on";
+              document.designMode = "on"; //this is the part that breaks the range selection
               if (range) {
                   sel.removeAllRanges();
                   sel.addRange(range);
               }
               // Use HiliteColor since some browsers apply BackColor to the whole block
-              if (!document.execCommand("HiliteColor", false, colour)) {
-                  document.execCommand("BackColor", false, colour);
+              if (!document.execCommand("HiliteColor", false, color)) {
+                  document.execCommand("BackColor", false, color);
               }
-              document.designMode = "off";
+              document.designMode = "off"; //design mode turns off here
           }
           
-          function highlight(colour) {
+          function highlight(color) {
               var range, sel;
               if (window.getSelection) {
                   // IE9 and non-IE
                   try {
-                      if (!document.execCommand("BackColor", false, colour)) {
-                          makeEditableAndHighlight(colour);
+                      if (!document.execCommand("BackColor", false, color)) {
+                          makeEditableAndHighlight(color);
                       }
                   } catch (ex) {
-                      makeEditableAndHighlight(colour)
+                      makeEditableAndHighlight(color)
                   }
               } else if (document.selection && document.selection.createRange) {
                   // IE <= 8 case
                   range = document.selection.createRange();
-                  range.execCommand("BackColor", false, colour);
+                  range.execCommand("BackColor", false, color);
               }
           }
           
           function selectAndHighlightRange(id, start, end) {
-              ChangeStoreData();
-              setSelectionRange(document.getElementById("inputText"), start, end);
-              highlight("yellow");
+              
+              //setSelectionRange(document.getElementById("inputText"), start, end);
+              //highlight("yellow");
+
+              ChangeStoreData(); // this has to go before highlight to work
               window.getSelection().removeAllRanges();
           }
 
           function selectAndUnhighlightRange(id, start, end) {
-              setSelectionRange(document.getElementById("inputText"), start, end);
-              highlight("white");
+              //setSelectionRange(document.getElementById("inputText"), start, end);
+              ReduceStoreData();
+              //highlight("white");
               window.getSelection().removeAllRanges();
           }
 
@@ -610,12 +614,70 @@
             CheckEndList.length = 0;
             CheckStartList.length = 0;
             alert(HighlightSet + 'unique is' + unique)
-            
+           //maybe I can add highlight functionality at the end 
           }
 
-          function PrintStoreData() {
-            alert(HighlightSet)
+          function ReduceStoreData() {
+          alert(HighlightSet + ' before')
+          var CompareRange = new Array(GetUserSelection()[0],GetUserSelection()[1]) //this line will be the range from selection later
+          //var unique = 1
+          //HighlightSet.push(CompareRange)
+          //alert(CompareRange + ' compare range')
+          if (HighlightSet.length == 0){
+            null          }
+          else {
+          for (i=0;i<(HighlightSet.length);i++)
+          {
+            if (CompareRange[0] <= HighlightSet[i][0] && CompareRange[1] >= HighlightSet[i][1]) {
+              HighlightSet[i] = 'delete'
+              //break;
+              //unique = 0
+            }
+            if (CompareRange[0] <= HighlightSet[i][0] && CompareRange[1] < HighlightSet[i][1] && CompareRange[1] >= HighlightSet[i][0]) {
+              HighlightSet[i][0] = CompareRange[1]
+              //unique = 0
+            }
+            if (CompareRange[0] > HighlightSet[i][0] && CompareRange[1] >= HighlightSet[i][1] && CompareRange[0] <= HighlightSet[i][1]) {
+              HighlightSet[i][1] = CompareRange[0]
+              //unique = 0
+            }
+            if (CompareRange[0] > HighlightSet[i][0] && CompareRange[1] < HighlightSet[i][1]){
+              Points = [HighlightSet[i][0],CompareRange[0],CompareRange[1],HighlightSet[i][1]]
+              HighlightSet[i][1] = CompareRange[0]
+              HighlightSet.push([Points[2],Points[3]])
+              break;
+            }
           }
+          //alert(HighlightSet + '   ' + HighlightSet.indexOf('-1,-1') + '   i love it')
+          function contains(a, obj) {
+            var i = a.length;
+            while (i--) {
+              if (a[i] === obj) {
+                return true;
+              }
+            }
+            return false;
+          }
+        
+          Array.prototype.contains = function(obj) {
+            var i = this.length;
+            while (i--) {
+              if (this[i] === obj) {
+                return true;
+              }
+            }
+            return false;
+          }
+
+
+          while (HighlightSet.contains('delete')){
+            HighlightSet.splice(HighlightSet.indexOf('delete'),1)
+          }
+  
+          
+        }
+          alert(HighlightSet + ' after')
+        }
           
           
 </script>
