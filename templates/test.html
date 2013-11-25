@@ -262,7 +262,7 @@ function selectONLY(id, start, end) {
       selectONLY('inputText',hereitis,hereitgoes)
     
       if (document.getElementById("myList").selectedIndex == 0){
-        sselectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])
+        selectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])
       }
       else{
         selectAndUnhighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])
@@ -349,9 +349,9 @@ function selectONLY(id, start, end) {
                       charCount = endCharCount;
                   }
                   
-                  //var sel = window.getSelection();
-                  //sel.removeAllRanges();
-                  //sel.addRange(range);
+                  var sel = window.getSelection();
+                  sel.removeAllRanges();
+                  sel.addRange(range);
               } else if (document.selection && document.body.createTextRange) {
                   var textRange = document.body.createTextRange();
                   textRange.moveToElementText(el);
