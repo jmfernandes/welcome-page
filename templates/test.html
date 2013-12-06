@@ -105,8 +105,11 @@
                 <h3 class="offset1">About</h3>
             </div>
           <div class="row-fluid">
-            <div id="inputText" class="span6 offset1" ondblclick="mouseDouble()" onmouseup="mouseUp()">Highlight the code here. Any text on this line can be highlighted. Other text on the screen can not be highlighted.
+            <div id="inputText" class="span6 offset1" ondblclick="mouseDouble()" onmouseup="mouseUp()">Highlight the code here. <b>Any text on this</b> line can be highlighted.<br> Other text on the screen can not be highlighted.
             </div><!--/span-->
+           <!--  <div id="test" contenteditable="true">TEST TEXT PLEASE IGNORE</div> -->
+<div id="caretPos"></div>
+
             <form>
 <select id="myList" onchange="whoo()">
   <option value = "1">Highlight</option>
@@ -202,7 +205,7 @@ function selectONLY(id, start, end) {
       //alert( hereitis + '   ' + hereitgoes + '----' + hereitisdup + ' ' + hereitgoesdup)
       checkfordouble = 1
       for (i=0;i<HighlightSet.length;i++){
-        if (GetUserSelection()[0] >= HighlightSet[i][0] && GetUserSelection()[0] < HighlightSet[i][1]){
+        if (getCaretCharacterOffsetWithin(inputText)[0] >= HighlightSet[i][0] && getCaretCharacterOffsetWithin(inputText)[0] < HighlightSet[i][1]){
           //window.getSelection().empty();
           selectONLY('inputText',HighlightSet[i][0],HighlightSet[i][1])
           indexone = HighlightSet[i][0]
@@ -218,8 +221,8 @@ function selectONLY(id, start, end) {
     function mouseUp()
     {
       //alert(GetUserSelection())
-      hereitis = GetUserSelection()[0];
-      hereitgoes = GetUserSelection()[1];
+      hereitis = getCaretCharacterOffsetWithin(inputText)[0];
+      hereitgoes = getCaretCharacterOffsetWithin(inputText)[1];
       selectONLY('inputText',hereitis,hereitgoes)
       if (hereitis == hereitgoes){
         /////
@@ -251,10 +254,10 @@ function selectONLY(id, start, end) {
         //alert(indexone + ' INDEXONE')
       }
     if (document.getElementById("myList").selectedIndex == 0){
-        selectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])
+        selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
       }
       else{
-        selectAndUnhighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])
+        selectAndUnhighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
       } 
       
       }
@@ -262,10 +265,10 @@ function selectONLY(id, start, end) {
       selectONLY('inputText',hereitis,hereitgoes)
     
       if (document.getElementById("myList").selectedIndex == 0){
-        selectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])
+        selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
       }
       else{
-        selectAndUnhighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])
+        selectAndUnhighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
       } 
       }  
     }
@@ -409,7 +412,7 @@ function selectONLY(id, start, end) {
               ChangeStoreData();
               //window.getSelection().empty();
               //GetUserSelection()
-              stylizeHighlightedString();
+              stylizeHighlightedString("yellow");
               //highlight("yellow");
               //window.getSelection().removeAllRanges();
               //GetUserSelection()
@@ -432,8 +435,10 @@ alert(att.nodeValue)
           function selectAndUnhighlightRange(id, start, end) {
               //setSelectionRange(document.getElementById("inputText"), start, end);
               ReduceStoreData();
+              stylizeHighlightedString("white");
               //highlight("white");
-              window.getSelection().removeAllRanges();
+              window.getSelection().empty();
+              //window.getSelection().removeAllRanges();
           }
 
           /////////////// initialize only on first session
@@ -448,7 +453,11 @@ alert(att.nodeValue)
           ///////////////// THIS IS THE CODE FOR MAKING THE LIST OF HIGHLIGHTS
 
           function ChangeStoreData() {
-          var CompareRange = new Array(GetUserSelection()[0],GetUserSelection()[1]) //this line will be the range from selection later
+          //alert(getCaretCharacterOffsetWithin(test))
+          //var CompareRange = new Array(GetUserSelection()[0],GetUserSelection()[1]) // old line
+          //alert(getCaretCharacterOffsetWithin(test))
+          //alert(getCaretCharacterOffsetWithin(test), '  change store data')
+          var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0],getCaretCharacterOffsetWithin(inputText)[1]) //almost working
           //alert(CompareRange + ' Compare range')
           var unique = 1
           HighlightSet.push(CompareRange)
@@ -494,7 +503,7 @@ alert(att.nodeValue)
           // for (i=0;i<(HighlightSet.length);i++) {
           // HighlightSetAdjusted[i] = HighlightSet[i] 
           // }
-          alert(HighlightSet.length + ' the stuff is ' + HighlightSet)
+          //alert(HighlightSet.length + ' the stuff is ' + HighlightSet)
           for (i=0;i<CheckEndList.length;i++){
             for (j=0;j<CheckStartList.length;j++){
               if (i == j) {
@@ -543,13 +552,13 @@ alert(att.nodeValue)
             //alert(CheckStartList + 'start')
             CheckEndList.length = 0;
             CheckStartList.length = 0;
-            alert(HighlightSet + 'unique is' + unique)
+            alert(HighlightSet + ' Highlight Set')
            //maybe I can add highlight functionality at the end 
           }
 
           function ReduceStoreData() {
-          alert(HighlightSet + ' before')
-          var CompareRange = new Array(GetUserSelection()[0],GetUserSelection()[1]) //this line will be the range from selection later
+          //alert(HighlightSet + ' before')
+          var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0] ,getCaretCharacterOffsetWithin(inputText)[1]) //this line will be the range from selection later
           //var unique = 1
           //HighlightSet.push(CompareRange)
           //alert(CompareRange + ' compare range')
@@ -606,25 +615,28 @@ alert(att.nodeValue)
   
           
         }
-          alert(HighlightSet + ' after')
+          //alert(HighlightSet + ' after')
         }
           
 
 
-function stylizeHighlightedString() 
+function stylizeHighlightedString(color) 
 {
 
   //alert(text.focusOffset - text.anchorOffset);
 
   var text = window.getSelection();
-  alert(window.getSelection())
+  //alert(window.getSelection())
   //alert (text.anchorOffset)
-  var start = text.anchorOffset;
+  
   //cheese = getTextNodesIn(inputText)
   //alert(cheese + '  cheese')
   //alert(start);
 
-  var end = text.focusOffset - text.anchorOffset;
+  var start = getCaretCharacterOffsetWithin(inputText)[0];
+  var end = getCaretCharacterOffsetWithin(inputText)[1];
+  //var start = text.anchorOffset; //original start
+  //var end = text.focusOffset - text.anchorOffset; original end
   //alert(end);
 
   range = window.getSelection().getRangeAt(0);
@@ -636,19 +648,138 @@ function stylizeHighlightedString()
   span.appendChild(selectionContents); //ExtractContents breaks the true range
 
   span.setAttribute("class"); 
-  span.style.backgroundColor = "yellow";
+  span.style.backgroundColor = color;
   span.style.color = "black";
 
   range.insertNode(span);
 }
 
+
+///////////////THIS CODE WORKS WITH LINE BREAKS. my getuserselection() function does not
+
+function getCaretCharacterOffsetWithin(element) {
+    var caretOffset = 0;
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    if (typeof win.getSelection != "undefined") {
+
+      //   var rootnode=document.getElementById("test")
+      //   var walker=document.createTreeWalker(rootnode, NodeFilter.SHOW_ELEMENT, null, false)
+      //   //var walker2=document.createTreeWalker(rootnode, NodeFilter.SHOW_TEXT, null, false)
+      //   //alert(walker.currentNode.childNodes.length)
+      //   //alert(walker2)
+      //   //alert(walker.currentNode.tagName)
+      //   var range = win.getSelection().getRangeAt(0);
+      //   while (walker.nextNode()){
+      //     if (walker.currentNode){
+      //       alert(walker.currentNode + '   ' + range.startContainer)
+      //     }
+      //   //alert(walker.currentNode.tagName)
+      // }
+
+
+      var range = win.getSelection().getRangeAt(0);
+      var preCaretRange2 = range.cloneRange();
+        preCaretRange2.selectNodeContents(element);
+        preCaretRange2.setEnd(range.startContainer, range.startOffset);
+        caretOffset2 = preCaretRange2.toString().length;
+      //alert(caretOffset2)
+
+      //ok, so now i need to find the corresponding treewalker node for where I click and when treewalker == start range node then I have it count only up to that node.
+      var rootnode=document.getElementById("inputText")
+var walker=document.createTreeWalker(rootnode, NodeFilter.SHOW_TEXT, null, false)
+
+walker.firstChild() //Walk to first child node (the text "George")
+var paratext=walker.currentNode.nodeValue
+while (walker.nextSibling()){ //Step through each sibling of "George"
+paratext+=walker.currentNode.nodeValue
+//alert(paratext.toString().length)
+}
+
+//alert(paratext) //alerts "George loves JavaScript!"
+
+
+        //var range = win.getSelection().getRangeAt(0);
+        var preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+        caretOffset = preCaretRange.toString().length;
+        //childNODES = preCaretRange.startContainer.parentNode.childNodes; // i dont know which one to use
+        //childNODES = preCaretRange.startContainer.childNodes;
+        childNODES = range.endContainer.parentNode.parentNode.childNodes;
+        parentNODE = range.startContainer.parentNode.parentNode.childNodes
+        for(i=0;i<parentNODE.length;i++){
+          //alert(parentNode.item(i).length)
+        }
+        var indexnumber;
+        var numberkeeper = 0;
+        //alert(range.endContainer.parentNode.parentNode.nodeName + '   who')
+        //alert(window.getSelection().anchorNode.length)
+        //alert(parentNode)
+        for(i=0;i<parentNODE.length;i++)
+        {
+          //alert(childNODES.item(i).length)
+          //alert(parentNODE.item(i).length)
+          if (parentNODE.item(i) == range.startContainer ){
+            indexnumber = i;
+            alert(i + 'here it is')
+          }
+        }
+        for (j=0;j<indexnumber+1;j++){
+          //alert(childNODES.item(1).anchorOffset)
+          //alert(j + '   ' + childNODES.item(j).length +' jay')
+          //alert(j + '  i')
+          //alert(childNODES.item(j).length)
+          if (childNODES.item(j).length == undefined){
+            // do nothing
+          }
+          else if (indexnumber != 0){
+            numberkeeper += childNODES.item(j).length;
+          }
+        }
+        //alert(numberkeeper + '   numBAH')
+        //alert(range.startContainer.parentNode.childNodes.length)
+        //preCaretRange.setStart(document.body.childNodes[0], 1)
+        preCaretRange.setStart(range.startContainer.parentNode.firstChild, range.startOffset);
+        //caretOffset2 = (numberkeeper + preCaretRange.startOffset )
+        //start = element.selectionStart;
+        //alert(start)
+    } else if ( (sel = doc.selection) && sel.type != "Control") {
+        alert("OI")
+        var textRange = sel.createRange();
+        var preCaretTextRange = doc.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        caretOffset = preCaretTextRange.text.length;
+    }
+    return [caretOffset2 , caretOffset ];
+}
+
+function showCaretPos() {
+    var el = document.getElementById("inputText");
+    var caretPosEl = document.getElementById("caretPos");
+    caretPosEl.innerHTML = "Caret position: " + getCaretCharacterOffsetWithin(el);
+    //alert(getCaretCharacterOffsetWithin(test) + ' in show carat')
+}
+
+document.body.onkeyup = showCaretPos;
+document.body.onmouseup = showCaretPos;
+
+function otherselect(id, start, end) {
+              ChangeStoreData()
+              stylizeHighlightedString();
+
+              window.getSelection().empty();
+          }
 //////////////////////////////////////////////////////
 
 
           
 </script>
 <!-- <button onclick="stylizeHighlightedString() ">HIGHLIGHT IT</button> -->
-<button onclick="selectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Highlight</button>
+<!-- <button onclick="selectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Highlight</button>
+<button onclick="otherselect('test', 0, 5)">Highlight TEST</button> -->
 <!-- <button onclick="selectAndUnhighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Unhighlight</button> -->
 <!-- <button onclick="PrintStoreData()">Range Data</button> -->
 <!-- <button onclick="ChangeStoreData()">Change Data</button> --> 
