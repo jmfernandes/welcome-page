@@ -197,16 +197,26 @@ function selectONLY(id, start, end) {
     var indexone
     var indextwo
 
-//this function selects an entire highlight if double clicked within the highlight
+//this function selects an entire highlight if double clicked within the highlight 
+//NOTE THIS IS BROKEN FOR NOW.........
+/////////////////////////////////////////////////////////////
     function mouseDouble()
     {
       //alert(GetUserSelection()[0])
-      //alert(' double clicked')
+      //alert(HighlightSet.length)
       //alert( hereitis + '   ' + hereitgoes + '----' + hereitisdup + ' ' + hereitgoesdup)
       checkfordouble = 1
-      for (i=0;i<HighlightSet.length;i++){
+      for (i=0;i<HighlightSet.length; i++){
+        //alert(i)
+        //alert(getCaretCharacterOffsetWithin(inputText)[0] + '   ' + HighlightSet[i][0])
+        //alert(HighlightSet[i][0])
+        //alert(getCaretCharacterOffsetWithin(inputText)[0])
+        //alert(i)
+        //alert(getCaretCharacterOffsetWithin(inputText)[0] + 'one')
+        //alert(HighlightSet[j][0] + 'two')
         if (getCaretCharacterOffsetWithin(inputText)[0] >= HighlightSet[i][0] && getCaretCharacterOffsetWithin(inputText)[0] < HighlightSet[i][1]){
           //window.getSelection().empty();
+          //alert("OI")
           selectONLY('inputText',HighlightSet[i][0],HighlightSet[i][1])
           indexone = HighlightSet[i][0]
           indextwo = HighlightSet[i][1]
@@ -424,13 +434,13 @@ function selectONLY(id, start, end) {
           }
 
           function myFunction3333() //doesn't work
-{ 
-var h1=window.getSelection();
-var att=document.createAttribute("class");
-att.value="democlass";
-h1.setAttributeNode(att); //Error: event.returnValue is deprecated. Please use the standard event.preventDefault() instead.
-alert(att.nodeValue)
-}
+          { 
+          var h1=window.getSelection();
+          var att=document.createAttribute("class");
+          att.value="democlass";
+          h1.setAttributeNode(att); //Error: event.returnValue is deprecated. Please use the standard event.preventDefault() instead.
+          alert(att.nodeValue)
+          }
 
           function selectAndUnhighlightRange(id, start, end) {
               //setSelectionRange(document.getElementById("inputText"), start, end);
@@ -688,14 +698,14 @@ function getCaretCharacterOffsetWithin(element) {
 
       //ok, so now i need to find the corresponding treewalker node for where I click and when treewalker == start range node then I have it count only up to that node.
       var rootnode=document.getElementById("inputText")
-var walker=document.createTreeWalker(rootnode, NodeFilter.SHOW_TEXT, null, false)
+      var walker=document.createTreeWalker(rootnode, NodeFilter.SHOW_TEXT, null, false)
 
-walker.firstChild() //Walk to first child node (the text "George")
-var paratext=walker.currentNode.nodeValue
-while (walker.nextSibling()){ //Step through each sibling of "George"
-paratext+=walker.currentNode.nodeValue
-//alert(paratext.toString().length)
-}
+      walker.firstChild() //Walk to first child node (the text "George")
+      var paratext=walker.currentNode.nodeValue
+      while (walker.nextSibling()){ //Step through each sibling of "George"
+        paratext+=walker.currentNode.nodeValue
+        //alert(paratext.toString().length)
+      } 
 
 //alert(paratext) //alerts "George loves JavaScript!"
 
