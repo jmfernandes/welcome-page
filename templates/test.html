@@ -133,7 +133,10 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script>
+
+    
     ////// DOM manipulation of dropdown menu
     //$("#myList").attr('size', '2');
     document.getElementById("myList").size=2; //displays both options in drop down
@@ -145,6 +148,8 @@
     document.getElementById("myList").style.display = 'none'
 
     ///// TEST functions for storing selection
+
+
 
 ////This function is for setting the selection range after the highlight or unhighlight button has been clicked.
 function setONLY(el, start, end) {
@@ -186,6 +191,7 @@ function setONLY(el, start, end) {
 function selectONLY(id, start, end) {
     setONLY(document.getElementById("inputText"), start, end);
 }
+
 
 //////////////
   
@@ -955,7 +961,15 @@ function otherselect(id, start, end) {
 //////////////////////////////////////////////////////
 
 
-          
+//           $(document).ready(function(){    
+//     $("#inputText").mouseup(function () {
+//         alert('Works!');
+//     });
+// });
+
+$('#inputText').bind( "touchend", function(){
+        alert('Works!');
+});
 </script>
 <button onclick="selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])">HIGHLIGHT IT</button>
 <!-- <button onclick="stylizeHighlightedString() ">HIGHLIGHT IT</button> -->
