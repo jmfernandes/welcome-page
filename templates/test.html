@@ -105,7 +105,7 @@
                 <h3 class="offset1">About</h3>
             </div>
           <div class="row-fluid">
-            <div id="inputText" class="span6 offset1" ondblclick="mouseDouble()" onmouseup="mouseUp()">Highlight the code here. <b>Any text on this</b> line can be highlighted.<br> Other text on the screen can not be highlighted.
+            <div id="inputText" class="span6 offset1" ondblclick="mouseDouble()" onmouseup="mouseUp()">Highlight <i>the code here.<b>Any text </i>on this line</b> can be highlighted.<br> Other text on the screen can not be highlighted.<br>Here is another line of text to test whether the highlight code works properly.
             </div><!--/span-->
            <!--  <div id="test" contenteditable="true">TEST TEXT PLEASE IGNORE</div> -->
 <div id="caretPos"></div>
@@ -231,6 +231,7 @@ function selectONLY(id, start, end) {
     function mouseUp()
     {
       //alert(GetUserSelection())
+      document.getElementById("myList").style.display = 'none'
       hereitis = getCaretCharacterOffsetWithin(inputText)[0];
       hereitgoes = getCaretCharacterOffsetWithin(inputText)[1];
       selectONLY('inputText',hereitis,hereitgoes)
@@ -415,22 +416,184 @@ function selectONLY(id, start, end) {
               
               setSelectionRange(document.getElementById("inputText"), start, end);
           }
+
+
+          function highlightnew(text)
+          {
+          inputText = document.getElementById("inputText")
+          first = getCaretCharacterOffsetWithin(inputText)[0];
+          second = getCaretCharacterOffsetWithin(inputText)[1];
+          third = second - first
+          var innerHTML = inputText.innerHTML
+          var index = innerHTML.indexOf(text);
+          alert(index)
+          alert(innerHTML.substring(index,index+text.length))
+          alert(innerHTML.substring(index + text.length) + ' yolo')
+          if ( index >= 0 )
+          { 
+          innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+          inputText.innerHTML = innerHTML 
+          }
+
+          }
+
+          function surroundSelection() {
+    var element = document.createElement('span');
+    element.className = "highlight";
+    var sel = window.getSelection() ||
+              document.getSelection() ||
+             (document.selection ? document.selection.createRange() : null);
+    if (sel.rangeCount) {
+            var range = sel.getRangeAt(0).cloneRange();
+            range.surroundContents(element);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            sel.removeAllRanges();
+    }
+}
+
+
+///////THIS CODE WORKS
+function componentFromStr(numStr, percent) {
+    var num = Math.max(0, parseInt(numStr, 10));
+    return percent ? Math.floor(255 * Math.min(100, num) / 100) : Math.min(255, num);
+}
+
+var rgbRegex = /^rgb\(\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*\)$/,
+    hexRegex = /^#?([a-f\d]{6})$/,
+    shortHexRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/;
+
+function Color(r, g, b) {
+    // Make a new Color object even when Color is not called with the new operator
+    if (!(this instanceof Color)) {
+        return new Color(r, g, b);
+    }
+
+    if (typeof g == "undefined") {
+        // Parse the Color string
+        var colStr = r.toLowerCase(), result;
+
+        // Check for hex value first, the short hex value, then rgb value
+        if ( (result = hexRegex.exec(colStr)) ) {
+            var hexNum = parseInt(result[1], 16);
+            r = hexNum >> 16;
+            g = (hexNum & 0xff00) >> 8;
+            b = hexNum & 0xff;
+        } else if ( (result = shortHexRegex.exec(colStr)) ) {
+            r = parseInt(result[1] + result[1], 16);
+            g = parseInt(result[2] + result[2], 16);
+            b = parseInt(result[3] + result[3], 16);
+        } else if ( (result = rgbRegex.exec(colStr)) ) {
+            r = componentFromStr(result[1], result[2]);
+            g = componentFromStr(result[3], result[4]);
+            b = componentFromStr(result[5], result[6]);
+        } else {
+            throw new Error("Color: Unable to parse Color string '" + colStr + "'");
+        }
+    }
+
+    this.r = r;
+    this.g = g;
+    this.b = b;
+}
+
+Color.prototype = {
+    equals: function(Color) {
+        return this.r == Color.r && this.g == Color.g && this.b == Color.b;
+    }
+};
+
+function makeEditableAndHighlight(Color) {
+    var range, sel = window.getSelection();
+    if (sel.rangeCount && sel.getRangeAt) {
+        range = sel.getRangeAt(0);
+    }
+    document.designMode = "on";
+    if (range) {
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+    // Use HiliteColor since some browsers apply BackColor to the whole block
+    if (!document.execCommand("HiliteColor", false, Color)) {
+        document.execCommand("BackColor", false, Color);
+    }
+    document.designMode = "off";
+}
+
+function highlight(Color) {
+    var range, sel;
+    if (window.getSelection) {
+        // IE9 and non-IE
+        try {
+            if (!document.execCommand("BackColor", false, Color)) {
+                makeEditableAndHighlight(Color);
+            }
+        } catch (ex) {
+            makeEditableAndHighlight(Color)
+        }
+    } else if (document.selection && document.selection.createRange) {
+        // IE <= 8 case
+        range = document.selection.createRange();
+        range.execCommand("BackColor", false, Color);
+    }
+}
+
+var getComputedStyleProperty;
+
+if (typeof window.getComputedStyle != "undefined") {
+    getComputedStyleProperty = function(el, propName) {
+        return window.getComputedStyle(el, null)[propName];
+    };
+} else if (typeof document.documentElement.currentStyle != "undefined") {
+    getComputedStyleProperty = function(el, propName) {
+        return el.currentStyle[propName];
+    };
+}
+
+function unhighlight(node, Color) {
+    if (!(Color instanceof Color)) {
+        Color = new Color(Color);
+    }
+
+    if (node.nodeType == 1) {
+        var bg = node.style.backgroundColor;
+        if (bg && Color.equals(new Color(bg))) {
+            node.style.backgroundColor = "";
+        }
+    }
+    var child = node.firstChild;
+    while (child) {
+        unhighlight(child, Color);
+        child = child.nextSibling;
+    }
+}
+
+
+///////////END of highlight/unhighlight
+  
+
           function selectAndHighlightRange(id, start, end) {
               
               //setSelectionRange(document.getElementById("inputText"), start, end);
               //highlight("yellow");
               ChangeStoreData();
+              //var cheese = window.getSelection().getRangeAt(0)
+              //var ham = toString(cheese)
+              //alert(ham)
+              highlight('yellow')
+              //surroundSelection()
+              //highlightnew('code')
               //window.getSelection().empty();
               //GetUserSelection()
-              stylizeHighlightedString("yellow");
+              //stylizeHighlightedString("yellow");
               //highlight("yellow");
               //window.getSelection().removeAllRanges();
               //GetUserSelection()
               //ChangeStoreData(); // this has to go before highlight to work
               
               //myFunction3333()
-              //window.getSelection().removeAllRanges();
-              window.getSelection().empty();
+              window.getSelection().removeAllRanges();
+              //window.getSelection().empty();
           }
 
           function myFunction3333() //doesn't work
@@ -442,13 +605,17 @@ function selectONLY(id, start, end) {
           alert(att.nodeValue)
           }
 
+
           function selectAndUnhighlightRange(id, start, end) {
               //setSelectionRange(document.getElementById("inputText"), start, end);
               ReduceStoreData();
-              stylizeHighlightedString("white");
+              highlight('white')
+              //unhighlight(document.body, 'ffff00')
+              //stylizeHighlightedString("white");
               //highlight("white");
-              window.getSelection().empty();
-              //window.getSelection().removeAllRanges();
+              //window.getSelection().empty();
+              //\window.getSelection().removeAllRanges();
+              window.getSelection().removeAllRanges();
           }
 
           /////////////// initialize only on first session
@@ -471,6 +638,9 @@ function selectONLY(id, start, end) {
           //alert(CompareRange + ' Compare range')
           var unique = 1
           HighlightSet.push(CompareRange)
+          if (CompareRange[0] == CompareRange[1] ){
+            return
+          }
           if (HighlightSet.length == 1){
             null          }
           else {
@@ -625,7 +795,7 @@ function selectONLY(id, start, end) {
   
           
         }
-          //alert(HighlightSet + ' after')
+          alert(HighlightSet + ' Highlight Set')
         }
           
 
@@ -668,7 +838,7 @@ function stylizeHighlightedString(color)
 ///////////////THIS CODE WORKS WITH LINE BREAKS. my getuserselection() function does not
 
 function getCaretCharacterOffsetWithin(element) {
-    var caretOffset = 0;
+    var caretOffsets;
     var doc = element.ownerDocument || element.document;
     var win = doc.defaultView || doc.parentWindow;
     var sel;
@@ -697,15 +867,15 @@ function getCaretCharacterOffsetWithin(element) {
       //alert(caretOffset2)
 
       //ok, so now i need to find the corresponding treewalker node for where I click and when treewalker == start range node then I have it count only up to that node.
-      var rootnode=document.getElementById("inputText")
-      var walker=document.createTreeWalker(rootnode, NodeFilter.SHOW_TEXT, null, false)
+      // var rootnode=document.getElementById("inputText")
+      // var walker=document.createTreeWalker(rootnode, NodeFilter.SHOW_TEXT, null, false)
 
-      walker.firstChild() //Walk to first child node (the text "George")
-      var paratext=walker.currentNode.nodeValue
-      while (walker.nextSibling()){ //Step through each sibling of "George"
-        paratext+=walker.currentNode.nodeValue
-        //alert(paratext.toString().length)
-      } 
+      // walker.firstChild() //Walk to first child node (the text "George")
+      // var paratext=walker.currentNode.nodeValue
+      // while (walker.nextSibling()){ //Step through each sibling of "George"
+      //   paratext+=walker.currentNode.nodeValue
+      //   //alert(paratext.toString().length)
+      // } 
 
 //alert(paratext) //alerts "George loves JavaScript!"
 
@@ -717,41 +887,41 @@ function getCaretCharacterOffsetWithin(element) {
         caretOffset = preCaretRange.toString().length;
         //childNODES = preCaretRange.startContainer.parentNode.childNodes; // i dont know which one to use
         //childNODES = preCaretRange.startContainer.childNodes;
-        childNODES = range.endContainer.parentNode.parentNode.childNodes;
-        parentNODE = range.startContainer.parentNode.parentNode.childNodes
-        for(i=0;i<parentNODE.length;i++){
-          //alert(parentNode.item(i).length)
-        }
-        var indexnumber;
-        var numberkeeper = 0;
-        //alert(range.endContainer.parentNode.parentNode.nodeName + '   who')
-        //alert(window.getSelection().anchorNode.length)
-        //alert(parentNode)
-        for(i=0;i<parentNODE.length;i++)
-        {
-          //alert(childNODES.item(i).length)
-          //alert(parentNODE.item(i).length)
-          if (parentNODE.item(i) == range.startContainer ){
-            indexnumber = i;
-            alert(i + 'here it is')
-          }
-        }
-        for (j=0;j<indexnumber+1;j++){
-          //alert(childNODES.item(1).anchorOffset)
-          //alert(j + '   ' + childNODES.item(j).length +' jay')
-          //alert(j + '  i')
-          //alert(childNODES.item(j).length)
-          if (childNODES.item(j).length == undefined){
-            // do nothing
-          }
-          else if (indexnumber != 0){
-            numberkeeper += childNODES.item(j).length;
-          }
-        }
+        // childNODES = range.endContainer.parentNode.parentNode.childNodes;
+        // parentNODE = range.startContainer.parentNode.parentNode.childNodes
+        // for(i=0;i<parentNODE.length;i++){
+        //   //alert(parentNode.item(i).length)
+        // }
+        // var indexnumber;
+        // var numberkeeper = 0;
+        // //alert(range.endContainer.parentNode.parentNode.nodeName + '   who')
+        // //alert(window.getSelection().anchorNode.length)
+        // //alert(parentNode)
+        // for(i=0;i<parentNODE.length;i++)
+        // {
+        //   //alert(childNODES.item(i).length)
+        //   //alert(parentNODE.item(i).length)
+        //   if (parentNODE.item(i) == range.startContainer ){
+        //     indexnumber = i;
+        //     alert(i + 'here it is')
+        //   }
+        // }
+        // for (j=0;j<indexnumber+1;j++){
+        //   //alert(childNODES.item(1).anchorOffset)
+        //   //alert(j + '   ' + childNODES.item(j).length +' jay')
+        //   //alert(j + '  i')
+        //   //alert(childNODES.item(j).length)
+        //   if (childNODES.item(j).length == undefined){
+        //     // do nothing
+        //   }
+        //   else if (indexnumber != 0){
+        //     numberkeeper += childNODES.item(j).length;
+        //   }
+        // }
         //alert(numberkeeper + '   numBAH')
         //alert(range.startContainer.parentNode.childNodes.length)
         //preCaretRange.setStart(document.body.childNodes[0], 1)
-        preCaretRange.setStart(range.startContainer.parentNode.firstChild, range.startOffset);
+        //preCaretRange.setStart(range.startContainer.parentNode.firstChild, range.startOffset);
         //caretOffset2 = (numberkeeper + preCaretRange.startOffset )
         //start = element.selectionStart;
         //alert(start)
@@ -787,6 +957,7 @@ function otherselect(id, start, end) {
 
           
 </script>
+<!-- <button onclick="selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])">HIGHLIGHT IT</button> -->
 <!-- <button onclick="stylizeHighlightedString() ">HIGHLIGHT IT</button> -->
 <!-- <button onclick="selectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Highlight</button>
 <button onclick="otherselect('test', 0, 5)">Highlight TEST</button> -->
