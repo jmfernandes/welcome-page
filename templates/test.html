@@ -138,7 +138,6 @@
 
     
     ////// DOM manipulation of dropdown menu
-    //$("#myList").attr('size', '2');
     document.getElementById("myList").size=2; //displays both options in drop down
     document.getElementById("myList").selectedIndex = -1; //defaults to none selected
 
@@ -152,6 +151,21 @@
 
 
 ////This function is for setting the selection range after the highlight or unhighlight button has been clicked.
+
+function getTextNodesIn(node) {
+              var textNodes = [];
+              if (node.nodeType == 3) {
+                  textNodes.push(node);
+              } else {
+                  var children = node.childNodes;
+                  for (var i = 0, len = children.length; i < len; ++i) {
+                      textNodes.push.apply(textNodes, getTextNodesIn(children[i]));
+                  }
+              }
+              return textNodes;
+          }
+          
+
 function setONLY(el, start, end) {
     if (document.createRange && window.getSelection) {
         var range = document.createRange();
@@ -193,56 +207,42 @@ function selectONLY(id, start, end) {
 }
 
 
-//////////////
-  
+//////////////variables
+
+
+//////these establish the start and end of a highlight  
     var hereitis;
     var hereitgoes;
 
-    var checkfordouble 
-    checkfordouble = 0
+  ////////////////
+
+
     var indexone
     var indextwo
 
 //this function selects an entire highlight if double clicked within the highlight 
-//NOTE THIS IS BROKEN FOR NOW.........
-/////////////////////////////////////////////////////////////
+
     function mouseDouble()
     {
-      //alert(GetUserSelection()[0])
-      //alert(HighlightSet.length)
-      //alert( hereitis + '   ' + hereitgoes + '----' + hereitisdup + ' ' + hereitgoesdup)
-      checkfordouble = 1
       for (i=0;i<HighlightSet.length; i++){
-        //alert(i)
-        //alert(getCaretCharacterOffsetWithin(inputText)[0] + '   ' + HighlightSet[i][0])
-        //alert(HighlightSet[i][0])
-        //alert(getCaretCharacterOffsetWithin(inputText)[0])
-        //alert(i)
-        //alert(getCaretCharacterOffsetWithin(inputText)[0] + 'one')
-        //alert(HighlightSet[j][0] + 'two')
         if (getCaretCharacterOffsetWithin(inputText)[0] >= HighlightSet[i][0] && getCaretCharacterOffsetWithin(inputText)[0] < HighlightSet[i][1]){
-          //window.getSelection().empty();
-          //alert("OI")
           selectONLY('inputText',HighlightSet[i][0],HighlightSet[i][1])
           indexone = HighlightSet[i][0]
           indextwo = HighlightSet[i][1]
-          //alert(indexone + '  ' + indextwo)
         }
       }
-      //alert('hi' + HighlightSet[0])
     }
 
 
   //this function makes the drop down menu appear
     function mouseUp()
     {
-      //alert(GetUserSelection())
       document.getElementById("myList").style.display = 'none'
       hereitis = getCaretCharacterOffsetWithin(inputText)[0];
       hereitgoes = getCaretCharacterOffsetWithin(inputText)[1];
       selectONLY('inputText',hereitis,hereitgoes)
       if (hereitis == hereitgoes){
-        /////
+        null //do nothing
       }
       else{
       document.getElementById("myList").style.display = 'inline'
@@ -252,11 +252,11 @@ function selectONLY(id, start, end) {
 
     /////////////////////////
 
-//THis function carries out the highlighting
+//THis function says to either execute the hightlight or unhighlight depending on what is clicked
     function whoo()
     {
     if (hereitis == undefined){
-      ////
+      null //do nothing
     }
     else{
       if (HighlightSet.length != 0){
@@ -264,21 +264,21 @@ function selectONLY(id, start, end) {
           selectONLY('inputText',hereitis,hereitgoes)
         }
         else{
+        //this statement is for the case where a double clicked is used
         selectONLY('inputText',indexone,indextwo)
-        //alert(indexone + 'INDEXONE')
         indexone = undefined;
         indextwo = undefined;
-        //alert(indexone + ' INDEXONE')
-      }
-    if (document.getElementById("myList").selectedIndex == 0){
+        }
+        if (document.getElementById("myList").selectedIndex == 0) //this executes the highlight
+        { 
         selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
-      }
-      else{
+        }
+        else{  //this executes the unhighlight
         selectAndUnhighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
-      } 
-      
+        } 
       }
-      else{
+    else{
+      //This elese statement runs if highlight set is empty
       selectONLY('inputText',hereitis,hereitgoes)
     
       if (document.getElementById("myList").selectedIndex == 0){
@@ -290,16 +290,12 @@ function selectONLY(id, start, end) {
       }  
     }
     document.getElementById("myList").selectedIndex = -1; ///deselects what is selected in dropdown
-    document.getElementById("myList").disabled = true;
-    document.getElementById("myList").style.display = 'none'
+    document.getElementById("myList").disabled = true; //gets rid of dropdown
+    document.getElementById("myList").style.display = 'none' //gets rid of dropdown
     
     }
-        function runScript(e) {
-            if (e.keyCode == 13) {
-                alert("Hello! you pushed enter");
-                return false;
-            }
-        }
+
+
     </script>
     <script src="http://www.conversions.datanab.net/static/js/jquery.js"></script>
     <script src="http://www.conversions.datanab.net/static/js/bootstrap.js"></script>
@@ -309,205 +305,16 @@ function selectONLY(id, start, end) {
           $(document).ready(function () {
                             $('.dropdown-toggle').dropdown();
                             });
-      var check = ''
-
-          var selit;
-          
-
-          function GetUserSelection() {
-            if (window.getSelection) {
-              selit = window.getSelection();
-                if (selit.rangeCount) {
-                  range = selit.getRangeAt(0)
-                  //var referenceNode = document.getElementsByTagName("div").item(0);
-                  //startNode = document.getElementById("inputText");
-                  //range.setStartBefore(referenceNode);
-                  //startOffset = 0;
-                  //range.setStart(startNode,startOffset);
-                  //alert(selit.getRangeAt(0).startOffset + '  range count')
-                  return [range.startOffset, range.endOffset];
-                }
-              } else if (document.selection) {
-                  return document.selection.createRange();
-              }
-                  return null;
-          }
 
 
           
-          function getTextNodesIn(node) {
-              var textNodes = [];
-              if (node.nodeType == 3) {
-                  textNodes.push(node);
-              } else {
-                  var children = node.childNodes;
-                  for (var i = 0, len = children.length; i < len; ++i) {
-                      textNodes.push.apply(textNodes, getTextNodesIn(children[i]));
-                  }
-              }
-              return textNodes;
-          }
+
           
-          function setSelectionRange(el, start, end) {
-              if (document.createRange && window.getSelection) {
-                  var range = document.createRange();
-                  range.selectNodeContents(el);
-                  var textNodes = getTextNodesIn(el);
-                  var foundStart = false;
-                  var charCount = 0, endCharCount;
-                  
-                  for (var i = 0, textNode; textNode = textNodes[i++]; ) {
-                      endCharCount = charCount + textNode.length;
-                      if (!foundStart && start >= charCount && (start < endCharCount || (start == endCharCount && i < textNodes.length))) {
-                          range.setStart(textNode, start - charCount);
-                          foundStart = true;
-                      }
-                      if (foundStart && end <= endCharCount) {
-                          range.setEnd(textNode, end - charCount);
-                          break;
-                      }
-                      charCount = endCharCount;
-                  }
-                  
-                  var sel = window.getSelection();
-                  sel.removeAllRanges();
-                  sel.addRange(range);
-              } else if (document.selection && document.body.createTextRange) {
-                  var textRange = document.body.createTextRange();
-                  textRange.moveToElementText(el);
-                  textRange.collapse(true);
-                  textRange.moveEnd("character", end);
-                  textRange.moveStart("character", start);
-                  textRange.select();
-              }
-          }
-          
-          function makeEditableAndHighlight(color) {
-              sel = selit;
-              if (sel.rangeCount && sel.getRangeAt) {
-                  range = sel.getRangeAt(0);
-                  //alert(sel.rangeCount + '   range')
-              }
-              document.designMode = "on"; //this is the part that breaks the range selection
-              if (range) {
-                  sel.removeAllRanges();
-                  sel.addRange(range);
-              }
-              // Use HiliteColor since some browsers apply BackColor to the whole block
-              if (!document.execCommand("HiliteColor", false, color)) {
-                  document.execCommand("BackColor", false, color);
-              }
-              document.designMode = "off"; //design mode turns off here
-          }
-          
-          function highlight(color) {
-              var range, sel;
-              if (window.getSelection) {
-                  // IE9 and non-IE
-                  try {
-                      if (!document.execCommand("BackColor", false, color)) {
-                          makeEditableAndHighlight(color);
-                      }
-                  } catch (ex) {
-                      makeEditableAndHighlight(color)
-                  }
-              } else if (document.selection && document.selection.createRange) {
-                  // IE <= 8 case
-                  range = document.selection.createRange();
-                  range.execCommand("BackColor", false, color);
-              }
-          }
-          
-          function selectOnly(id, start, end) {
-              
-              setSelectionRange(document.getElementById("inputText"), start, end);
-          }
 
+       
 
-          function highlightnew(text)
-          {
-          inputText = document.getElementById("inputText")
-          first = getCaretCharacterOffsetWithin(inputText)[0];
-          second = getCaretCharacterOffsetWithin(inputText)[1];
-          third = second - first
-          var innerHTML = inputText.innerHTML
-          var index = innerHTML.indexOf(text);
-          alert(index)
-          alert(innerHTML.substring(index,index+text.length))
-          alert(innerHTML.substring(index + text.length) + ' yolo')
-          if ( index >= 0 )
-          { 
-          innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-          inputText.innerHTML = innerHTML 
-          }
+////////////////////////THIS CODE DOES THE HIGHLIGHTING AND UNHIGHLIGHTING
 
-          }
-
-          function surroundSelection() {
-    var element = document.createElement('span');
-    element.className = "highlight";
-    var sel = window.getSelection() ||
-              document.getSelection() ||
-             (document.selection ? document.selection.createRange() : null);
-    if (sel.rangeCount) {
-            var range = sel.getRangeAt(0).cloneRange();
-            range.surroundContents(element);
-            sel.removeAllRanges();
-            sel.addRange(range);
-            sel.removeAllRanges();
-    }
-}
-
-
-///////THIS CODE WORKS
-function componentFromStr(numStr, percent) {
-    var num = Math.max(0, parseInt(numStr, 10));
-    return percent ? Math.floor(255 * Math.min(100, num) / 100) : Math.min(255, num);
-}
-
-var rgbRegex = /^rgb\(\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*\)$/,
-    hexRegex = /^#?([a-f\d]{6})$/,
-    shortHexRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/;
-
-function Color(r, g, b) {
-    // Make a new Color object even when Color is not called with the new operator
-    if (!(this instanceof Color)) {
-        return new Color(r, g, b);
-    }
-
-    if (typeof g == "undefined") {
-        // Parse the Color string
-        var colStr = r.toLowerCase(), result;
-
-        // Check for hex value first, the short hex value, then rgb value
-        if ( (result = hexRegex.exec(colStr)) ) {
-            var hexNum = parseInt(result[1], 16);
-            r = hexNum >> 16;
-            g = (hexNum & 0xff00) >> 8;
-            b = hexNum & 0xff;
-        } else if ( (result = shortHexRegex.exec(colStr)) ) {
-            r = parseInt(result[1] + result[1], 16);
-            g = parseInt(result[2] + result[2], 16);
-            b = parseInt(result[3] + result[3], 16);
-        } else if ( (result = rgbRegex.exec(colStr)) ) {
-            r = componentFromStr(result[1], result[2]);
-            g = componentFromStr(result[3], result[4]);
-            b = componentFromStr(result[5], result[6]);
-        } else {
-            throw new Error("Color: Unable to parse Color string '" + colStr + "'");
-        }
-    }
-
-    this.r = r;
-    this.g = g;
-    this.b = b;
-}
-
-Color.prototype = {
-    equals: function(Color) {
-        return this.r == Color.r && this.g == Color.g && this.b == Color.b;
-    }
-};
 
 function makeEditableAndHighlight(Color) {
     var range, sel = window.getSelection();
@@ -544,160 +351,79 @@ function highlight(Color) {
     }
 }
 
-var getComputedStyleProperty;
-
-if (typeof window.getComputedStyle != "undefined") {
-    getComputedStyleProperty = function(el, propName) {
-        return window.getComputedStyle(el, null)[propName];
-    };
-} else if (typeof document.documentElement.currentStyle != "undefined") {
-    getComputedStyleProperty = function(el, propName) {
-        return el.currentStyle[propName];
-    };
-}
-
-function unhighlight(node, Color) {
-    if (!(Color instanceof Color)) {
-        Color = new Color(Color);
-    }
-
-    if (node.nodeType == 1) {
-        var bg = node.style.backgroundColor;
-        if (bg && Color.equals(new Color(bg))) {
-            node.style.backgroundColor = "";
-        }
-    }
-    var child = node.firstChild;
-    while (child) {
-        unhighlight(child, Color);
-        child = child.nextSibling;
-    }
-}
 
 
-///////////END of highlight/unhighlight
+
+///////////following code exectues the update of highlight data and does the
   
 
           function selectAndHighlightRange(id, start, end) {
-              
-              //setSelectionRange(document.getElementById("inputText"), start, end);
-              //highlight("yellow");
               ChangeStoreData();
-              //var cheese = window.getSelection().getRangeAt(0)
-              //var ham = toString(cheese)
-              //alert(ham)
               highlight('yellow')
-              //surroundSelection()
-              //highlightnew('code')
-              //window.getSelection().empty();
-              //GetUserSelection()
-              //stylizeHighlightedString("yellow");
-              //highlight("yellow");
-              //window.getSelection().removeAllRanges();
-              //GetUserSelection()
-              //ChangeStoreData(); // this has to go before highlight to work
-              
-              //myFunction3333()
               window.getSelection().removeAllRanges();
-              //window.getSelection().empty();
-          }
 
-          function myFunction3333() //doesn't work
-          { 
-          var h1=window.getSelection();
-          var att=document.createAttribute("class");
-          att.value="democlass";
-          h1.setAttributeNode(att); //Error: event.returnValue is deprecated. Please use the standard event.preventDefault() instead.
-          alert(att.nodeValue)
           }
-
 
           function selectAndUnhighlightRange(id, start, end) {
-              //setSelectionRange(document.getElementById("inputText"), start, end);
               ReduceStoreData();
               highlight('white')
-              //unhighlight(document.body, 'ffff00')
-              //stylizeHighlightedString("white");
-              //highlight("white");
-              //window.getSelection().empty();
-              //\window.getSelection().removeAllRanges();
               window.getSelection().removeAllRanges();
           }
 
-          /////////////// initialize only on first session
-          //var RangeSet = new Array(3,6)  //this line not needed later
-          //var Stuff = new Array (12,15)  //this line not needed later
-          //var HighlightSet = new Array(RangeSet,Stuff)  //this line should be changed to var HighlightSet = new Array()
-          var CheckEndList = []  //this is needed
-          var CheckStartList = []  //this is needed
-          //var HighlightSetAdjusted = [] //not used anymore
+/////////////////intialize arrays
+          var CheckEndList = []  
+          var CheckStartList = []  
           var HighlightSet = new Array()
 
-          ///////////////// THIS IS THE CODE FOR MAKING THE LIST OF HIGHLIGHTS
+          ///////////////// creates and appends an array of highlighted ranges
 
           function ChangeStoreData() {
-          //alert(getCaretCharacterOffsetWithin(test))
-          //var CompareRange = new Array(GetUserSelection()[0],GetUserSelection()[1]) // old line
-          //alert(getCaretCharacterOffsetWithin(test))
-          //alert(getCaretCharacterOffsetWithin(test), '  change store data')
-          var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0],getCaretCharacterOffsetWithin(inputText)[1]) //almost working
-          //alert(CompareRange + ' Compare range')
+            //compare range is an array of the current selection carat positions
+          var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0],getCaretCharacterOffsetWithin(inputText)[1]) 
           var unique = 1
-          HighlightSet.push(CompareRange)
+          HighlightSet.push(CompareRange) //compare range is added to highlight set array for comparison with the rest of highlightset
           if (CompareRange[0] == CompareRange[1] ){
             return
+            //don't do anything if nothing is selected
           }
           if (HighlightSet.length == 1){
-            null          }
+            null  //do nothing if this is the first highlight        
+          }
           else {
           for (i=0;i<(HighlightSet.length - 1);i++)
           {
             if (CompareRange[0] <= HighlightSet[i][0] && CompareRange[1] >= HighlightSet[i][1]) {
               HighlightSet[i] = CompareRange
               unique = 0
+              //for selection encompassing an existing selection
             }
             if (CompareRange[0] <= HighlightSet[i][0] && CompareRange[1] < HighlightSet[i][1] && CompareRange[1] >= HighlightSet[i][0]) {
               HighlightSet[i][0] = CompareRange[0]
               unique = 0
+              //lowers existing highlight range if only partially covered
             }
             if (CompareRange[0] > HighlightSet[i][0] && CompareRange[1] >= HighlightSet[i][1] && CompareRange[0] <= HighlightSet[i][1]) {
               HighlightSet[i][1] = CompareRange[1]
               unique = 0
+              //raises existing highlight range if only partially covered
             }
-            // else {
-            //   if (check == 1){ 
-            //   alert("hi" + check)
-            //   //HighlightSet.push(CompareRange)
-            //   }
-            //   else {
-            //     check = 0
-            //   }
-            // }
             CheckEndList.push([i,HighlightSet[i][1]])
             CheckStartList.push([i,HighlightSet[i][0]])
           }
           if (unique == 0) {
             HighlightSet.pop(HighlightSet.length)
-            //alert('not unique')
-            //CheckEndList.push([3,5])
-            //CheckStartList.push([3,5])
+            //gets the compare range out of highlight range, because it overlaps with an existing range
           }
           else if (unique == 1){
               CheckEndList.push([HighlightSet.length-1,HighlightSet[HighlightSet.length-1][1]])
               CheckStartList.push([HighlightSet.length-1,HighlightSet[HighlightSet.length-1][0]])
           }
-          // for (i=0;i<(HighlightSet.length);i++) {
-          // HighlightSetAdjusted[i] = HighlightSet[i] 
-          // }
-          //alert(HighlightSet.length + ' the stuff is ' + HighlightSet)
           for (i=0;i<CheckEndList.length;i++){
             for (j=0;j<CheckStartList.length;j++){
               if (i == j) {
                 null
               }
               else if (i != j && CheckEndList[i][1] > CheckStartList[j][1] && CheckStartList[i][1] < CheckStartList[j][1] ){
-                //HighlightSet[i][0] = CheckStartList[i][1]
-                //alert(CheckEndList[i][1] + ' ' + CheckEndList[j][1])
                 if (CheckEndList[i][1] < CheckEndList[j][1]){
                   HighlightSet[i][1] = CheckEndList[j][1]
                 }
@@ -706,48 +432,27 @@ function unhighlight(node, Color) {
                 }
 
                 HighlightSet.splice(j,1)
-                //alert(HighlightSet[j])
-                //alert(CheckEndList[i][1] + '>' + CheckStartList[j][1] + ' ' + CheckStartList[i][1] + '<' + CheckStartList[j][1])
               }
               else if (i < j && CheckEndList[i][1] > CheckStartList[j][1] && CheckStartList[i][1] == CheckStartList[j][1] ){
-                //HighlightSet[i][0] = CheckStartList[i][1]
-                //alert(CheckEndList[i][1] + ' ' + CheckEndList[j][1])
                 if (CheckEndList[i][1] < CheckEndList[j][1]){
                   HighlightSet[i][1] = CheckEndList[j][1]
-                  //alert('small')
                 }
                 if (CheckEndList[i][1] > CheckEndList[j][1]){
                   HighlightSet[i][1] = CheckEndList[i][1]
                 }
-                //alert(HighlightSet[j] + 'this is the end')
                 HighlightSet.splice(j,1)
-                //alert(HighlightSet[j])
-                //alert(CheckEndList[i][1] + '>' + CheckStartList[j][1] + ' ' + CheckStartList[i][1] + '<' + CheckStartList[j][1])
               }
-              // else if (i != j && CheckStartList[i][1] > CheckStartList[j][1] && CheckEndList[i][1] < CheckEndList[j][1]){
-              //   //HighlightSet[i][0] = CheckStartList[i][1]
-              //   //HighlightSet[i][1] = CheckEndList[j][1]
-              //   //HighlightSet.splice(j,1)
-              //   //alert(HighlightSet[j])
-              //   alert("WHATWHAT")
-              // }
             }
           }
 
           }
-            //alert(CheckStartList + 'start')
-            CheckEndList.length = 0;
-            CheckStartList.length = 0;
-            alert(HighlightSet + ' Highlight Set')
-           //maybe I can add highlight functionality at the end 
+            CheckEndList.length = 0; //removes numbers from array
+            CheckStartList.length = 0; //removes numbers from array
+            alert(HighlightSet + ' Highlight Set')  //will not be in final code
           }
 
           function ReduceStoreData() {
-          //alert(HighlightSet + ' before')
-          var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0] ,getCaretCharacterOffsetWithin(inputText)[1]) //this line will be the range from selection later
-          //var unique = 1
-          //HighlightSet.push(CompareRange)
-          //alert(CompareRange + ' compare range')
+          var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0] ,getCaretCharacterOffsetWithin(inputText)[1]) //user selected range for comparison
           if (HighlightSet.length == 0){
             null          }
           else {
@@ -755,16 +460,13 @@ function unhighlight(node, Color) {
           {
             if (CompareRange[0] <= HighlightSet[i][0] && CompareRange[1] >= HighlightSet[i][1]) {
               HighlightSet[i] = 'delete'
-              //break;
-              //unique = 0
+              //is removing entire highlight, then it is replaced with the word 'delete' for easy removal
             }
             if (CompareRange[0] <= HighlightSet[i][0] && CompareRange[1] < HighlightSet[i][1] && CompareRange[1] >= HighlightSet[i][0]) {
               HighlightSet[i][0] = CompareRange[1]
-              //unique = 0
             }
             if (CompareRange[0] > HighlightSet[i][0] && CompareRange[1] >= HighlightSet[i][1] && CompareRange[0] <= HighlightSet[i][1]) {
               HighlightSet[i][1] = CompareRange[0]
-              //unique = 0
             }
             if (CompareRange[0] > HighlightSet[i][0] && CompareRange[1] < HighlightSet[i][1]){
               Points = [HighlightSet[i][0],CompareRange[0],CompareRange[1],HighlightSet[i][1]]
@@ -773,7 +475,6 @@ function unhighlight(node, Color) {
               break;
             }
           }
-          //alert(HighlightSet + '   ' + HighlightSet.indexOf('-1,-1') + '   i love it')
           function contains(a, obj) {
             var i = a.length;
             while (i--) {
@@ -794,54 +495,20 @@ function unhighlight(node, Color) {
             return false;
           }
 
-
+          //code for removing as many deletes as necessary
           while (HighlightSet.contains('delete')){
+            //removes all the ranges that need to be deleted
             HighlightSet.splice(HighlightSet.indexOf('delete'),1)
           }
   
           
         }
-          alert(HighlightSet + ' Highlight Set')
+          alert(HighlightSet + ' Highlight Set') //will not be in final code
         }
           
 
 
-function stylizeHighlightedString(color) 
-{
-
-  //alert(text.focusOffset - text.anchorOffset);
-
-  var text = window.getSelection();
-  //alert(window.getSelection())
-  //alert (text.anchorOffset)
-  
-  //cheese = getTextNodesIn(inputText)
-  //alert(cheese + '  cheese')
-  //alert(start);
-
-  var start = getCaretCharacterOffsetWithin(inputText)[0];
-  var end = getCaretCharacterOffsetWithin(inputText)[1];
-  //var start = text.anchorOffset; //original start
-  //var end = text.focusOffset - text.anchorOffset; original end
-  //alert(end);
-
-  range = window.getSelection().getRangeAt(0);
-  //alert(range)
-  range1 = window.getSelection().toString();
-  var selectionContents = range.extractContents();
-  var span = document.createElement("span");
-
-  span.appendChild(selectionContents); //ExtractContents breaks the true range
-
-  span.setAttribute("class"); 
-  span.style.backgroundColor = color;
-  span.style.color = "black";
-
-  range.insertNode(span);
-}
-
-
-///////////////THIS CODE WORKS WITH LINE BREAKS. my getuserselection() function does not
+///////////////THIS CODE GETS CARAT POSITION
 
 function getCaretCharacterOffsetWithin(element) {
     var caretOffsets;
@@ -849,90 +516,16 @@ function getCaretCharacterOffsetWithin(element) {
     var win = doc.defaultView || doc.parentWindow;
     var sel;
     if (typeof win.getSelection != "undefined") {
-
-      //   var rootnode=document.getElementById("test")
-      //   var walker=document.createTreeWalker(rootnode, NodeFilter.SHOW_ELEMENT, null, false)
-      //   //var walker2=document.createTreeWalker(rootnode, NodeFilter.SHOW_TEXT, null, false)
-      //   //alert(walker.currentNode.childNodes.length)
-      //   //alert(walker2)
-      //   //alert(walker.currentNode.tagName)
-      //   var range = win.getSelection().getRangeAt(0);
-      //   while (walker.nextNode()){
-      //     if (walker.currentNode){
-      //       alert(walker.currentNode + '   ' + range.startContainer)
-      //     }
-      //   //alert(walker.currentNode.tagName)
-      // }
-
-
-      var range = win.getSelection().getRangeAt(0);
-      var preCaretRange2 = range.cloneRange();
+        var range = win.getSelection().getRangeAt(0);
+        var preCaretRange2 = range.cloneRange();
         preCaretRange2.selectNodeContents(element);
         preCaretRange2.setEnd(range.startContainer, range.startOffset);
         caretOffset2 = preCaretRange2.toString().length;
-      //alert(caretOffset2)
-
-      //ok, so now i need to find the corresponding treewalker node for where I click and when treewalker == start range node then I have it count only up to that node.
-      // var rootnode=document.getElementById("inputText")
-      // var walker=document.createTreeWalker(rootnode, NodeFilter.SHOW_TEXT, null, false)
-
-      // walker.firstChild() //Walk to first child node (the text "George")
-      // var paratext=walker.currentNode.nodeValue
-      // while (walker.nextSibling()){ //Step through each sibling of "George"
-      //   paratext+=walker.currentNode.nodeValue
-      //   //alert(paratext.toString().length)
-      // } 
-
-//alert(paratext) //alerts "George loves JavaScript!"
-
-
-        //var range = win.getSelection().getRangeAt(0);
         var preCaretRange = range.cloneRange();
         preCaretRange.selectNodeContents(element);
         preCaretRange.setEnd(range.endContainer, range.endOffset);
         caretOffset = preCaretRange.toString().length;
-        //childNODES = preCaretRange.startContainer.parentNode.childNodes; // i dont know which one to use
-        //childNODES = preCaretRange.startContainer.childNodes;
-        // childNODES = range.endContainer.parentNode.parentNode.childNodes;
-        // parentNODE = range.startContainer.parentNode.parentNode.childNodes
-        // for(i=0;i<parentNODE.length;i++){
-        //   //alert(parentNode.item(i).length)
-        // }
-        // var indexnumber;
-        // var numberkeeper = 0;
-        // //alert(range.endContainer.parentNode.parentNode.nodeName + '   who')
-        // //alert(window.getSelection().anchorNode.length)
-        // //alert(parentNode)
-        // for(i=0;i<parentNODE.length;i++)
-        // {
-        //   //alert(childNODES.item(i).length)
-        //   //alert(parentNODE.item(i).length)
-        //   if (parentNODE.item(i) == range.startContainer ){
-        //     indexnumber = i;
-        //     alert(i + 'here it is')
-        //   }
-        // }
-        // for (j=0;j<indexnumber+1;j++){
-        //   //alert(childNODES.item(1).anchorOffset)
-        //   //alert(j + '   ' + childNODES.item(j).length +' jay')
-        //   //alert(j + '  i')
-        //   //alert(childNODES.item(j).length)
-        //   if (childNODES.item(j).length == undefined){
-        //     // do nothing
-        //   }
-        //   else if (indexnumber != 0){
-        //     numberkeeper += childNODES.item(j).length;
-        //   }
-        // }
-        //alert(numberkeeper + '   numBAH')
-        //alert(range.startContainer.parentNode.childNodes.length)
-        //preCaretRange.setStart(document.body.childNodes[0], 1)
-        //preCaretRange.setStart(range.startContainer.parentNode.firstChild, range.startOffset);
-        //caretOffset2 = (numberkeeper + preCaretRange.startOffset )
-        //start = element.selectionStart;
-        //alert(start)
     } else if ( (sel = doc.selection) && sel.type != "Control") {
-        alert("OI")
         var textRange = sel.createRange();
         var preCaretTextRange = doc.body.createTextRange();
         preCaretTextRange.moveToElementText(element);
@@ -941,6 +534,8 @@ function getCaretCharacterOffsetWithin(element) {
     }
     return [caretOffset2 , caretOffset ];
 }
+
+//this shows the carat position will not be in final code
 
 function showCaretPos() {
     var el = document.getElementById("inputText");
@@ -961,29 +556,14 @@ function otherselect(id, start, end) {
 //////////////////////////////////////////////////////
 
 
-//           $(document).ready(function(){    
-//     $("#inputText").mouseup(function () {
-//         alert('Works!');
-//     });
-// });
+////this code is for tablets and mobile phones. displays drop down menu when users use a touch screen
 
 $('#inputText').bind( "touchcancel", function(){
         mouseUp()
 });
 </script>
 <button onclick="selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])">HIGHLIGHT IT</button>
-<!-- <button onclick="stylizeHighlightedString() ">HIGHLIGHT IT</button> -->
-<!-- <button onclick="selectAndHighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Highlight</button>
-<button onclick="otherselect('test', 0, 5)">Highlight TEST</button> -->
-<!-- <button onclick="selectAndUnhighlightRange('inputText', GetUserSelection()[0], GetUserSelection()[1])">Unhighlight</button> -->
-<!-- <button onclick="PrintStoreData()">Range Data</button> -->
-<!-- <button onclick="ChangeStoreData()">Change Data</button> --> 
-<!-- <button onclick="whoo()">get range</button> -->
-<!-- <button onclick="imtrying(document.getElementById('inputText'),getSelectionHtml(),'highlight');">another</button>
-<a href="javascript:void(0);" onclick="highlightSelection();">Highlight</a> 
-    &nbsp;&nbsp;|&nbsp;&nbsp;
-    <a href="javascript:void(0);" onclick="RemovehighlightSelection();">Remove Highlight</a>
--->
+
       </script>
 
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
