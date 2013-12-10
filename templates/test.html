@@ -111,7 +111,7 @@
 <div id="caretPos"></div>
 
             <form>
-<select id="myList" onchange="whoo()">
+<select id="myList" onchange="DropDownExecute()">
   <option value = "1">Highlight</option>
   <option value = "2">Unhighlight</option>  
 </select>
@@ -133,8 +133,33 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://johannburkard.de/resources/Johann/jquery.highlight-4.closure.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
     <script>
+
+
+
+    var text = $("#inputText").text();
+        $( document ).on( "mobileinit", function(){
+                $.mobile.listview.prototype.options.filterCallback = function( text, searchValue ) {                   
+                        // only show items that *begin* with the search string
+                        console.log(searchValue)
+                        if(searchValue.length == 0){
+                                $('p').removeHighlight();
+                        }
+                        var myregexp = new RegExp(searchValue, "ig");
+                        var matches = text.match(myregexp);
+                        if(matches && text.match(myregexp).length){
+                                $('p').removeHighlight();
+                                $('p').highlight(searchValue);
+                                return false;
+                        }else{
+                                return true;
+                        }
+                };
+        });
 
     
     ////// DOM manipulation of dropdown menu
@@ -162,6 +187,7 @@ function getTextNodesIn(node) {
                       textNodes.push.apply(textNodes, getTextNodesIn(children[i]));
                   }
               }
+              //textNodes is an array containing all the childnodes in InputText div (in the form of text nodes)
               return textNodes;
           }
           
@@ -174,22 +200,24 @@ function setONLY(el, start, end) {
         var foundStart = false;
         var charCount = 0, endCharCount;
 
+        //selects user selected text. without this, the entire div is selected
         for (var i = 0, textNode; textNode = textNodes[i++]; ) {
             endCharCount = charCount + textNode.length;
             if (!foundStart && start >= charCount && (start < endCharCount || (start == endCharCount && i < textNodes.length))) {
-                range.setStart(textNode, start - charCount);
+                range.setStart(textNode, start - charCount); //establishes the start offset
                 foundStart = true;
             }
             if (foundStart && end <= endCharCount) {
-                range.setEnd(textNode, end - charCount);
+                range.setEnd(textNode, end - charCount); //establishes the end offset
                 break;
             }
             charCount = endCharCount;
         }
 
+        //needed to prompt the user selection range
         var sel = window.getSelection();
         sel.removeAllRanges();
-        sel.addRange(range);
+        sel.addRange(range); //line needed, otherwise GetRangeAt(0) returns error
     } else if (document.selection && document.body.createTextRange) {
         var textRange = document.body.createTextRange();
         textRange.moveToElementText(el);
@@ -253,7 +281,7 @@ function selectONLY(id, start, end) {
     /////////////////////////
 
 //THis function says to either execute the hightlight or unhighlight depending on what is clicked
-    function whoo()
+    function DropDownExecute()
     {
     if (hereitis == undefined){
       null //do nothing
@@ -306,12 +334,7 @@ function selectONLY(id, start, end) {
                             $('.dropdown-toggle').dropdown();
                             });
 
-
-          
-
-          
-
-       
+    
 
 ////////////////////////THIS CODE DOES THE HIGHLIGHTING AND UNHIGHLIGHTING
 
@@ -451,6 +474,8 @@ function highlight(Color) {
             alert(HighlightSet + ' Highlight Set')  //will not be in final code
           }
 
+
+          //this code runs when you unhighlight
           function ReduceStoreData() {
           var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0] ,getCaretCharacterOffsetWithin(inputText)[1]) //user selected range for comparison
           if (HighlightSet.length == 0){
@@ -517,10 +542,12 @@ function getCaretCharacterOffsetWithin(element) {
     var sel;
     if (typeof win.getSelection != "undefined") {
         var range = win.getSelection().getRangeAt(0);
+        //
         var preCaretRange2 = range.cloneRange();
         preCaretRange2.selectNodeContents(element);
         preCaretRange2.setEnd(range.startContainer, range.startOffset);
         caretOffset2 = preCaretRange2.toString().length;
+        //
         var preCaretRange = range.cloneRange();
         preCaretRange.selectNodeContents(element);
         preCaretRange.setEnd(range.endContainer, range.endOffset);
@@ -528,6 +555,12 @@ function getCaretCharacterOffsetWithin(element) {
     } else if ( (sel = doc.selection) && sel.type != "Control") {
         var textRange = sel.createRange();
         var preCaretTextRange = doc.body.createTextRange();
+        //
+        var preCaretTextRange2 = doc.body.createTextRange();
+        preCaretTextRange2.moveToElementText(element);
+        preCaretTextRange2.setEndPoint("StartToStart", textRange);
+        caretOffset2 = preCaretRange2.text.length;
+        //
         preCaretTextRange.moveToElementText(element);
         preCaretTextRange.setEndPoint("EndToEnd", textRange);
         caretOffset = preCaretTextRange.text.length;
@@ -547,18 +580,12 @@ function showCaretPos() {
 document.body.onkeyup = showCaretPos;
 document.body.onmouseup = showCaretPos;
 
-function otherselect(id, start, end) {
-              ChangeStoreData()
-              stylizeHighlightedString();
 
-              window.getSelection().empty();
-          }
-//////////////////////////////////////////////////////
 
 
 ////this code is for tablets and mobile phones. displays drop down menu when users use a touch screen
 
-$('#inputText').bind( "touchcancel", function(){
+$('#inputText').bind( "touchend", function(){
         mouseUp()
 });
 </script>
