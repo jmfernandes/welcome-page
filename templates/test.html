@@ -133,33 +133,8 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
-    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <script src="http://johannburkard.de/resources/Johann/jquery.highlight-4.closure.js"></script>
-    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script>
-
-
-
-    var text = $("#inputText").text();
-        $( document ).on( "mobileinit", function(){
-                $.mobile.listview.prototype.options.filterCallback = function( text, searchValue ) {                   
-                        // only show items that *begin* with the search string
-                        console.log(searchValue)
-                        if(searchValue.length == 0){
-                                $('p').removeHighlight();
-                        }
-                        var myregexp = new RegExp(searchValue, "ig");
-                        var matches = text.match(myregexp);
-                        if(matches && text.match(myregexp).length){
-                                $('p').removeHighlight();
-                                $('p').highlight(searchValue);
-                                return false;
-                        }else{
-                                return true;
-                        }
-                };
-        });
 
     
     ////// DOM manipulation of dropdown menu
@@ -541,7 +516,12 @@ function getCaretCharacterOffsetWithin(element) {
     var win = doc.defaultView || doc.parentWindow;
     var sel;
     if (typeof win.getSelection != "undefined") {
-        var range = win.getSelection().getRangeAt(0);
+        if (win.getSelection().rangeCount == 0){
+          var range = document.createRange(); //if nothing is selected, an empty range is created
+        }
+        else{
+          var range = win.getSelection().getRangeAt(0); 
+        }
         //
         var preCaretRange2 = range.cloneRange();
         preCaretRange2.selectNodeContents(element);
@@ -574,7 +554,6 @@ function showCaretPos() {
     var el = document.getElementById("inputText");
     var caretPosEl = document.getElementById("caretPos");
     caretPosEl.innerHTML = "Caret position: " + getCaretCharacterOffsetWithin(el);
-    //alert(getCaretCharacterOffsetWithin(test) + ' in show carat')
 }
 
 document.body.onkeyup = showCaretPos;
@@ -591,9 +570,9 @@ $('#inputText').bind( "touchend", function(){
 </script>
 <button onclick="selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])">HIGHLIGHT IT</button>
 
-      </script>
 
-    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+
+    <!-- <script src="//static.getclicky.com/js" type="text/javascript"></script> -->
     <script type="text/javascript">try{ clicky.init(100642142); }catch(e){}</script>
   </body>
 </html>
