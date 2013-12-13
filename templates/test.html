@@ -359,13 +359,14 @@ function highlight(Color) {
               ChangeStoreData();
               highlight('yellow')
               window.getSelection().removeAllRanges();
-
+              document.getElementById("myList").selectedIndex = -1;
           }
 
           function selectAndUnhighlightRange(id, start, end) {
               ReduceStoreData();
               highlight('white')
               window.getSelection().removeAllRanges();
+              document.getElementById("myList").selectedIndex = -1;
           }
 
 /////////////////intialize arrays
