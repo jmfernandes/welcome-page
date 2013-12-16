@@ -251,6 +251,21 @@ var highlightset = Backbone.Collection.extend({
 //var highlight3 = new highlightrange({ start: 45, range: [45,100]});
 
 var highlightcollection = new highlightset()
+
+// var friends = new Backbone.Collection([
+//   {name: "Athos",      job: "Musketeer"},
+//   {name: "Porthos",    job: "Musketeer"},
+//   {name: "Aramis",     job: "Musketeer"},
+//   {name: "d'Artagnan", job: "Guard"},
+// ]);
+
+// var musketeers = friends.where({job: "Musketeer"});
+
+// alert(musketeers[0]);
+// alert(friends.pluck("name"))
+// friends.remove(musketeers[0])
+// alert(friends.pluck("name"))
+
 // highlightcollection.add([
 //   { start: 5, end: 10},
 //   { start: 25, end: 30},
@@ -494,7 +509,7 @@ function highlight(Color) {
           }
 
           function selectAndUnhighlightRange(id, start, end) {
-              ReduceStoreData();
+              ReduceStoreDataNew();
               highlight('white')
               window.getSelection().removeAllRanges();
               document.getElementById("myList").selectedIndex = -1;
@@ -507,8 +522,8 @@ function highlight(Color) {
           var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0],getCaretCharacterOffsetWithin(inputText)[1]) 
           var unique = 1
           highlightcollection.add([
-  { start: CompareRange[0], end: CompareRange[1]} 
-]);
+          { start: CompareRange[0], end: CompareRange[1]} 
+          ]);
           // HighlightSet.push(CompareRange) //compare range is added to highlight set array for comparison with the rest of highlightset
           if (CompareRange[0] == CompareRange[1] ){
             return
@@ -552,8 +567,8 @@ function highlight(Color) {
               CheckEndList.push([highlightcollection.length-1,highlightcollection.at(highlightcollection.length-1).get('end')])
               CheckStartList.push([highlightcollection.length-1,highlightcollection.at(highlightcollection.length-1).get('start')])
           }
-          for (i=0;i<CheckEndList.length;i++){
-            for (j=0;j<CheckStartList.length;j++){
+          for (i=0;i<highlightcollection.length;i++){
+            for (j=0;j<highlightcollection.length;j++){
               if (i == j) {
                 null
               }
@@ -566,6 +581,8 @@ function highlight(Color) {
                   highlightcollection.at(i).set('end', CheckEndList[i][1])
                   //HighlightSet[i][1] = CheckEndList[i][1]
                 }
+                //WRONG! MY HIGHLIGHT COLLECTION REMOVE IS BEHAVING THE SAME AS SPLICE
+                //alert('111')
                 highlightcollection.remove(highlightcollection.at(j))
                 //HighlightSet.splice(j,1)???????????????????????
               }
@@ -578,6 +595,7 @@ function highlight(Color) {
                   highlightcollection.at(i).set('end', CheckEndList[i][1])
                   //HighlightSet[i][1] = CheckEndList[i][1]
                 }
+                //alert('222')
                 highlightcollection.remove(highlightcollection.at(j))
                 //HighlightSet.splice(j,1)?????????????????
               }
@@ -585,43 +603,89 @@ function highlight(Color) {
           }
 
           }
-            // CheckEndList.length = 0; //removes numbers from array
-            // CheckStartList.length = 0; //removes numbers from array
-            //alert(CheckStartList)
-            //alert(HighlightSet + ' Highlight Set')  //will not be in final code
-            alert(highlightcollection.pluck("start") + ',' + highlightcollection.pluck("end"))
-            //////////////////////////////////////////WORKS
-            // DataSet.reset()
-            // //append the DataSet
-            // for (i=0;i<HighlightSet.length ;i++){
-            //   DataSet.add([
-            //     {start: CheckStartList[i][1], highlightrange: [HighlightSet[i][0],HighlightSet[i][1]]}
-            //   ]);
-            // }
-            // DataSet.comparator = 'start'
+            //this just displays the different models in my collection in a readable way
+            var arraydisplay = []
+            for (i=0;i<highlightcollection.length;i++){
+              arraydisplay.push(highlightcollection.pluck("start")[i],highlightcollection.pluck("end")[i])
+            }
+            alert(arraydisplay)
+            //remove numbers from array
             CheckEndList.length = 0; //removes numbers from array
             CheckStartList.length = 0; //removes numbers from array
-
-            ////////////////////////////////////////////////////////
-
-            //dataset.set('highlights', [getCaretCharacterOffsetWithin(inputText)[0],getCaretCharacterOffsetWithin(inputText)[1]])
-            //DataSet.set("highlights", [HighlightSet[0],HighlightSet[1]])
-
-
-            ////this could work
-            // DataSet.push([
-            // {highlightrange: [getCaretCharacterOffsetWithin(inputText)[0],getCaretCharacterOffsetWithin(inputText)[1]]}
-            // ]);
-            //DataSet.sort()
-            // var highlights = DataSet.pluck("highlightrange")
-            // var starts = DataSet.pluck("start")
-            // for (i=0;i<highlights.length;i++){
-            //alert(JSON.stringify(DataSet.get(110)))
-            //alert(_.contains(DataSet, 3))
-            // alert(DataSet.pluck("highlightrange"))
-            // }
           }
 
+
+          //this code runs when you unhighlight
+          function ReduceStoreDataNew() {
+          var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0] ,getCaretCharacterOffsetWithin(inputText)[1]) //user selected range for comparison
+          if (highlightcollection.length == 0){
+            null          }
+          else {
+          for (i=0;i<highlightcollection.length;i++)
+          {
+            if (CompareRange[0] <= highlightcollection.at(i).get('start') && CompareRange[1] >= highlightcollection.at(i).get('end')) {
+              highlightcollection.at(i).set('start', -9)
+              //HighlightSet[i] = 'delete'
+              //is removing entire highlight, then it is replaced with the word 'delete' for easy removal
+            }
+            if (CompareRange[0] <= highlightcollection.at(i).get('start') && CompareRange[1] < highlightcollection.at(i).get('end') && CompareRange[1] >= highlightcollection.at(i).get('start')) {
+              highlightcollection.at(i).set('start', CompareRange[1])
+              //HighlightSet[i][0] = CompareRange[1]
+            }
+            if (CompareRange[0] > highlightcollection.at(i).get('start') && CompareRange[1] >= highlightcollection.at(i).get('end') && CompareRange[0] <= highlightcollection.at(i).get('end')) {
+              highlightcollection.at(i).set('end', CompareRange[0])
+              //HighlightSet[i][1] = CompareRange[0]
+            }
+            if (CompareRange[0] > highlightcollection.at(i).get('start')&& CompareRange[1] < highlightcollection.at(i).get('end')){
+              Points = [highlightcollection.at(i).get('start'),CompareRange[0],CompareRange[1],highlightcollection.at(i).get('end')]
+              highlightcollection.at(i).set('end', CompareRange[0])
+              //HighlightSet[i][1] = CompareRange[0]
+              highlightcollection.add([
+              { start: Points[2], end: Points[3]} 
+              ]);
+              //HighlightSet.push([Points[2],Points[3]])
+              break;
+            }
+          }
+          // function contains(a, obj) {
+          //   var i = a.length;
+          //   while (i--) {
+          //     if (a[i] === obj) {
+          //       return true;
+          //     }
+          //   }
+          //   return false;
+          // }
+        
+          // Array.prototype.contains = function(obj) {
+          //   var i = this.length;
+          //   while (i--) {
+          //     if (this[i] === obj) {
+          //       return true;
+          //     }
+          //   }
+          //   return false;
+          // }
+
+          // //code for removing as many deletes as necessary
+          // while (HighlightSet.contains('delete')){
+          //   //removes all the ranges that need to be deleted
+          //   HighlightSet.splice(HighlightSet.indexOf('delete'),1)
+          // }
+  
+          
+        }
+        var redundancies = highlightcollection.where({start: -9});
+        for (i=0;i<redundancies.length;i++){
+        highlightcollection.remove(redundancies[i])
+        }
+        var arraydisplay = []
+            for (i=0;i<highlightcollection.length;i++){
+              arraydisplay.push(highlightcollection.pluck("start")[i],highlightcollection.pluck("end")[i])
+            }
+            alert(arraydisplay)
+          //alert(HighlightSet + ' Highlight Set') //will not be in final code
+        }
 
 
 
