@@ -10,6 +10,7 @@
     <!-- Le styles -->
     <link href="http://conversions.herokuapp.com/static/bootstrap.css" rel="stylesheet" type="text/css">
     <link rel="SHORTCUT ICON" href="http://www.conversions.datanab.net/static/img/Dglove.ico">
+    <link rel="stylesheet" href="styles/etch.css" />
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -105,8 +106,10 @@
                 <h3 class="offset1">About</h3>
             </div>
           <div class="row-fluid">
-            <div id="inputText" class="span6 offset1" ondblclick="mouseDouble()" onmouseup="mouseUp()">Highlight <i>the code here.<b>Any text </i>on this line</b> can be highlighted.<br> Other text on the screen can not be highlighted.<br>Here is another line of text to test whether the highlight code works properly.
+            <div class="article">
+                <div id="inputText" class="body editable" data-button-class="all" ondblclick="mouseDouble()">Highlight <i>the code here.<b>Any text </i>on this line</b> can be highlighted.<br> Other text on the screen can not be highlighted.<br>Here is another line of text to test whether the highlight code works properly.
             </div><!--/span-->
+          </div>
            <!--  <div id="test" contenteditable="true">TEST TEXT PLEASE IGNORE</div> -->
 <div id="caretPos"></div>
 
@@ -133,14 +136,71 @@
     <!-- javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="http://documentcloud.github.io/underscore/underscore.js"></script> <!-- needed for backbone to function -->
-    <script src="http://backbonejs.org/backbone.js"></script>
+    <script src="http://www.conversions.datanab.net/static/js/jquery.js"></script>
+    <script src="http://www.conversions.datanab.net/static/js/bootstrap.js"></script>
+    <script src="http://www.conversions.datanab.net/static/js/bootstrap.min.js"></script>
+    <script src="http://conversions.herokuapp.com/static/js/bootstrap-dropdown.js"></script>
+    <!-- space -->
+    <script src="javascript/jquery-1.10.2.js"></script>
+    <script src="javascript/underscore.js"></script> <!-- needed for backbone to function -->
+    <script src="javascript/backbone.js"></script>
+    <script src="javascript/rangy-core.js"></script>
+    <script src="javascript/etch.js"></script>
+    <script>
+          rangy.init();
+          rangy.createMissingNativeApi(); // to polyfill window.getSelection() in IE8
+        </script>
     <script>
 
 
 //////////////////////////////////////////////////////////////////////////////////
 //BACKBONEJS
+
+(function() {
+            var article = Backbone.Model.extend({
+                defaults: {
+                    title: 'Default Title',
+                    body: 'Default body text'
+                }
+            });
+
+            var articleView = Backbone.View.extend({
+                initialize: function() {
+                    _.bindAll(this, 'save')
+                    this.model.bind('save', this.save);
+                },
+
+                events: {
+                    'mousedown .editable': 'editableClick'
+                },
+
+                editableClick: etch.editableInit,
+
+                'save': function() {
+
+                    // normally you would call model.save() here but this is a demo
+                    // $(this.el).find('.editable').effect('highlight', {color: 'yellow'});
+                    // $('.save-event').fadeIn('fast', function() {
+                    //     setTimeout($(this).fadeOut('slow'), 10000);
+                    // });
+                    selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
+                }
+
+
+            });
+
+            $article = $('.article');
+            var model = new article();
+            var view = new articleView({model: model, el: $article[0], tagName: $article[0].tagName});
+        })()
+
+etch.config.buttonClasses = {
+        //'default': ['save'],
+        'all': ['save', 'clear-formatting'],
+        'caption': ['highlight', 'unhighlight']
+        //'title': ['highlight', 'unhighlight']
+      };
+        
 
 
 var highlightrange = Backbone.Model.extend({
@@ -324,11 +384,7 @@ function selectONLY(id, start, end) {
 
 
     </script>
-    <script src="http://www.conversions.datanab.net/static/js/jquery.js"></script>
-    <script src="http://www.conversions.datanab.net/static/js/bootstrap.js"></script>
-    <script src="http://www.conversions.datanab.net/static/js/bootstrap.min.js"></script>
-      <script src="http://conversions.herokuapp.com/static/js/bootstrap-dropdown.js"></script>
-      <script type="text/javascript">
+    <script type="text/javascript">
           $(document).ready(function () {
                             $('.dropdown-toggle').dropdown();
                             });
@@ -385,14 +441,14 @@ function highlight(Color) {
               ChangeStoreDataNew();
               highlight('yellow')
               window.getSelection().removeAllRanges();
-              document.getElementById("myList").selectedIndex = -1;
+              //document.getElementById("myList").selectedIndex = -1;
           }
 
           function selectAndUnhighlightRange(id, start, end) {
               ReduceStoreDataNew();
               highlight('white')
               window.getSelection().removeAllRanges();
-              document.getElementById("myList").selectedIndex = -1;
+              //document.getElementById("myList").selectedIndex = -1;
           }
 
 /////////////////intialize arrays
@@ -591,7 +647,7 @@ $('#inputText').bind( "touchend", function(){
         mouseUp()
 });
 </script>
-<button onclick="selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])">HIGHLIGHT IT</button>
+<!-- <button onclick="selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])">HIGHLIGHT IT</button> -->
 
 
 
