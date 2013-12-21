@@ -23,7 +23,31 @@ def page_not_found(error):
 #           session['urls'].pop(0)
 #    session.modified = True
 
-@app.route('/')
+@app.route('/statc/js/jquery-1.10.2.js')
+def index():
+    return  render_template('welcome.html')
+
+@app.route('/statc/js/backbone')
+def index():
+    return  render_template('welcome.html')
+
+@app.route('/statc/js/rangy-core')
+def index():
+    return  render_template('welcome.html')
+
+@app.route('/statc/js/underscore')
+def index():
+    return  render_template('welcome.html')
+
+@app.route('/statc/js/')
+def index():
+    return  render_template('welcome.html')
+
+@app.route('/statc/js/')
+def index():
+    return  render_template('welcome.html')
+
+@app.route('/statc/js/')
 def index():
     return  render_template('welcome.html')
 
