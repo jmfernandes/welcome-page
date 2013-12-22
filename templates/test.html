@@ -177,8 +177,8 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
 
             var articleView = Backbone.View.extend({
                 initialize: function() {
-                    _.bindAll(this, 'save')
-                    this.model.bind('save', this.save);
+                    _.bindAll(this, 'highlight')
+                    this.model.bind('highlight', this.highlight);
                 },
 
                 events: {
@@ -187,7 +187,7 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
 
                 editableClick: etch.editableInit,
 
-                'save': function() {
+                'highlight': function() {
 
                     // normally you would call model.save() here but this is a demo
                     // $(this.el).find('.editable').effect('highlight', {color: 'yellow'});
@@ -210,7 +210,7 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
 
 etch.config.buttonClasses = {
         //'default': ['save'],
-        'all': ['save', 'clear-formatting'],
+        'all': ['highlight', 'clear-formatting'],
         'caption': ['highlight', 'unhighlight']
         //'title': ['highlight', 'unhighlight']
       };
