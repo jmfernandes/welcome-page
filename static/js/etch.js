@@ -16,9 +16,9 @@
     // Named sets of buttons to be specified on the editable element
     // in the markup as "data-button-class"   
     buttonClasses: {
-      'default': ['save'],
-      'all': ['bold', 'italic', 'underline', 'unordered-list', 'ordered-list', 'link', 'clear-formatting', 'save'],
-      'title': ['bold', 'italic', 'underline', 'save']
+      'default': ['highlight'],
+      'all': ['bold', 'italic', 'underline', 'unordered-list', 'ordered-list', 'link', 'clear-formatting', 'highlight'],
+      'title': ['bold', 'italic', 'underline', 'highlight']
     }
   };
 
@@ -50,7 +50,7 @@
       'click .etch-ordered-list': 'toggleOrderedList',
       'click .etch-link': 'toggleLink',
       'click .etch-image': 'getImage',
-      'click .etch-save': 'save',
+      'click .etch-highlight': 'highlight',
       'click .etch-clear-formatting': 'clearFormatting'
     },
         
@@ -230,10 +230,10 @@
       this._savedRange.insertNode($(view.render().el).addClass('etch-float-left')[0]);
     },
         
-    save: function(e) {
+    highlight: function(e) {
       e.preventDefault();
       var editableModel = this.model.get('editableModel');
-      editableModel.trigger('save');
+      editableModel.trigger('highlight');
     }
   });
 

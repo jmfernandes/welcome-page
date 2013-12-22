@@ -29,7 +29,7 @@
 .etch-editor-panel .etch-ordered-list span { background-position: -120px 0; }
 .etch-editor-panel .etch-image span { background-position: -150px 0; }
 .etch-editor-panel .etch-link span { background-position: -180px 0; }
-.etch-editor-panel .etch-save span { background-position: -210px 0; }
+.etch-editor-panel .etch-highlight span { background-position: -210px 0; }
 .etch-editor-panel .etch-justify-left span { background-position: -240px 0; }
 .etch-editor-panel .etch-justify-center span { background-position: -270px 0; }
 .etch-editor-panel .etch-justify-right span { background-position: -300px 0; }
