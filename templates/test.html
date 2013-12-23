@@ -180,6 +180,11 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
         }
     }
 
+    jQuery('div').bind('dragover drop', function(event){
+    event.preventDefault();
+    return false;
+});
+
 
 //////////////////////////////////////////////////////////////////////////////////
 //BACKBONEJS
