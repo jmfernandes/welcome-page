@@ -98,26 +98,34 @@
         
     clearFormatting: function(e) {
       e.preventDefault();
-      alert('pi')
       if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
-                      return //dont run if nothing is selected
-                    }
-                    selectAndUnhighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
+          return //dont run if nothing is selected
+      }
+      selectAndUnhighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
     },
         
     toggleBold: function(e) {
       e.preventDefault();
-      document.execCommand('bold', false, null);
+      if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
+          return //dont run if nothing is selected
+      }
+      highlightred('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
     },
 
     toggleItalic: function(e) {
       e.preventDefault();
-      document.execCommand('italic', false, null);
+      if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
+          return //dont run if nothing is selected
+      }
+      highlightblue('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
     },
 
     toggleUnderline: function(e) {
       e.preventDefault();
-      document.execCommand('underline', false, null);
+      if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
+          return //dont run if nothing is selected
+      }
+      highlightpurple('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
     },
         
     toggleHeading: function(e) {

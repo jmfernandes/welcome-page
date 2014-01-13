@@ -232,8 +232,8 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
 
 etch.config.buttonClasses = {
         //'default': ['save'],
-        'all': ['highlight', 'clear-formatting'],
-        'caption': ['highlight', 'unhighlight']
+        'all': ['bold', 'italic', 'underline','highlight', 'clear-formatting'],
+        //'caption': ['highlight', 'unhighlight']
         //'title': ['highlight', 'unhighlight']
       };
         
@@ -471,7 +471,27 @@ function highlight(Color) {
 
 
 ///////////following code exectues the update of highlight data and does the
-  
+          function highlightred(id, start, end) {
+              ChangeStoreDataNew();
+              highlight('#FF7373')
+              window.getSelection().removeAllRanges();
+              //document.getElementById("myList").selectedIndex = -1;
+          }  
+
+          function highlightblue(id, start, end) {
+              ChangeStoreDataNew();
+              highlight('#9CCAF7')
+              window.getSelection().removeAllRanges();
+              //document.getElementById("myList").selectedIndex = -1;
+          }  
+
+          function highlightpurple(id, start, end) {
+              ChangeStoreDataNew();
+              highlight('#BFB0E8')
+              window.getSelection().removeAllRanges();
+              //document.getElementById("myList").selectedIndex = -1;
+          }  
+
 
           function selectAndHighlightRange(id, start, end) {
               ChangeStoreDataNew();
