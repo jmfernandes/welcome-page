@@ -102,7 +102,7 @@
       if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
                       return //dont run if nothing is selected
                     }
-                    selectAndUnHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
+                    selectAndUnhighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
     },
         
     toggleBold: function(e) {
