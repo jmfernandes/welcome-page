@@ -242,7 +242,8 @@ etch.config.buttonClasses = {
 var highlightrange = Backbone.Model.extend({
     defaults: {
       start: 0,
-      end: 0
+      end: 0,
+      color: 0
     }
 });
 
@@ -472,21 +473,21 @@ function highlight(Color) {
 
 ///////////following code exectues the update of highlight data and does the
           function highlightred(id, start, end) {
-              ChangeStoreDataNew();
+              ChangeStoreDataNew(1);
               highlight('#FF7373')
               window.getSelection().removeAllRanges();
               //document.getElementById("myList").selectedIndex = -1;
           }  
 
           function highlightblue(id, start, end) {
-              ChangeStoreDataNew();
+              ChangeStoreDataNew(2);
               highlight('#9CCAF7')
               window.getSelection().removeAllRanges();
               //document.getElementById("myList").selectedIndex = -1;
           }  
 
           function highlightpurple(id, start, end) {
-              ChangeStoreDataNew();
+              ChangeStoreDataNew(3);
               highlight('#BFB0E8')
               window.getSelection().removeAllRanges();
               //document.getElementById("myList").selectedIndex = -1;
@@ -494,7 +495,7 @@ function highlight(Color) {
 
 
           function selectAndHighlightRange(id, start, end) {
-              ChangeStoreDataNew();
+              ChangeStoreDataNew(4);
               highlight('yellow')
               window.getSelection().removeAllRanges();
               //document.getElementById("myList").selectedIndex = -1;
@@ -513,12 +514,13 @@ function highlight(Color) {
 
 
 
-          function ChangeStoreDataNew() {
+          function ChangeStoreDataNew(color) {
             //compare range is an array of the current selection carat positions
           var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0],getCaretCharacterOffsetWithin(inputText)[1]) 
+          var CompareColor = color
           var unique = 1
           highlightcollection.add([
-          { start: CompareRange[0], end: CompareRange[1]} 
+          { start: CompareRange[0], end: CompareRange[1], color: CompareColor} 
           ]);
           //compare range is added to highlight set array for comparison with the rest of highlightset
           if (CompareRange[0] == CompareRange[1] ){
@@ -537,6 +539,12 @@ function highlight(Color) {
               highlightcollection.at(i).set('end', CompareRange[1])
               unique = 0
               //for selection encompassing an existing selection
+              if (highlightcollection.at(i).get('color') == CompareColor){
+                null
+              }
+              else{
+                highlightcollection.at(i).set('color', CompareColor)
+              }
             }
             if (CompareRange[0] <= highlightcollection.at(i).get('start') && CompareRange[1] < highlightcollection.at(i).get('end') && CompareRange[1] >= highlightcollection.at(i).get('start')) {
               highlightcollection.at(i).set('start', CompareRange[0])
@@ -592,7 +600,7 @@ function highlight(Color) {
             //alert(highlightcollection.length)
             var arraydisplay = []
             for (i=0;i<highlightcollection.length;i++){
-              arraydisplay.push(highlightcollection.pluck("start")[i],highlightcollection.pluck("end")[i])
+              arraydisplay.push(highlightcollection.pluck("start")[i],highlightcollection.pluck("color")[i],highlightcollection.pluck("end")[i])
             }
             alert(arraydisplay)
             //remove numbers from array
