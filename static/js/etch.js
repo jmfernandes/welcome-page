@@ -17,7 +17,7 @@
     // in the markup as "data-button-class"   
     buttonClasses: {
       'default': ['highlight'],
-      'all': ['bold', 'italic', 'underline', 'unordered-list', 'ordered-list', 'link', 'unhighlight', 'highlight'],
+      'all': ['bold', 'italic', 'underline', 'unordered-list', 'ordered-list', 'link', 'clear-formatting', 'highlight'],
       'title': ['bold', 'italic', 'underline', 'highlight']
     }
   };
@@ -51,7 +51,7 @@
       'click .etch-link': 'toggleLink',
       'click .etch-image': 'getImage',
       'click .etch-highlight': 'highlight',
-      'click .etch-unhighlight': 'toggleunhighlight'
+      'click .etch-clear-formatting': 'clearFormatting'
     },
         
     changeEditable: function() {
@@ -96,7 +96,7 @@
       range.surroundContents(el);
     },
         
-    toggleunhighlight: function(e) {
+    clearFormatting: function(e) {
       e.preventDefault();
       if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
         return //dont run if nothing is selected
