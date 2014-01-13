@@ -103,10 +103,7 @@
         
     toggleBold: function(e) {
       e.preventDefault();
-      if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
-                      return //dont run if nothing is selected
-                    }
-                    selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
+      document.execCommand('bold', false, null);
     },
 
     toggleItalic: function(e) {
