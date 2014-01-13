@@ -98,15 +98,15 @@
         
     clearFormatting: function(e) {
       e.preventDefault();
-      if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
-        return //dont run if nothing is selected
-      }
-      selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
+      document.execCommand('removeFormat', false, null);
     },
         
     toggleBold: function(e) {
       e.preventDefault();
-      document.execCommand('bold', false, null);
+      if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
+                      return //dont run if nothing is selected
+                    }
+                    selectAndHighlightRange('inputText', getCaretCharacterOffsetWithin(inputText)[0], getCaretCharacterOffsetWithin(inputText)[1])
     },
 
     toggleItalic: function(e) {
