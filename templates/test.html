@@ -551,11 +551,11 @@ function highlight(Color) {
                   }
                   else if (highlightcollection.at(i).get('start') <= highlightcollection.at(j).get('start') && highlightcollection.at(i).get('end') >= highlightcollection.at(j).get('end')){
                     //alert(CompareRange)
-                    if (CompareRange[0] > highlightcollection.at(i).get('start') && CompareRange[1] < highlightcollection.at(i).get('end') && CompareRange[0] < highlightcollection.at(i).get('end')){
+                    if (CompareRange[0] >= highlightcollection.at(i).get('start') && CompareRange[1] < highlightcollection.at(i).get('end') && CompareRange[0] < highlightcollection.at(i).get('end')){
                       if (highlightcollection.at(i).get('color') == highlightcollection.at(j).get('color')){
                         highlightcollection.at(j).set('color', 'delete')                      }
                       else{
-                      //alert('smaller')
+                      // alert('smaller')
                       KeepColor = highlightcollection.at(i).get('color')
                       KeepEnd = highlightcollection.at(i).get('end')
                       highlightcollection.at(i).set('end', CompareRange[0])
@@ -587,6 +587,11 @@ function highlight(Color) {
             }
             while (_.contains(highlightcollection.pluck("color"), 'delete')){
                 highlightcollection.remove(highlightcollection.where({color: "delete"}))
+            }
+            for (i=0;i<highlightcollection.length;i++){
+              if(highlightcollection.at(i).get('start') == highlightcollection.at(i).get('end')){
+                highlightcollection.remove(highlightcollection.at(i))
+              }
             }
 
             var arraydisplay = []
