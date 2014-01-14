@@ -500,9 +500,14 @@ function highlight(Color) {
 //////////////////////////////////////////////////////////
 
           function notetaking(note){
+            if (note == null){
+              null
+            }
+            else{
             notecollection.add([
               { position: getCaretCharacterOffsetWithin(inputText)[0], text: note} 
               ]);
+            }
             var arraydisplay = []
             for (i=0;i<notecollection.length;i++){
               arraydisplay.push(notecollection.pluck("position")[i],notecollection.pluck("text")[i])
