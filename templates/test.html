@@ -254,6 +254,8 @@ var highlightset = Backbone.Collection.extend({
 
 var highlightcollection = new highlightset()
 
+highlightcollection.comparator = 'start'
+
 
 
 
@@ -473,21 +475,21 @@ function highlight(Color) {
 
 ///////////following code exectues the update of highlight data and does the
           function highlightred(id, start, end) {
-              ChangeStoreDataNew(1);
+              New('red');
               highlight('#FF7373')
               window.getSelection().removeAllRanges();
               //document.getElementById("myList").selectedIndex = -1;
           }  
 
           function highlightblue(id, start, end) {
-              ChangeStoreDataNew(2);
+              New('blue');
               highlight('#9CCAF7')
               window.getSelection().removeAllRanges();
               //document.getElementById("myList").selectedIndex = -1;
           }  
 
           function highlightpurple(id, start, end) {
-              ChangeStoreDataNew(3);
+              New('purple');
               highlight('#BFB0E8')
               window.getSelection().removeAllRanges();
               //document.getElementById("myList").selectedIndex = -1;
@@ -495,7 +497,7 @@ function highlight(Color) {
 
 
           function selectAndHighlightRange(id, start, end) {
-              ChangeStoreDataNew(4);
+              New('yellow');
               highlight('yellow')
               window.getSelection().removeAllRanges();
               //document.getElementById("myList").selectedIndex = -1;
@@ -512,12 +514,97 @@ function highlight(Color) {
           var CheckEndList = []  
           var CheckStartList = []  
 
+          function New(color){
+            var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0],getCaretCharacterOffsetWithin(inputText)[1])
+            var KeepColor 
+            var KeepEnd 
+            var KeepStart 
+
+            
+              highlightcollection.add([
+              { start: CompareRange[0], end: CompareRange[1], color: color} 
+              ]);
+            if (highlightcollection.length == 0){
+              null
+            }
+            else{
+              for (i=0;i<highlightcollection.length-1;i++){
+                  for (j=i+1;j<highlightcollection.length;j++){
+                    //alert(i + ' ' + j)
+                  
+                  if(highlightcollection.at(i).get('end') >= highlightcollection.at(j).get('start') && highlightcollection.at(i).get('end') <= highlightcollection.at(j).get('end')){
+                    if(highlightcollection.at(i).get('color') == highlightcollection.at(j).get('color') ){
+                      highlightcollection.at(i).set('color', 'delete')
+                      highlightcollection.at(j).set('start', highlightcollection.at(i).get('start'))                        
+                    }
+                    else{
+                      if (CompareRange[0] < highlightcollection.at(j).get('start') && CompareRange[1] < highlightcollection.at(j).get('end')){
+                        //alert('first')
+                        highlightcollection.at(j).set('start', highlightcollection.at(i).get('end'))
+
+                      }
+                      else{
+                        //alert('second')
+                        highlightcollection.at(i).set('end', highlightcollection.at(j).get('start'))
+                      }
+                    }
+                  }
+                  else if (highlightcollection.at(i).get('start') <= highlightcollection.at(j).get('start') && highlightcollection.at(i).get('end') >= highlightcollection.at(j).get('end')){
+                    //alert(CompareRange)
+                    if (CompareRange[0] > highlightcollection.at(i).get('start') && CompareRange[1] < highlightcollection.at(i).get('end') && CompareRange[0] < highlightcollection.at(i).get('end')){
+                      if (highlightcollection.at(i).get('color') == highlightcollection.at(j).get('color')){
+                        highlightcollection.at(j).set('color', 'delete')                      }
+                      else{
+                      //alert('smaller')
+                      KeepColor = highlightcollection.at(i).get('color')
+                      KeepEnd = highlightcollection.at(i).get('end')
+                      highlightcollection.at(i).set('end', CompareRange[0])
+
+                      // highlightcollection.add([
+                      // { start: CompareRange[1], end: highlightcollection.at(i).get('end'), color: highlightcollection.at(i).get('color')} 
+                      // ]);
+                      }
+                    }
+                    else{
+                      //alert('bigger')
+                      highlightcollection.at(j).set('color', 'delete')
+                    }
+                  }
+                  // else if (highlightcollection.at(i).get('start') < highlightcollection.at(j).get('start') && highlightcollection.at(i).get('end') > highlightcollection.at(j).get('end')){
+                  //   alert('wowza')
+                  // }
+                }
+              }
+              //alert('loops done')
+            }
+            if (KeepEnd == null){
+              null
+            }
+            else{
+              highlightcollection.add([
+                      { start: CompareRange[1], end: KeepEnd, color: KeepColor} 
+                      ]);
+            }
+            while (_.contains(highlightcollection.pluck("color"), 'delete')){
+                highlightcollection.remove(highlightcollection.where({color: "delete"}))
+            }
+
+            var arraydisplay = []
+            for (i=0;i<highlightcollection.length;i++){
+              arraydisplay.push(highlightcollection.pluck("start")[i],highlightcollection.pluck("color")[i],highlightcollection.pluck("end")[i])
+            }
+            alert(arraydisplay)
+
+
+          }
+
 
 
           function ChangeStoreDataNew(color) {
             //compare range is an array of the current selection carat positions
           var CompareRange = new Array(getCaretCharacterOffsetWithin(inputText)[0],getCaretCharacterOffsetWithin(inputText)[1]) 
           var CompareColor = color
+          var set = 1
           var unique = 1
           highlightcollection.add([
           { start: CompareRange[0], end: CompareRange[1], color: CompareColor} 
@@ -534,6 +621,22 @@ function highlight(Color) {
           else {
           for (i=0;i<(highlightcollection.length - 1);i++)
           {
+            if (CompareRange[0] > highlightcollection.at(i).get('start') && CompareRange[1] < highlightcollection.at(i).get('end')){
+              if (highlightcollection.at(i).get('color') == CompareColor){
+                null
+              }
+              else{
+                highlightcollection.at(i).set('end', CompareRange[0])
+                set = 0
+                // highlightcollection.add([
+                // { start: CompareRange[0], end: CompareRange[1], color: CompareColor} 
+                // ]);
+                // highlightcollection.add([
+                // { start: CompareRange[1], end: Chighlightcollection.at(i).get('end'), color: highlightcollection.at(i).get('color')} 
+                // ]);
+                //highlightcollection.at(i).set('color', CompareColor)
+              }
+            }
             if (CompareRange[0] <= highlightcollection.at(i).get('start') && CompareRange[1] >= highlightcollection.at(i).get('end')) {
               highlightcollection.at(i).set('start', CompareRange[0])
               highlightcollection.at(i).set('end', CompareRange[1])
@@ -559,6 +662,10 @@ function highlight(Color) {
             CheckEndList.push([i,highlightcollection.at(i).get('end')])
             CheckStartList.push([i,highlightcollection.at(i).get('start')])
           }
+          if (set ==0){
+            alert('we got it')
+            alert(unique)
+          }
           if (unique == 0) {
             highlightcollection.pop()
             //gets the compare range out of highlight range, because it overlaps with an existing range
@@ -566,6 +673,11 @@ function highlight(Color) {
           else if (unique == 1){
               CheckEndList.push([highlightcollection.length-1,highlightcollection.at(highlightcollection.length-1).get('end')])
               CheckStartList.push([highlightcollection.length-1,highlightcollection.at(highlightcollection.length-1).get('start')])
+          if (i == (highlightcollection.length - 1)){
+
+          alert(i)
+          }
+
           }
           for (i=0;i<highlightcollection.length;i++){
             for (j=0;j<highlightcollection.length;j++){
