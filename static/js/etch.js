@@ -17,8 +17,8 @@
     // in the markup as "data-button-class"   
     buttonClasses: {
       'default': ['highlight'],
-      'all': ['highlight-red', 'highlight-blue', 'highlight-yellow', 'unordered-list', 'ordered-list', 'link', 'clear-formatting', 'highlight'],
-      'title': ['highlight-red', 'highlight-blue', 'highlight-yellow', 'highlight']
+      'all': ['highlight-red', 'highlight-blue', 'highlight-purple', 'unordered-list', 'ordered-list', 'link', 'clear-formatting', 'highlight'],
+      'title': ['highlight-red', 'highlight-blue', 'highlight-purple', 'highlight']
     }
   };
 
@@ -41,7 +41,7 @@
     events: {
       'click .etch-highlight-red': 'toggleBold',
       'click .etch-highlight-blue': 'toggleItalic',
-      'click .etch-highlight-yellow': 'toggleUnderline',
+      'click .etch-highlight-purple': 'toggleUnderline',
       'click .etch-heading': 'toggleHeading',
       'click .etch-unordered-list': 'toggleUnorderedList',
       'click .etch-justify-left': 'justifyLeft',
