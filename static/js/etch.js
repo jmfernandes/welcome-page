@@ -51,7 +51,7 @@
       'click .etch-link': 'toggleLink',
       'click .etch-image': 'getImage',
       'click .etch-highlight': 'highlight',
-      'click .etch-remove highlight': 'clearFormatting'
+      'click .etch-remove highlight': 'removehighlight'
     },
         
     changeEditable: function() {
@@ -96,7 +96,7 @@
       range.surroundContents(el);
     },
         
-    clearFormatting: function(e) {
+    removehighlight: function(e) {
       e.preventDefault();
       if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
           return //dont run if nothing is selected
