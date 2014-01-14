@@ -22,18 +22,18 @@
     display: block; height: 100%; width: 100%;
 }
 
-.etch-editor-panel .etch-bold span { background-position: 0 0; }
-.etch-editor-panel .etch-italic span { background-position: -30px 0; }
-.etch-editor-panel .etch-underline span { background-position: -60px 0; }
+.etch-editor-panel .etch-highlight-red span { background-position: 0 0; }
+.etch-editor-panel .etch-highlight-blue span { background-position: -30px 0; }
+.etch-editor-panel .etch-highlight-purple span { background-position: -60px 0; }
 .etch-editor-panel .etch-unordered-list span { background-position: -90px 0; }
 .etch-editor-panel .etch-ordered-list span { background-position: -120px 0; }
 .etch-editor-panel .etch-image span { background-position: -150px 0; }
 .etch-editor-panel .etch-link span { background-position: -180px 0; }
-.etch-editor-panel .etch-highlight span { background-position: -210px 0; }
+.etch-editor-panel .etch-highlight-yellow span { background-position: -210px 0; }
 .etch-editor-panel .etch-justify-left span { background-position: -240px 0; }
 .etch-editor-panel .etch-justify-center span { background-position: -270px 0; }
 .etch-editor-panel .etch-justify-right span { background-position: -300px 0; }
 .etch-editor-panel .etch-cite span { background-position: -330px 0; }
 .etch-editor-panel .etch-heading span { background-position: -360px 0; }
-.etch-editor-panel .etch-clear-formatting span { background-position: -390px 0; }
+.etch-editor-panel .etch-remove-highlight span { background-position: -390px 0; }
 

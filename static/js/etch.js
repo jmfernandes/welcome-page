@@ -17,8 +17,8 @@
     // in the markup as "data-button-class"   
     buttonClasses: {
       'default': ['highlight'],
-      'all': ['highlight-red', 'highlight-blue', 'highlight-purple', 'unordered-list', 'ordered-list', 'link', 'remove highlight', 'highlight'],
-      'title': ['highlight-red', 'highlight-blue', 'highlight-purple', 'highlight']
+      'all': ['highlight-red', 'highlight-blue', 'highlight-purple', 'unordered-list', 'ordered-list', 'link', 'remove-highlight', 'highlight-yellow'],
+      'title': ['highlight-red', 'highlight-blue', 'highlight-purple', 'highlight-yellow']
     }
   };
 
@@ -50,8 +50,8 @@
       'click .etch-ordered-list': 'toggleOrderedList',
       'click .etch-link': 'toggleLink',
       'click .etch-image': 'getImage',
-      'click .etch-highlight': 'highlight',
-      'click .etch-remove highlight': 'removehighlight'
+      'click .etch-highlight-yellow': 'highlight',
+      'click .etch-remove-highlight': 'removehighlight'
     },
         
     changeEditable: function() {
