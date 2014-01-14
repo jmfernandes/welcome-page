@@ -17,7 +17,7 @@
     // in the markup as "data-button-class"   
     buttonClasses: {
       'default': ['highlight'],
-      'all': ['highlight-red', 'highlight-blue', 'highlight-purple', 'unordered-list', 'ordered-list', 'link', 'remove-highlight', 'highlight-yellow'],
+      'all': ['highlight-red', 'highlight-blue', 'highlight-purple', 'unordered-list', 'write-note', 'link', 'remove-highlight', 'highlight-yellow'],
       'title': ['highlight-red', 'highlight-blue', 'highlight-purple', 'highlight-yellow']
     }
   };
@@ -47,7 +47,7 @@
       'click .etch-justify-left': 'justifyLeft',
       'click .etch-justify-center': 'justifyCenter',
       'click .etch-justify-right': 'justifyRight',
-      'click .etch-ordered-list': 'toggleOrderedList',
+      'click .etch-write-note': 'toggleOrderedList',
       'click .etch-link': 'toggleLink',
       'click .etch-image': 'getImage',
       'click .etch-highlight-yellow': 'highlight',
@@ -181,7 +181,9 @@
 
     toggleOrderedList: function(e){
       e.preventDefault();
-      document.execCommand('insertOrderedList', false, null);
+      var note = prompt('enter a note');
+      notetaking(note)
+      //document.execCommand('insertOrderedList', false, null);
     },
         
     justifyLeft: function(e) {

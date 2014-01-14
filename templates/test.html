@@ -232,12 +232,13 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
 
 etch.config.buttonClasses = {
         //'default': ['save'],
-        'all': ['highlight-red', 'highlight-blue', 'highlight-purple','highlight-yellow', 'remove-highlight'],
+        'all': ['highlight-red', 'highlight-blue', 'highlight-purple','highlight-yellow', 'remove-highlight', 'write-note'],
         //'caption': ['highlight', 'unhighlight']
         //'title': ['highlight', 'unhighlight']
       };
         
 
+////////////////
 
 var highlightrange = Backbone.Model.extend({
     defaults: {
@@ -255,6 +256,32 @@ var highlightset = Backbone.Collection.extend({
 var highlightcollection = new highlightset()
 
 highlightcollection.comparator = 'start'
+
+
+/////////////////////
+
+var notemodel = Backbone.Model.extend({
+    defaults: {
+      position: 0,
+      text: ''
+    }
+});
+
+var noteset = Backbone.Collection.extend({
+  model: notemodel
+})
+
+
+var notecollection = new noteset()
+
+notecollection.comparator = 'position'
+
+
+
+
+
+
+
 
 
 
@@ -470,7 +497,18 @@ function highlight(Color) {
 }
 
 
+//////////////////////////////////////////////////////////
 
+          function notetaking(note){
+            notecollection.add([
+              { position: getCaretCharacterOffsetWithin(inputText)[0], text: note} 
+              ]);
+            var arraydisplay = []
+            for (i=0;i<notecollection.length;i++){
+              arraydisplay.push(notecollection.pluck("position")[i],notecollection.pluck("text")[i])
+            }
+            alert(arraydisplay)
+          }
 
 
 ///////////following code exectues the update of highlight data and does the
