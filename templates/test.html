@@ -210,12 +210,6 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
                 editableClick: etch.editableInit,
 
                 highlight: function() {
-
-                    // normally you would call model.save() here but this is a demo
-                    // $(this.el).find('.editable').effect('highlight', {color: 'yellow'});
-                    // $('.save-event').fadeIn('fast', function() {
-                    //     setTimeout($(this).fadeOut('slow'), 10000);
-                    // });
                     if (getCaretCharacterOffsetWithin(inputText)[0] == getCaretCharacterOffsetWithin(inputText)[1]){
                       return //dont run if nothing is selected
                     }
@@ -279,8 +273,14 @@ notecollection.comparator = 'position'
 
 
 
-
-
+// FRAMEWORK FOR DATABASE INTERFACE
+// for i in range(database_data)
+//   urldata = [info gotten from database]
+//     if (urldata = document.URL){
+//       highlightcollection.add([
+//               { start: database_data, end: database_data, color: database_data, url: database_data} 
+//               ]);
+//  }
 
 
 
