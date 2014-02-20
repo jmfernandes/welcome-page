@@ -157,6 +157,7 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
     <script src="http://www.datanab.net/static/js/backbone.js"></script>
     <script src="http://www.datanab.net/static/js/rangy-core.js"></script>
     <script src="http://www.datanab.net/static/js/etch.js"></script>
+    <script src="http://www.datanab.net/static/js/jsgl.js"></script>
     <script>
           rangy.init();
           rangy.createMissingNativeApi(); // to polyfill window.getSelection() in IE8
@@ -285,7 +286,13 @@ notecollection.comparator = 'position'
 
 
 
-
+myPanel = new jsgl.Panel(document.getElementById("inputText"));
+circle = myPanel.createCircle();
+circle.setCenterLocationXY(150,150);
+circle.setRadius(30);
+circle.getStroke().setWeight(5);
+circle.getStroke().setColor("rgb(255,0,0)");
+myPanel.addElement(circle);
 
 ////////////////////////////////////////////////////////////////////////////////
     ////// DOM manipulation of dropdown menu
