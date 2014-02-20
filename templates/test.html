@@ -226,6 +226,9 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
             var view = new articleView({model: model, el: $article[0], tagName: $article[0].tagName});
         })()
 
+
+
+
 etch.config.buttonClasses = {
         //'default': ['save'],
         'all': ['highlight-red', 'highlight-blue', 'highlight-purple','highlight-yellow', 'remove-highlight', 'write-note'],
@@ -294,6 +297,8 @@ notecollection.comparator = 'position'
 // circle.getStroke().setWeight(1);
 // circle.getStroke().setColor("rgb(255,0,0)");
 // myPanel.addElement(circle);
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
     ////// DOM manipulation of dropdown menu
@@ -382,6 +387,8 @@ function selectONLY(id, start, end) {
     var indexone
     var indextwo
 
+    var pixpos = {};
+
 //this function selects an entire highlight if double clicked within the highlight 
 
     function mouseDouble()
@@ -399,6 +406,9 @@ function selectONLY(id, start, end) {
   //this function makes the drop down menu appear
     function mouseUp()
     {
+      pixpos.x = event.clientX
+      pixpos.y = event.clientY
+      // alert(pixpos.x)
       // document.getElementById("myList").style.display = 'none'
       // hereitis = getCaretCharacterOffsetWithin(inputText)[0];
       // hereitgoes = getCaretCharacterOffsetWithin(inputText)[1];
@@ -508,23 +518,58 @@ function highlight(Color) {
     }
 }
 
+function roundTen(number)
+{
+  return Math.round(number/10)*10;
+}
+
+function roundfive(number)
+{
+  return Math.round(number/5)*5;
+}
+
+function createcirc(){
+    var paper = Raphael(pixpos.x, roundTen(pixpos.y-9), 10, 10);
+
+    var circle = paper.rect(0, 0, 4,10);
+
+    circle.attr("fill", "#f00");
+
+    circle.attr("stroke", "#fff")
+    circle.id = getCaretCharacterOffsetWithin(inputText)[1]
+    // alert(circle.id)
+    circle.click(function(){
+  //change attributes
+  // circle.attr("fill","black"); 
+  // alert(circle.id)
+  // alert(notecollection.pluck("position")) 
+  var cheese = notecollection.where({position: circle.id})[0]
+  alert(cheese.get('text'))
+});
+
+}
+
+
+
 
 //////////////////////////////////////////////////////////
 
+
           function notetaking(note){
+            createcirc()
             if (note == null){
               null
             }
             else{
             notecollection.add([
-              { position: getCaretCharacterOffsetWithin(inputText)[0], text: note} 
+              { position: getCaretCharacterOffsetWithin(inputText)[1], text: note} 
               ]);
             }
             var arraydisplay = []
             for (i=0;i<notecollection.length;i++){
               arraydisplay.push(notecollection.pluck("position")[i],notecollection.pluck("text")[i])
             }
-            alert(arraydisplay)
+            // alert(arraydisplay)
           }
 
 
