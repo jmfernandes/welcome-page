@@ -244,7 +244,8 @@ var highlightrange = Backbone.Model.extend({
     defaults: {
       start: 0,
       end: 0,
-      color: 0
+      color: '',
+      url: ''
     }
 });
 
@@ -562,7 +563,7 @@ function highlight(Color) {
             var KeepColor 
             var KeepEnd 
               highlightcollection.add([
-              { start: CompareRange[0], end: CompareRange[1], color: color} 
+              { start: CompareRange[0], end: CompareRange[1], color: color, url: document.URL} 
               ]);
             if (highlightcollection.length == 0){
               null
@@ -606,7 +607,7 @@ function highlight(Color) {
             }
             else{
               highlightcollection.add([
-                      { start: CompareRange[1], end: KeepEnd, color: KeepColor} 
+                      { start: CompareRange[1], end: KeepEnd, color: KeepColor, url: document.URL} 
                       ]);
             }
             //remove the redundant models that overlap with the others
@@ -625,7 +626,7 @@ function highlight(Color) {
             }
             var arraydisplay = []
             for (i=0;i<highlightcollection.length;i++){
-              arraydisplay.push(highlightcollection.pluck("start")[i],highlightcollection.pluck("color")[i],highlightcollection.pluck("end")[i])
+              arraydisplay.push(highlightcollection.pluck("start")[i],highlightcollection.pluck("color")[i],highlightcollection.pluck("end")[i],highlightcollection.pluck("url")[i])
             }
             alert(arraydisplay)
             //from here to top comment/ delete for final product
