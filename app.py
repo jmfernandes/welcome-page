@@ -34,6 +34,10 @@ def search():
 def search_results(query):
     return render_template('search_results.html', query = query)
 
+@app.route('/', endpoint='/')
+def contact_index():
+    return  render_template('welcome.html')
+
 @app.route('/about', endpoint='about')
 def about_index():
     #data = []
