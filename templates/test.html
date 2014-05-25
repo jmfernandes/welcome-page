@@ -107,6 +107,8 @@
             </div>
           <div class="row-fluid">
             <div class="article">
+              <div class="edit" id="edit" contentEditable="true">
+              </div>
                 <div id="inputText" class="body editable"  data-button-class="all" onmouseup="mouseUp()" ondblclick="mouseDouble()">Highlight <i>the code here.<b>Any text </i>on this line</b> can be highlighted.<br> Other text on the screen can not be highlighted.<br>Here is another line of text to test whether the highlight code works properly.<br><br>
 
                 Sir Isaac Newton PRS MP (/ˈnjuːtən/;[8] 25 December 1642 – 20 March 1727) was an English physicist and mathematician who is widely regarded as one of the most influential scientists of all time and as a key figure in the scientific revolution. His book Philosophiæ Naturalis Principia Mathematica ("Mathematical Principles of Natural Philosophy"), first published in 1687, laid the foundations for most of classical mechanics. Newton also made seminal contributions to optics and shares credit with Gottfried Leibniz for the invention of the infinitesimal calculus.<br><br>
@@ -263,7 +265,8 @@ highlightcollection.comparator = 'start'
 var notemodel = Backbone.Model.extend({
     defaults: {
       position: 0,
-      text: ''
+      text: '',
+      url: ''
     }
 });
 
@@ -406,8 +409,11 @@ function selectONLY(id, start, end) {
   //this function makes the drop down menu appear
     function mouseUp()
     {
-      pixpos.x = event.clientX
-      pixpos.y = event.clientY
+    //   var pos = getCaretPixelPos($inputText[0]);
+    //   $x.html(pos.left);
+    // $y.html(pos.top);
+    //   pixpos.x = event.clientX
+    //   pixpos.y = event.clientY
       // alert(pixpos.x)
       // document.getElementById("myList").style.display = 'none'
       // hereitis = getCaretCharacterOffsetWithin(inputText)[0];
@@ -529,13 +535,19 @@ function roundfive(number)
 }
 
 function createcirc(){
-    var paper = Raphael(pixpos.x, roundTen(pixpos.y-9), 10, 10);
+    var pos = getCaretPixelPos($inputText[0]);
+    var paper = Raphael(pos.left, pos.top+14, 24, 8);
 
-    var circle = paper.rect(0, 0, 4,10);
+    var circle = paper.rect(2, 2, 20,4);
 
     circle.attr("fill", "#f00");
 
-    circle.attr("stroke", "#fff")
+    circle.attr("stroke", "#fff");
+
+    var set1 = paper.set();
+set1.push(circle);
+set1.attr({"stroke": "black", 
+  "stroke-width": 2});
     circle.id = getCaretCharacterOffsetWithin(inputText)[1]
     // alert(circle.id)
     circle.click(function(){
@@ -543,8 +555,8 @@ function createcirc(){
   // circle.attr("fill","black"); 
   // alert(circle.id)
   // alert(notecollection.pluck("position")) 
-  var cheese = notecollection.where({position: circle.id})[0]
-  alert(cheese.get('text'))
+    var cheese = notecollection.where({position: circle.id})[0]
+    alert(cheese.get('text'))
 });
 
 }
@@ -564,7 +576,7 @@ function createcirc(){
             }
             else{
             notecollection.add([
-              { position: getCaretCharacterOffsetWithin(inputText)[1], text: note} 
+              { position: getCaretCharacterOffsetWithin(inputText)[1], text: note, url: document.URL} 
               ]);
             }
             var arraydisplay = []
@@ -741,6 +753,68 @@ function showCaretPos() {
 
 document.body.onkeyup = showCaretPos;
 document.body.onmouseup = showCaretPos;
+
+
+
+
+
+var getCaretPixelPos = function ($node, offsetx, offsety){
+    offsetx = offsetx || 0;
+    offsety = offsety || 0;
+
+    var nodeLeft = 0,
+        nodeTop = 0;
+    if ($node){
+        nodeLeft = $node.offsetLeft;
+        nodeTop = $node.offsetTop;
+    }
+
+    var pos = {left: 0, top: 0};
+
+    if (document.selection){
+        var range = document.selection.createRange();
+        pos.left = range.offsetLeft + offsetx - nodeLeft + 'px';
+        pos.top = range.offsetTop + offsety - nodeTop + 'px';
+    }else if (window.getSelection){
+        var sel = window.getSelection();
+        var range = sel.getRangeAt(0).cloneRange();
+        try{
+            range.setStart(range.startContainer, range.startOffset-1);
+        }catch(e){}
+        var rect = range.getBoundingClientRect();
+        if (range.endOffset == 0 || range.toString() === ''){
+            // first char of line
+            if (range.startContainer == $node){
+                // empty div
+                if (range.endOffset == 0){
+                    pos.top = 0;
+                    pos.left = 0;
+                }else{
+                    // firefox need this
+                    var range2 = range.cloneRange();
+                    range2.setStart(range2.startContainer, 0);
+                    var rect2 = range2.getBoundingClientRect();
+                    pos.left = parseFloat(rect2.left + offsetx);
+                    pos.top = parseFloat(rect2.top + rect2.height + offsety);
+                }
+            }else{
+                pos.top = parseFloat(range.startContainer.offsetTop);
+                pos.left = parseFloat(range.startContainer.offsetLeft);
+            }
+        }else{
+            pos.left = parseFloat(rect.left + rect.width + offsetx);
+            pos.top = parseFloat(rect.top + offsety);
+        }
+    }
+    return pos;
+};
+
+var $inputText = $('#inputText')
+
+
+
+
+
 
 
 
