@@ -107,6 +107,7 @@
             </div>
           <div class="row-fluid">
             <div class="article">
+              <a href="#" id="addPersonButton">Add another person to the list</a>
               <div class="edit" id="edit" contentEditable="true">
               </div>
                 <div id="inputText" class="body editable"  data-button-class="all" onmouseup="mouseUp()" ondblclick="mouseDouble()">Highlight <i>the code here.<b>Any text </i>on this line</b> can be highlighted.<br> Other text on the screen can not be highlighted.<br>Here is another line of text to test whether the highlight code works properly.<br><br>
@@ -161,6 +162,9 @@ He was appointed Lucasian Professor of Mathematics in 1669 on Barrow's recommend
     <script src="http://www.datanab.net/static/js/etch.js"></script>
     <script src="http://www.datanab.net/static/js/jsgl.js"></script>
     <script src="http://www.datanab.net/static/js/raphael-min.js"></script>
+    <script src="../static/js/Backbone.Validation.js" type="text/javascript"></script>
+    <script src="../static/js/Backbone.ModalDialog.js" type="text/javascript"></script>
+    <script src="../static/js/demo.js" type="text/javascript"></script>
     <script>
           rangy.init();
           rangy.createMissingNativeApi(); // to polyfill window.getSelection() in IE8
@@ -237,7 +241,104 @@ etch.config.buttonClasses = {
         //'caption': ['highlight', 'unhighlight']
         //'title': ['highlight', 'unhighlight']
       };
+      
+
+
+ ///////////////////////////
+ 
+
+ $(document).ready(
+  function()
+  {
+    _.templateSettings = {interpolate : /\{\{(.+?)\}\}/g};
+    $("#addPersonButton").click(
+      function( event)
+      {
+        event.preventDefault();
+        event.stopPropagation();
         
+        // Create the modal view
+        var model = new PersonModel();
+        var view = new AddPersonView( {model:model});
+        view.render().showModal({
+            x: event.pageX,
+            y: event.pageY
+          });
+      });
+
+    _people = new PeopleCollection();
+    _people.add( new PersonModel({name: "Person 1", email:"person1@email.com", phone:"011-11-111"}));
+    _people.add( new PersonModel({name: "Person 2", email:"person2@email.com", phone:"022-22-222"}));
+    _people.add( new PersonModel({name: "Person 3", email:"person3@email.com", phone:"03-333-333"}));
+
+    _peopleList = new PeopleListView(
+      {
+        collection: _people,
+        el: "#people"
+      });
+
+    _peopleList.render();
+    
+    additionalTests();
+  });
+  
+  function additionalTests()
+  {
+    $("#test-no-config").click(
+      function( event)
+      {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        var model = new PersonModel();
+        var view = new AddPersonView( {model:model});
+        view.render().showModal();
+      });
+      
+    $("#test-anchor-header-left").click(
+      function( event)
+      {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        var model = new PersonModel();
+        var view = new AddPersonView( {model:model});
+        view.render().showModal(
+          {
+            "slideFromAbove": true,
+            "targetContainer": $("#header"),
+            css:{
+              "left": "0px",
+              "top": "0px"}
+          });
+      });
+      
+    $("#test-anchor-header-right").click(
+      function( event)
+      {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        var model = new PersonModel();
+        var view = new AddPersonView( {model:model});
+        view.render().showModal(
+          {
+            "slideFromBelow": true,
+            "targetContainer": $("#header"),
+            css:{
+              "right": "0px",
+              "top": "0px"}
+          });
+      });
+    
+    $("#test-permanent").click(
+      function( event)
+      {
+        event.preventDefault();
+        var view = new PermanentView();
+        view.render().showModal( {permanentlyVisible: true});
+      });
+  }       
 
 ////////////////
 
@@ -556,7 +657,17 @@ set1.attr({"stroke": "black",
   // alert(circle.id)
   // alert(notecollection.pluck("position")) 
     var cheese = notecollection.where({position: circle.id})[0]
-    alert(cheese.get('text'))
+    event.preventDefault();
+        event.stopPropagation();
+        
+        // Create the modal view
+        var model = new PersonModel();
+        var view = new AddPersonView( {model:model});
+        view.render().showModal({
+            x: event.pageX,
+            y: event.pageY
+          });
+    // alert(cheese.get('text'))
 });
 
 }
