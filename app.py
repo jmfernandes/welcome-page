@@ -57,6 +57,10 @@ def example_index():
 def example_index():
     return  render_template('test.html')
 
+@app.route('/angular', endpoint='angular')
+def example_index():
+    return  render_template('angular.html')
+
 #@app.route("/all-links")
 #def all_links():
 #    links = []
