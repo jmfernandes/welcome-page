@@ -334,36 +334,36 @@ Backbone.ModalView =
                     this.setFocusOnFirstFormControl();
                 }
 
-                if( this.options.showCloseButton)
-                {
-                    var view = this;
-                    var image =
-                        $("<a href='#' id='modalCloseButton'>&#160;</a>")
-                            .css({
-									"position":"absolute",
-									"top":"-10px",
-									"right":"-10px",
-									"width":"32px",
-									"height":"32px",
-									"background":"transparent url(" + view.options.closeImageUrl + ") top left no-repeat",
-									"text-decoration":"none"})
-                            .appendTo( this.modalContainer)
-                            .hover(
-                                function()
-                                {
-                                    $(this).css( "background-image", "url(" + view.options.closeImageHoverUrl + ") !important");
-                                },
-                                function()
-                                {
-                                    $(this).css( "background-image", "url(" + view.options.closeImageUrl + ") !important");
-                                })
-                            .click(
-                                function( event)
-                                {
-                                    event.preventDefault();
-                                    view.hideModal();
-                                });
-                }
+                // if( this.options.showCloseButton)
+//                 {
+//                     var view = this;
+//                     var image =
+//                         $("<a href='#' id='modalCloseButton'>&#160;</a>")
+//                             .css({
+// 									"position":"absolute",
+// 									"top":"-10px",
+// 									"right":"-10px",
+// 									"width":"32px",
+// 									"height":"32px",
+// 									"background":"transparent url(" + view.options.closeImageUrl + ") top left no-repeat",
+// 									"text-decoration":"none"})
+//                             .appendTo( this.modalContainer)
+//                             .hover(
+//                                 function()
+//                                 {
+//                                     $(this).css( "background-image", "url(" + view.options.closeImageHoverUrl + ") !important");
+//                                 },
+//                                 function()
+//                                 {
+//                                     $(this).css( "background-image", "url(" + view.options.closeImageUrl + ") !important");
+//                                 })
+//                             .click(
+//                                 function( event)
+//                                 {
+//                                     event.preventDefault();
+//                                     view.hideModal();
+//                                 });
+//                 }
 
                 var animateProperties = {opacity:1};
                 var modalOffset = modalContainer.offset();

@@ -22,18 +22,17 @@ AddPersonView = Backbone.ModalView.extend(
 		name: "AddPersonView",
 		model: PersonModel,
 		templateHtml:
-			"<div class='modal-header'>Add a new person to the list</div>" +
+			"<div class='modal-header'>The Note</div>" +
 			"<form>" +
                 "<table class='compact'>" +
                     "<tr><td>" +
-				        "<label for='name'>Name</label>" +
                         "</td><td>" +
 				        "<input type='text' id='name' />" +
                     "</td></tr>" +
                     "<tr><td></td><td>" +
-				        "<input id='addPersonButton' type='submit' value='edit note' />" +
-				        "<input id='deleteButton' type='submit' value='delete' />" +
-				        "<input id='closeButton' type='submit' value='close' />" +
+				        "<button id='addPersonButton' type='submit'>edit note</button>" +
+				        "<button id='deleteHighlightButton' type='submit'>delete</button>" +
+				        "<button id='closeHighlightButton' type='submit'>close</button>" +
                     "</td></tr>" +
                 "</table>" +
 			"</form>",
@@ -47,7 +46,9 @@ AddPersonView = Backbone.ModalView.extend(
 		events:
 			{
 			     "change #email": "validateEmail",
-				"submit form": "addPerson"
+				"click #addPersonButton": "addPerson",
+				"click #deleteHighlightButton": "deletehighlight",
+				"click #closeHighlightButton": "closehighlight"
 			},
 		getCurrentFormValues:
 			function()
@@ -98,7 +99,7 @@ AddPersonView = Backbone.ModalView.extend(
 				}
 			},
 			
-		delete:
+		deletehighlight:
 			function( event)
 			{
 				alert('2')
@@ -111,7 +112,7 @@ AddPersonView = Backbone.ModalView.extend(
 				}
 			},
 			
-		close:
+		closehighlight:
 			function( event)
 			{
 				alert('3')
