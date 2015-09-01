@@ -1,3 +1,3 @@
 function sayHello($scope) {
-	$scope.name = { text: 'Your Name'};
+	$scope.name = { text: 'John'};
 }
