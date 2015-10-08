@@ -1,8 +1,13 @@
 
 <!DOCTYPE>
 <html>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
   <body>
   <center>
+  <span id="temp"></span><br>
+  <span id="tstamp"></span><br>
+
+     <button id="connectbutton" onclick="start()">check LED status</button>
   <br>
   <br>
   <br>
@@ -17,5 +22,29 @@
     <input type="submit" value="Do it!">
   </form>
   </center>
+
+  <script type="text/javascript">
+
+    function start(objButton) {
+
+        document.getElementById("temp").innerHTML = "Waiting for data...";
+        document.getElementById("tstamp").innerHTML ="";
+        var deviceID = "360033000a47343432313031";
+        var accessToken = "70556751a3cf172bb567946e294478d8988e1cc4";
+        var varName = "digitalvalue";
+
+        requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + varName + "/?access_token=" + accessToken;
+        $.getJSON(requestURL, function(json) {
+                 if (json.result == 1) {
+                  document.getElementById("temp").innerHTML = "LED is on";
+                    } else { 
+                     document.getElementById("temp").innerHTML = "LED is off";
+                        }
+                 
+                 document.getElementById("temp").style.fontSize = "28px";
+                 document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
+                 });
+    }
+    </script>
   </body>
 </html>
