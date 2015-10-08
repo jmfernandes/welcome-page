@@ -49,6 +49,10 @@ def about_index():
 def contact_index():
     return  render_template('contact.html')
 
+@app.route('/led', endpoint='led')
+def contact_index():
+    return  render_template('led.html')
+
 @app.route('/examples', endpoint='examples')
 def example_index():
     return  render_template('example.html')
