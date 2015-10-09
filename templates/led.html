@@ -24,6 +24,13 @@
 
   <script type="text/javascript">
 
+    $('form').live('submit', function(){
+      $.post($(this).attr('action'), $(this).serialize(), function(response){
+            // do something here on success
+      },'json');
+      return false;
+   });
+
     window.setInterval(function() {
 
         var deviceID = "360033000a47343432313031";
@@ -41,7 +48,7 @@
                  document.getElementById("temp").style.fontSize = "28px";
                  document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                  });
-    },10000);
+    },5000);
     </script>
   </body>
 </html>
