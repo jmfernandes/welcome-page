@@ -72,20 +72,50 @@ p  {
 
         requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
         $.getJSON(requestURL, function(json) {
-                document.getElementById("temp").innerHTML = "amount of red is "+json.result;
+                if (json.result > 255) {
+                  document.getElementById("temp").innerHTML = "amount of red is "+"255";
                 document.getElementById("temp").style.fontSize = "28px";
+                }
+                else if (json.result < 10){
+                document.getElementById("temp").innerHTML = "amount of red is "+"0";
+                document.getElementById("temp").style.fontSize = "28px";
+                }
+                else{
+                  document.getElementById("temp").innerHTML = "amount of red is "+json.result;
+                document.getElementById("temp").style.fontSize = "28px";
+                }
                  });
 
         requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + varName3 + "/?access_token=" + accessToken;
         $.getJSON(requestURL, function(json) {
-                document.getElementById("temp2").innerHTML = "amount of green is "+json.result;
+                if (json.result > 255) {
+                  document.getElementById("temp2").innerHTML = "amount of green is "+"255";
                 document.getElementById("temp2").style.fontSize = "28px";
+                }
+                else if (json.result < 10){
+                document.getElementById("temp2").innerHTML = "amount of green is "+"0";
+                document.getElementById("temp2").style.fontSize = "28px";
+                }
+                else{
+                  document.getElementById("temp2").innerHTML = "amount of green is "+json.result;
+                document.getElementById("temp2").style.fontSize = "28px";
+                }
                  });
 
         requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + varName + "/?access_token=" + accessToken;
         $.getJSON(requestURL, function(json) {
-                document.getElementById("temp3").innerHTML = "amount of blue is "+json.result;
+                if (json.result > 255) {
+                  document.getElementById("temp3").innerHTML = "amount of blue is "+"255";
                 document.getElementById("temp3").style.fontSize = "28px";
+                }
+                else if (json.result < 10){
+                document.getElementById("temp3").innerHTML = "amount of blue is "+"0";
+                document.getElementById("temp3").style.fontSize = "28px";
+                }
+                else{
+                  document.getElementById("temp3").innerHTML = "amount of blue is "+json.result;
+                document.getElementById("temp3").style.fontSize = "28px";
+                }
                 document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                  });
         
