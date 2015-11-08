@@ -53,6 +53,10 @@ def contact_index():
 def contact_index():
     return  render_template('led.html')
 
+@app.route('/RGB', endpoint='RGB')
+def contact_index():
+    return  render_template('led_strip.html')
+
 @app.route('/examples', endpoint='examples')
 def example_index():
     return  render_template('example.html')
