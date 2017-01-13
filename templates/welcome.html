@@ -2,160 +2,98 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Main Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="https://conversions.herokuapp.com/static/bootstrap.css" rel="stylesheet" type="text/css">
-    <link rel="SHORTCUT ICON" href="https://conversions.herokuapp.com/static/img/Dglove.ico">
-    <style type="text/css">
-        body {
-            padding-top: 60px;
-            padding-bottom: 40px;
-            background-image:url('https://conversions.herokuapp.com/static/img/striped_lens.png');
-            display: compact;
-        }
-        .sidebar-nav {
-            padding: 9px 0; min-width: 180px;
-        }
-        .navbar-inner {
-            min-width: 760px;
-        }
-        .container {
-        min-width: 540px;
-        }
-        .searchingbar
-        {
-        padding-top: 5px;
-        }
-        footer {
-            width:100%;
-            position:fixed;
-            top: auto;
-            bottom: 0;
-            background:#6cf;
-        }
-    </style>
+    <!-- Bootstrap -->
+    <link href="../static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/bootstrap-3.3.7-dist/css/offcanvas.css" rel="stylesheet">
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
   </head>
   <body>
-      <?php
-      include '/sphider/search.php';
-      ?>
-      <div class="navbar navbar-inverse navbar-fixed-top">
-          <div class="navbar-inner">
-              <div class="container-fluid">
-                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                  </a>
-                  <a class="brand"><img src="https://conversions.herokuapp.com/static/img/Dglove_small_trans3.ico" alt="" style="padding-bottom:5px;" /></a>
-                  <a class="brand" style="padding-left:1px;" href="https://www.datanab.net/">Data Nab</a>
-                  <div class="nav-collapse">
-                      <ul class="nav">
-                          <li><a href="https://www.datanab.net/" style="padding-left:5px;"><i class="icon-home icon-white"></i>Home</a></li>
-                          <li><a href="https://www.datanab.net/about" style="padding-left:5px;"><i class="icon-info-sign icon-white"></i>About</a></li>
-                          <li><a href="https://www.datanab.net/contact" style="padding-left:5px;"><i class="icon-user icon-white"></i>Contact</a></li>
-                          <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" style="padding-left:4px;"><i class="icon-list-alt icon-white"></i>
-                                  Pages <b class="caret"></b>
-                              </a>
-                              <ul class="dropdown-menu">
-                                  <li><a tabindex="-1" href="https://constants.datanab.net">Constants</a></li>
-                                  <li><a tabindex="-1" href="https://conversions.datanab.net">Conversions</a></li>
-                                  <li><a tabindex="-1" href="https://prices.datanab.net">Prices</a></li>
-                                  <li><a tabindex="-1" href="https://efficiency.datanab.net">Efficiencies</a></li>
-                                  <li class="divider"></li>
-                                  <li><a tabindex="-1" href="https://www.datanab.net/examples">Examples</a></li>
-                              </ul>
-                          </li>
-                      </ul>
-                      <form method="get" style="margin:2;" action="sphider/search.php" class="navbar-search pull-right">
-                      <input type="hidden" name="search" value="1" />
-                      <input type="text" class="input-medium search-query"  name="query" value="" size="20" placeholder="Type Search Words Here"/>
-                      <button type="submit" value="Search" class="btn">Search</button></form>
-                      <!--<form class="navbar-search pull-right">
-                          <input type="text" class="input-medium search-query" placeholder="Search">
-                              <button type="submit" class="btn">Search</button>
-                              </form>-->
-                  </div><!--/.nav-collapse -->
-              </div>
-          </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://www.datanab.net/">Data Nab</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="https://www.datanab.net/">Home</a></li>
+            <li><a href="https://www.datanab.net/about">About</a></li>
+            <li><a href="https://www.datanab.net/contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="https://constants.datanab.net">Constants</a></li>
+                <li><a href="https://conversions.datanab.net">Conversions</a></li>
+                <li><a href="https://prices.datanab.net">Prices</a></li>
+                <li><a href="https://efficiency.datanab.net">Efficiencies</a></li>
+                <li role="separator" class="divider"></li>
+                <!-- <li class="dropdown-header">Nav header</li> -->
+                <li><a href="https://www.datanab.net/examples">Examples</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Newest Pages</li>
-              <li><a href="https://constants.datanab.net/physics/neutron_mass">Neutron Mass</a></li>
-              <li><a href="https://constants.datanab.net/physics/proton_mass">Proton Mass</a></li>
-              <li><a href="https://constants.datanab.net/physics/electron_mass">Electron Mass</a></li>
-              <li><a href="https://constants.datanab.net/physics/elementary_charge">Elementary Charge</a></li>
-              <li><a href="https://constants.datanab.net/physics/standard_gravity">Standard Gravity</a></li>
-              <li class="divider"></li>
-              <li class="nav-header">Latest Updates</li>
-              <li><a tabindex="-1" href="https://prices.datanab.net/us/fuel/gasoline">Price of Gasoline</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9 container">
-          <div class="hero-unit">
+    </nav>
+
+    <div class="container">
+
+      <div class="row row-offcanvas row-offcanvas-left">
+
+      <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+          <div class="list-group">
+            <li class="dropdown-header">Newest Pages</li>
+            <a href="https://constants.datanab.net/physics/neutron_mass" class="list-group-item">Neutron Mass</a>
+            <a href="https://constants.datanab.net/physics/proton_mass" class="list-group-item">Proton Mass</a>
+            <a href="https://constants.datanab.net/physics/electron_mass" class="list-group-item">Electron Mass</a>
+            <a href="https://constants.datanab.net/physics/elementary_charge" class="list-group-item">Elementary Charge</a>
+            <li class="dropdown-header">Latest Updates</li>
+            <a href="https://prices.datanab.net/us/fuel/gasoline" class="list-group-item">Price of Gasoline</a>
+          </div>
+        </div><!--/.sidebar-offcanvas-->
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-left visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+          <div class="jumbotron">
             <h1>The Ultimate Number Database</h1>
-            <p>Need to look up a constant? Input a coefficient into your code? Calculate your expense based on the current price of gas? This site contains thousands of bits of information for programmers to look up or to input into their code. No need to worry about numbers being obsolete</p>
+            <p>Need to look up a constant? Input a coefficient into your code? Calculate your expense based on the current price of gas? This site contains thousands of bits of information for programmers to look up or to input into their code. No need to worry about numbers being obsolete.</p>
             <p><a class="btn btn-primary btn-large" href="https://www.datanab.net/about">Learn more &raquo;</a></p>
           </div>
-          <div class="row-fluid">
-            <div class="span6">
-              <h2></h2>
-              <p></p>
-            </div><!--/span-->
-            <div class="span6">
-              <h2></h2>
-              <p></p>
-            </div><!--/span-->
-          </div><!--/row-->
-        </div><!--/span-->
+        </div><!--/.col-xs-12.col-sm-9-->
+
+        
       </div><!--/row-->
 
       <hr>
 
-    </div><!--/.fluid-container-->
-    <footer>
+       <footer>
           <nav>
               Copyright &copy; Josh Fernandes 2012
           </nav>
     </footer>
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-      <script src="https://conversions.herokuapp.com/static/js/jquery.js"></script>
-      <script src="https://conversions.herokuapp.com/static/js/bootstrap.js"></script>
-      <script src="https://conversions.herokuapp.com/static/js/bootstrap.min.js"></script>
-      <script src="https://conversions.herokuapp.com/static/js/bootstrap-dropdown.js"></script>
-      <script type="text/javascript">
-          $(document).ready(function () {
-                            $('.dropdown-toggle').dropdown();
-                            });
-          </script>
 
-    
-    <script src="//static.getclicky.com/js" type="text/javascript"></script>
-    <script type="text/javascript">try{ clicky.init(100642142); }catch(e){}</script>
-    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+     <script src="../static/bootstrap-3.3.7-dist/js/offcanvas.js"></script>
   </body>
 </html>
