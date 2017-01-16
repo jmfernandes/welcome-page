@@ -1,11 +1,16 @@
 import os
 import json
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for,request, redirect
 #from werkzeug.routing import Map, Rule, NotFound, RequestRedirect, BaseConverter
 
 app = Flask(__name__)
 
-
+@app.before_first_request
+def before_first_request():
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
 
 
 #def login():
@@ -88,6 +93,7 @@ def example_index():
            
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
+    app.debug = False
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
 
