@@ -14,8 +14,8 @@ p  {
   <body>
   <center>
   <span id="temp">Waiting for data...</span><br>
-  <span id="temp2">Waiting for data...</span><br>
-  <span id="temp3">Waiting for data...</span><br>
+  <!-- <span id="temp2">Waiting for data...</span><br>
+  <span id="temp3">Waiting for data...</span><br> -->
   <br>
   <span id="tstamp"></span><br>
   <p><u>Wait 5 seconds for the device to update</u></p>
@@ -68,62 +68,89 @@ p  {
 
         var deviceID = "360033000a47343432313031";
         var accessToken = "70556751a3cf172bb567946e294478d8988e1cc4";
-        var varName = "analogvalue1";
-        var varName2 = "analogvalue2";
-        var varName3 = "analogvalue3";
+        var varName = "analogvalue";
+        //var varName2 = "analogvalue2";
+        //var varName3 = "analogvalue3";
 
-        var red = 0;
-        var green = 0;
-        var blue = 0;
-
-        requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
-        $.getJSON(requestURL, function(json) {
-                if (json.result > 255) {
-                  document.getElementById("temp").innerHTML = "amount of red is "+"255";
-                document.getElementById("temp").style.fontSize = "28px";
-                }
-                else if (json.result < 10){
-                document.getElementById("temp").innerHTML = "amount of red is "+"0";
-                document.getElementById("temp").style.fontSize = "28px";
-                }
-                else{
-                  document.getElementById("temp").innerHTML = "amount of red is "+json.result;
-                document.getElementById("temp").style.fontSize = "28px";
-                }
-                 });
-
-        requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + varName3 + "/?access_token=" + accessToken;
-        $.getJSON(requestURL, function(json) {
-                if (json.result > 255) {
-                  document.getElementById("temp2").innerHTML = "amount of green is "+"255";
-                document.getElementById("temp2").style.fontSize = "28px";
-                }
-                else if (json.result < 10){
-                document.getElementById("temp2").innerHTML = "amount of green is "+"0";
-                document.getElementById("temp2").style.fontSize = "28px";
-                }
-                else{
-                  document.getElementById("temp2").innerHTML = "amount of green is "+json.result;
-                document.getElementById("temp2").style.fontSize = "28px";
-                }
-                 });
+        var color = "none";
+       // var green = 0;
+        //var blue = 0;
 
         requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + varName + "/?access_token=" + accessToken;
         $.getJSON(requestURL, function(json) {
-                if (json.result > 255) {
-                  document.getElementById("temp3").innerHTML = "amount of blue is "+"255";
-                document.getElementById("temp3").style.fontSize = "28px";
-                }
-                else if (json.result < 10){
-                document.getElementById("temp3").innerHTML = "amount of blue is "+"0";
-                document.getElementById("temp3").style.fontSize = "28px";
-                }
-                else{
-                  document.getElementById("temp3").innerHTML = "amount of blue is "+json.result;
-                document.getElementById("temp3").style.fontSize = "28px";
-                }
-                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
+                //if (json.result > 255) {
+            //      document.getElementById("temp").innerHTML = "amount of red is "+"255";
+             //   document.getElementById("temp").style.fontSize = "28px";
+              //  }
+               // else if (json.result < 10){
+            //    document.getElementById("temp").innerHTML = "amount of red is "+"0";
+            //    document.getElementById("temp").style.fontSize = "28px";
+              //  }
+               // else{
+               	if(json.result == 0){
+               		color="off"
+               	}
+               	else if(json.result == 1){
+               		color="blue"
+               	}
+               		else if(json.result == 2){
+                		color="green"              		
+               	}
+               		else if(json.result == 3){
+               		color="red"               		
+               	}
+               		else if(json.result == 4){
+               		color="white"               		
+               	}
+               		else if(json.result == 5){
+               		color="yellow"               		
+               	}
+               		else if(json.result == 6){
+               		color="dim white"               		
+               	}
+               		else if(json.result == 7){
+               		
+               	}
+               	else{
+
+               	}
+                document.getElementById("temp").innerHTML = "The rgb strip is "+color;
+                document.getElementById("temp").style.fontSize = "28px";
+               // }
                  });
+
+      //  requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + varName3 + "/?access_token=" + accessToken;
+      //  $.getJSON(requestURL, function(json) {
+            //    if (json.result > 255) {
+            //      document.getElementById("temp2").innerHTML = "amount of green is "+"255";
+            //    document.getElementById("temp2").style.fontSize = "28px";
+            //    }
+           //     else if (json.result < 10){
+            //    document.getElementById("temp2").innerHTML = "amount of green is "+"0";
+            //    document.getElementById("temp2").style.fontSize = "28px";
+           //     }
+         //       else{
+             //     document.getElementById("temp2").innerHTML = "amount of green is "+json.result;
+             //   document.getElementById("temp2").style.fontSize = "28px";
+           //     }
+             //   });
+
+       // requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + varName + "/?access_token=" + accessToken;
+       // $.getJSON(requestURL, function(json) {
+              //  if (json.result > 255) {
+            //      document.getElementById("temp3").innerHTML = "amount of blue is "+"255";
+            //    document.getElementById("temp3").style.fontSize = "28px";
+               // }
+               // else if (json.result < 10){
+            //    document.getElementById("temp3").innerHTML = "amount of blue is "+"0";
+            //    document.getElementById("temp3").style.fontSize = "28px";
+               // }
+               // else{
+            //      document.getElementById("temp3").innerHTML = "amount of blue is "+json.result;
+               // document.getElementById("temp3").style.fontSize = "28px";
+              //  }
+               // document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
+             //    });
         
         
 
