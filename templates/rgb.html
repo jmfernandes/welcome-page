@@ -39,6 +39,8 @@ p  {
     <br>
     <input type="radio" name="args" value="dimwhite">Turn on dim white.
     <br>
+    <input type="radio" name="args" value="fade">fade through colors.
+    <br>
     <input type="radio" name="args" value="off">Turn off.
     <br>
     <input type="submit" value="Do it!">
@@ -113,6 +115,9 @@ p  {
                		else if(json.result == 7){
                		color="purple"                 		
                	}
+                else if(json.result == 99){
+                  color="fading through colors"                    
+                }
                	else{
 
                	}
